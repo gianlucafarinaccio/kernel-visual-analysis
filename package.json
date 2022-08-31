@@ -1,0 +1,7 @@
+{
+  "name": "kernel-visual-analysis",
+  "version": "1.0.0",
+  "dependencies": {
+    "vis-network": "^9.1.2"
+  }
+}
