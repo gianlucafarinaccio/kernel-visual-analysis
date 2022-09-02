@@ -1,7 +1,23 @@
 {
   "name": "kernel-visual-analysis",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isRoutine/kernel-visual-analysis.git"
+  },
+  "author": "Gianluca Farinaccio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isRoutine/kernel-visual-analysis/issues"
+  },
+  "homepage": "https://github.com/isRoutine/kernel-visual-analysis#readme",
   "dependencies": {
+    "bootstrap": "^5.2.0",
     "vis-network": "^9.1.2"
   }
 }
