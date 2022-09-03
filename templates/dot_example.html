@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href= "{{url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
+    <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
+    <title>dot example</title>
+</head>
+<body>
+
+    <div id="mynetwork"></div>
+
+    <script type="text/javascript">
+        var parsedData = vis.parseDOTNetwork(DOTstring);
+        var data = {
+        nodes: parsedData.nodes,
+        edges: parsedData.edges
+        }
+
+        var options = parsedData.options;
+
+        // create a network
+        var container = document.getElementById("mynetwork");
+        var network = new vis.Network(container, data, options);
+    </script>
+
+</body>
+</html>
