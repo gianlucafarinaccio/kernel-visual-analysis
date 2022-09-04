@@ -6,23 +6,45 @@
     <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
     <title>dot example</title>
-</head>
-<body>
+    <style type="text/css">
+      #mynetwork {
+        width: auto;
+        height: 400px;
+        border: 1px solid lightgray;
+      }
+    </style>
 
-    <div id="mynetwork"></div>
+</head>
+<body onload="myFunction({{ graph }})">
+
+    <div class="container card m-5">
+        <h1>/dot - graph imported from .DOT file in local directory</h1>
+        <h5> 10 nodes - 90 edges</h5>
+    </div>
+
+
+    <div id="mynetwork" class="container card m-5"></div>
+    <p class="container card m-5 p-5"> Source file: <br><br>{{ graph }}</p>
 
     <script type="text/javascript">
-        var parsedData = vis.parseDOTNetwork(DOTstring);
-        var data = {
-        nodes: parsedData.nodes,
-        edges: parsedData.edges
+        // provide data in the DOT language
+        function myFunction(g) {
+            console.log(g);
+            var DOTstring = g;
+            var parsedData = vis.parseDOTNetwork(DOTstring);
+
+            var data = {
+              nodes: parsedData.nodes,
+              edges: parsedData.edges
+            }
+
+            var options = parsedData.options;
+            var container = document.getElementById("mynetwork");
+
+            // create a network
+            var network = new vis.Network(container, data, options);
         }
 
-        var options = parsedData.options;
-
-        // create a network
-        var container = document.getElementById("mynetwork");
-        var network = new vis.Network(container, data, options);
     </script>
 
 </body>
