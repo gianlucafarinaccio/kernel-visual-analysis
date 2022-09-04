@@ -1,0 +1,10 @@
+digraph G {
+__kmalloc->__do_kmalloc
+__do_kmalloc->unlikely
+__do_kmalloc->ZERO_OR_NULL_PTR
+__do_kmalloc->slab_alloc
+slab_alloc->prefetchw
+prefetchw->unlikely
+prefetchw->alternative_input
+slab_alloc->unlikely
+}
