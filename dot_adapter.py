@@ -2,18 +2,20 @@
 # works only with graph declaration in a single line string
 # Necessary fix...
 #
-
+# [Temporary fix]
+# Replaced '\n' with '\\n' in all file lines
+# The new adapted file is stored in <static/dots/> with
+# name <filename>_adpt.dot
 def dot_adapter():
     default_path = 'static/dots/'
     file = open(default_path + 'kmallocx.dot', 'r')
-
-    new_file = open(default_path + "kmallocx_adapted.dot", 'w')
-    print(file.readline())
-    str = file.read()
-    print(str)
-    new_file.write(str)
+    out = open(default_path + 'kmallocx_adpt.dot', 'w')
+    for line in file:
+        str = line.replace('\n','\\n')
+        print(repr(str))
+        out.write(str)
     file.close()
-    new_file.close()
+    out.close()
     return
 
 

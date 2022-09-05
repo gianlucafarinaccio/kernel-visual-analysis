@@ -9,7 +9,7 @@
     <style type="text/css">
       #mynetwork {
         width: auto;
-        height: 400px;
+        height: 800px;
         border: 1px solid lightgray;
       }
     </style>
@@ -19,7 +19,6 @@
 
     <div class="container card m-5">
         <h1>/dot - graph imported from .DOT file in local directory</h1>
-        <h5> 10 nodes - 90 edges</h5>
     </div>
 
 
@@ -39,6 +38,22 @@
             }
 
             var options = parsedData.options;
+            options = parsedData.options =
+                {physics: {
+                    enabled: false
+                },
+                interaction:{
+                    hideEdgesOnDrag: true,
+                    hideEdgesOnZoom: true,
+                },
+                edges: {
+                    width: 0.2,
+                    arrows:{
+                        to: {scaleFactor: 0.5}
+                    }
+                }
+                };
+
             var container = document.getElementById("mynetwork");
 
             // create a network
