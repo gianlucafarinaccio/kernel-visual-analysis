@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href= "{{url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
+    <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
+    <script src="{{url_for('static', filename='networks/net.js')}}"></script>
+
+    <title>dot example</title>
+    <style type="text/css">
+      #mynetwork {
+        width: auto;
+        height: 800px;
+        border: 1px solid lightgray;
+      }
+    </style>
+
+</head>
+<body onload="myFunction({{ graph }})">
+
+    <div class="container card m-5">
+        <h1>graph imported from .DOT file in local directory</h1>
+    </div>
+
+
+    <div id="mynetwork" class="container card m-5"></div>
+    <p class="container card m-5 p-5"> Source file: <br><br>{{ graph }}</p>
+
+
+</body>
+</html>

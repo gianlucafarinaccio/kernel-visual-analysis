@@ -11,7 +11,6 @@ def hello_world():  # put application's code here
 # template's variable 'graph'
 @app.route('/dot')
 def dot():
-    #file = open('static/dots/network_10.dot', 'r')
     file = open('static/dots/network_8.dot', 'r')
     graph = file.read()
     return render_template('dot_example.html', graph= '"{}"'.format(graph))
@@ -24,7 +23,7 @@ def dot():
 def kmallocx():
     file = open('static/dots/kmallocx_adpt.dot', 'r')
     graph = file.read()
-    return render_template('dot_example.html', graph = ' "{}"'.format(graph))
+    return render_template('dot_example2.html', graph=' "{}"'.format(graph))
 
 if __name__ == '__main__':
     app.run()
