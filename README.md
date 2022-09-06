@@ -6,7 +6,7 @@ Gianluca Farinaccio, 09.2022
 > `$ cd kernel-visual-analysis/static` <br>
 > `$ npm install` <br>
 
-## How to run flask's app
+## How to run flask app
 > `$ cd kernel-visual-analysis` <br>
 > `$ flask --app app run` <br><br>
 <b> if you want to run in debug mode</b><br>
