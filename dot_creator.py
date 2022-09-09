@@ -12,4 +12,4 @@ def create_dot(nodes):
     file.write("}")
     file.close()
 
-create_dot(8)
+create_dot(100)

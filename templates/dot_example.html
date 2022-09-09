@@ -28,7 +28,7 @@
     <script type="text/javascript">
         // provide data in the DOT language
         function myFunction(g) {
-            console.log(g);
+            //console.log(g);
             var DOTstring = g;
             var parsedData = vis.parseDOTNetwork(DOTstring);
 
@@ -40,13 +40,25 @@
             var options = parsedData.options;
             options = parsedData.options =
                 {physics: {
-                    enabled: false
+                    enabled: true,
+                    barnesHut: {
+                        theta: 1,
+                        gravitationalConstant: -20000,
+                        centralGravity: 0.1,
+                        springLength: 95,
+                        springConstant: 0.04,
+                        damping: 0.09,
+                        avoidOverlap: 0
+                    }
                 },
                 interaction:{
                     hideEdgesOnDrag: true,
                     hideEdgesOnZoom: true,
                 },
                 edges: {
+                    smooth: {
+                        enabled: false
+                    },
                     width: 0.2,
                     arrows:{
                         to: {scaleFactor: 0.5}
