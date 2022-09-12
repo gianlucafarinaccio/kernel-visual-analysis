@@ -44,8 +44,20 @@
         var container = document.getElementById("mynetwork");
 
         var options = {
-          physics: {
+            edges: {
+                smooth: {
+                  forceDirection: "none",
+                  roundness: 0
+                }
+            },
+            physics: {
+                barnesHut: {
+                    gravitationalConstant: -758211,
+                    centralGravity: 0.6,
+                    avoidOverlap: 1
+                },
             stabilization: false,
+            timestep: 0.3,
             wind: { x: 0, y: 0 },
           },
           configure: {
@@ -67,15 +79,7 @@
   </head>
 
   <body onload="draw({{ graph }});">
-    <h2>Playing with Physics</h2>
-    <div style="width: 700px; font-size: 14px; text-align: justify">
-      Every dataset is different. Nodes can have different sizes based on
-      content, interconnectivity can be high or low etc. Because of this, the
-      network configurator can be used to explore which settings may be good for
-      him or her. This is ment to be used during the development phase when you
-      are implementing vis.js. Once you have found settings you are happy with,
-      you can supply them to network using the documented physics options.
-    </div>
+    <h2>kmallocx with Physics</h2>
     <br />
     <div id="mynetwork"></div>
     <div id="config"></div>
