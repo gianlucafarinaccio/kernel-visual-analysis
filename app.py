@@ -32,5 +32,10 @@ def physics():
     graph = file.read()
     return render_template('physics.html', graph=' "{}"'.format(graph))
 
+@app.route('/getPositions/<string:data>', methods=['POST'])
+def getData(data):
+    file = open('static/positionsData.txt', 'w')
+    file.write(data)
+
 if __name__ == '__main__':
     app.run()

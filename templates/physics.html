@@ -75,13 +75,33 @@
         };
         network = new vis.Network(container, data, options);
       }
+      function out(){
+          var data = network.getPositions();
+          console.log(data);
+          const request = new XMLHttpRequest();
+          let req = 'getPositions/'
+
+          request.open('POST', req.concat(JSON.stringify(data)));
+          request.send();
+      }
+
+      function set(){
+
+      }
     </script>
   </head>
 
   <body onload="draw({{ graph }});">
+
     <h2>kmallocx with Physics</h2>
     <br />
+
+    <div>
+        <button onclick="out();">data</button>
+        <button onclick="set();">set</button>
+    </div>
     <div id="mynetwork"></div>
+
     <div id="config"></div>
 
     <p id="selection"></p>
