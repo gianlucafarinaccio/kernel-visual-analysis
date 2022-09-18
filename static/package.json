@@ -18,6 +18,7 @@
   "homepage": "https://github.com/isRoutine/kernel-visual-analysis#readme",
   "dependencies": {
     "bootstrap": "^5.2.0",
+    "vis-data": "^7.1.4",
     "vis-network": "^9.1.2"
   }
 }

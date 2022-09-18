@@ -2,53 +2,35 @@
 <html lang="en">
   <head>
     <title>Vis Network | Physics | Playing with Physics</title>
-
-    <style type="text/css">
-      body {
-        font: 10pt sans;
-      }
-      #mynetwork {
-        float: left;
-        width: 600px;
-        height: 600px;
-        margin: 5px;
-        border: 1px solid lightgray;
-      }
-      #config {
-        float: left;
-        width: 400px;
-        height: 600px;
-      }
-    </style>
-
+    <meta charset="UTF-8">
+    <link href= "{{url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
+    <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
 
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/alea@1.0.0/alea.js"
-    ></script>
-
     <script type="text/javascript">
-      var nodes = null;
-      var edges = null;
-      var network = null;
 
-      function draw(g) {
-        nodes = [];
-        edges = [];
-        // randomly create some nodes and edges
-        var data = vis.parseDOTNetwork(g);
-        console.log(data);
+    function draw(g) {
+        data = vis.parseDOTNetwork(g);
+        nodes = new vis.DataSet(data.nodes);
+        edges = new vis.DataSet(data.edges);
+
+        data = { nodes: nodes, edges: edges};
 
         // create a network
         var container = document.getElementById("mynetwork");
 
         var options = {
+            interaction: {
+              zoomSpeed: 3
+            },
             edges: {
                 smooth: {
                   forceDirection: "none",
                   roundness: 0
                 }
+            },
+            layout: {
+              improvedLayout: false
             },
             physics: {
                 barnesHut: {
@@ -60,7 +42,7 @@
             timestep: 0.3,
             wind: { x: 0, y: 0 },
           },
-          configure: {
+{#          configure: {
             filter: function (option, path) {
               if (path.indexOf("physics") !== -1) {
                 return true;
@@ -71,39 +53,42 @@
               return false;
             },
             container: document.getElementById("config"),
-          },
+          },#}
         };
+
         network = new vis.Network(container, data, options);
       }
-      function out(){
-          var data = network.getPositions();
-          console.log(data);
-          const request = new XMLHttpRequest();
-          let req = 'getPositions/'
 
-          request.open('POST', req.concat(JSON.stringify(data)));
-          request.send();
+      function deleteNodes(nodeIDS){
+          network.selectNodes(nodeIDS,false);
+          console.log(network.getSelection());
+          network.deleteSelected();
       }
 
-      function set(){
-
+      function stopSimulation(){
+          network.stopSimulation();
       }
+
+      function storeData(){
+          network.storePositions();
+      }
+
     </script>
   </head>
 
   <body onload="draw({{ graph }});">
 
-    <h2>kmallocx with Physics</h2>
-    <br />
-
-    <div>
-        <button onclick="out();">data</button>
-        <button onclick="set();">set</button>
+    <div class="container mt-5 border border-primary">
+        <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
+        <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
+        <button type="button" class="btn btn-success" onclick="storeData();">Store Data</button>
     </div>
-    <div id="mynetwork"></div>
+    <div class="container mt-5 border border-primary">
+        <div id="mynetwork" style="height: 600px"></div>
+    </div>
 
-    <div id="config"></div>
 
-    <p id="selection"></p>
+{#    <div id="config"></div>#}
+{#    <p id="selection"></p>#}
   </body>
 </html>

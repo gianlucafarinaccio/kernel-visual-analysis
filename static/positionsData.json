@@ -1,0 +1,1 @@
+${JSON.stringify({nodes: nodes.get(), edges: edges.get())}

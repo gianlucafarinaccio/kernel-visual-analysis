@@ -30,11 +30,13 @@ def kmallocx():
 def physics():
     file = open('static/dots/kmallocx_adpt.dot', 'r')
     graph = file.read()
-    return render_template('physics.html', graph=' "{}"'.format(graph))
+    file = open('static/positionsData.json', 'r')
+    positions = file.read()
+    return render_template('physics.html', graph=' "{}"'.format(graph),positions = positions )
 
 @app.route('/getPositions/<string:data>', methods=['POST'])
 def getData(data):
-    file = open('static/positionsData.txt', 'w')
+    file = open('static/positionsData.json', 'w')
     file.write(data)
 
 if __name__ == '__main__':
