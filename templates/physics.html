@@ -1,108 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <title>Vis Network | Physics | Playing with Physics</title>
     <meta charset="UTF-8">
-    <link href= "{{url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
-    <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
+    <link href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js') }}"></script>
 
     <script type="text/javascript">
 
-    function draw(g) {
-        data = vis.parseDOTNetwork(g);
-        nodes = new vis.DataSet(data.nodes);
-        edges = new vis.DataSet(data.edges);
-        data = { nodes: nodes, edges: edges};
+        function draw(g) {
+            data = vis.parseDOTNetwork(g);
+            nodes = new vis.DataSet(data.nodes);
+            edges = new vis.DataSet(data.edges);
+            data = {nodes: nodes, edges: edges};
 
-        // create a network
-        var container = document.getElementById("mynetwork");
+            // create a network
+            var container = document.getElementById("mynetwork");
 
-        var options = {
-            interaction: {
-              zoomSpeed: 3
-            },
-            edges: {
-                smooth: {
-                  forceDirection: "none",
-                  roundness: 0
-                }
-            },
-            layout: {
-              improvedLayout: false
-            },
-            physics: {
-                barnesHut: {
-                    gravitationalConstant: -758211,
-                    centralGravity: 0.6,
-                    avoidOverlap: 1
+            var options = {
+                interaction: {
+                    zoomSpeed: 3
                 },
-            stabilization: false,
-            timestep: 0.3,
-            wind: { x: 0, y: 0 },
-          },
-{#          configure: {
-            filter: function (option, path) {
-              if (path.indexOf("physics") !== -1) {
-                return true;
-              }
-              if (path.indexOf("smooth") !== -1 || option === "smooth") {
-                return true;
-              }
-              return false;
-            },
-            container: document.getElementById("config"),
-          },#}
-        };
+                edges: {
+                    smooth: {
+                        forceDirection: "none",
+                        roundness: 0
+                    }
+                },
+                layout: {
+                    improvedLayout: false
+                },
+                physics: {
+                    barnesHut: {
+                        gravitationalConstant: -758211,
+                        centralGravity: 0.6,
+                        avoidOverlap: 1
+                    },
+                    stabilization: false,
+                    timestep: 0.3,
+                    wind: {x: 0, y: 0},
+                },
+                {#          configure: {
+                            filter: function (option, path) {
+                              if (path.indexOf("physics") !== -1) {
+                                return true;
+                              }
+                              if (path.indexOf("smooth") !== -1 || option === "smooth") {
+                                return true;
+                              }
+                              return false;
+                            },
+                            container: document.getElementById("config"),
+                          },#}
+            };
 
-        network = new vis.Network(container, data, options);
-      }
+            network = new vis.Network(container, data, options);
+        }
 
-      function deleteNodes(nodeIDS){
-          network.selectNodes(nodeIDS,false);
-          console.log(network.getSelection());
-          network.deleteSelected();
-      }
+        function deleteNodes(nodeIDS) {
+            network.selectNodes(nodeIDS, false);
+            console.log(network.getSelection());
+            network.deleteSelected();
+        }
 
-      function stopSimulation(){
-          network.stopSimulation();
-      }
+        function stopSimulation() {
+            network.stopSimulation();
+        }
 
-      function storeData(){
-          network.storePositions();
-          var data = {nodes: nodes.get(), edges: edges.get()};
-          fetch('http://127.0.0.1:5000/getPositions', {
-              headers: {'Content-Type': 'application/json'},
-              method: 'POST',
-              body: JSON.stringify(data)
-          }).then(function (response){
-              if (response.ok) {
-                  console.log(response);
-              } else {
-                  throw Error('something went wrong!');
-              }
-          })
-          .catch(function (error) {
-              console.log(error);
-          });
-      }
+        function storeData() {
+            network.storePositions();
+            var data = {nodes: nodes.get(), edges: edges.get()};
+            fetch('http://127.0.0.1:5000/store', {
+                headers: {'Content-Type': 'application/json'},
+                method: 'POST',
+                body: JSON.stringify({nodes: nodes.get(), edges: edges.get()}) // convert JS Object into JSON string
+            }).then(function (response) {
+                if (response.ok) {
+                    response.json()
+                        .then(function (response) {
+                            console.log(response);
+                        });
+                } else {
+                    throw Error('something went wrong!');
+                }
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        function retrieveData() {
+            fetch('http://127.0.0.1:5000/retrieve', {
+                headers: {'Content-Type': 'application/json'},
+                method: 'GET',
+            }).then(function (response) {
+                if (response.ok) {
+                    response.json()
+                        .then(function (response) {
+                            network.setData(response);
+                            stopSimulation();
+                        });
+                } else {
+                    throw Error('something went wrong!');
+                }
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        function nodesList() {
+            let data = nodes.getIds();
+            let list = document.getElementById("nodes-list");
+            for (i = 0; i < data.length; ++i) {
+                var li = document.createElement('li');
+                li.innerText = data[i];
+                list.appendChild(li);
+            }
+        }
 
     </script>
-  </head>
+</head>
 
-  <body onload="draw({{ graph }});">
+<body onload="draw({{ graph }});">
 
-    <div class="container mt-5 border border-primary">
-        <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
-        <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
-        <button type="button" class="btn btn-success" onclick="storeData();">Store Data</button>
-    </div>
-    <div class="container mt-5 border border-primary">
-        <div id="mynetwork" style="height: 600px"></div>
-    </div>
+<div class="container mt-5 border border-primary">
+    <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
+    <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
+    <button type="button" class="btn btn-success" onclick="storeData();">Store Data</button>
+    <button type="button" class="btn btn-primary" onclick="retrieveData();">Retrieve Data</button>
+    <button type="button" class="btn btn-primary" onclick="nodesList();">Generate List</button>
 
+</div>
+<div class="container my-5 border border-primary">
+    <div id="mynetwork" style="height: 600px"></div>
+</div>
 
-{#    <div id="config"></div>#}
-{#    <p id="selection"></p>#}
-  </body>
+<div class="container my-5 p-3 border border-primary">
+    <h5>Nodes list</h5>
+    <ul id="nodes-list">
+        <li>fst node</li>
+    </ul>
+</div>
+
+<div id="config"></div>
+<p id="selection"></p>
+</body>
 </html>

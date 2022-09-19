@@ -39,14 +39,26 @@ def physics():
     return render_template('physics.html', graph=' "{}"'.format(graph), positions=positions)
 
 
-@app.route('/getPositions', methods=["POST"])
-def getData():
-    jsonData = request.get_json()
-    print(jsonData)
-    with open('static/positionsData.json', 'w') as json_file:
-        json.dump(jsonData, json_file)
-    return 'Flask: data received!'
+# Function for storing positions of nodes and edges into a locale .JSON file
+@app.route('/store', methods=["POST"])
+def storeData():
+    #MEMO:
+    #       .dumps(input_dict, output_file) -> convert a python dict into JSON String and save into file
+    #       request.get_data() -> return bytes obj
+    #       request.get_json() -> return python dict
 
+    jsonString = request.get_data() #get the data received
+    with open('static/positionsData.json', 'wb') as json_file: # 'wb' mode for write bytes instead of string
+        json_file.write(jsonString)
+    return {'response' : 'data received :)'}
+
+
+#Function for retrieve positions of nodes and edges saved previously
+@app.route('/retrieve', methods=["GET"])
+def retrieveData():
+
+    with open('static/kmallocx.json', 'rb') as json_file: # 'rb' mode for read bytes instead of string
+        return json_file.read()
 
 if __name__ == '__main__':
     app.run()
