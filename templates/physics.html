@@ -13,7 +13,6 @@
         data = vis.parseDOTNetwork(g);
         nodes = new vis.DataSet(data.nodes);
         edges = new vis.DataSet(data.edges);
-
         data = { nodes: nodes, edges: edges};
 
         // create a network
@@ -71,6 +70,21 @@
 
       function storeData(){
           network.storePositions();
+          var data = {nodes: nodes.get(), edges: edges.get()};
+          fetch('http://127.0.0.1:5000/getPositions', {
+              headers: {'Content-Type': 'application/json'},
+              method: 'POST',
+              body: JSON.stringify(data)
+          }).then(function (response){
+              if (response.ok) {
+                  console.log(response);
+              } else {
+                  throw Error('something went wrong!');
+              }
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
       }
 
     </script>
