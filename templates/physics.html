@@ -10,11 +10,15 @@
 
     <script type="text/javascript">
 
+        let nodes;
+        let edges;
+        let data;
+
         function draw(g) {
             data = vis.parseDOTNetwork(g);
             nodes = new vis.DataSet(data.nodes);
             edges = new vis.DataSet(data.edges);
-            data = {nodes: nodes, edges: edges};
+            data = {nodes: nodes.get(), edges: edges.get()};
 
             // create a network
             var container = document.getElementById("mynetwork");
@@ -99,8 +103,16 @@
                 if (response.ok) {
                     response.json()
                         .then(function (response) {
-                            network.setData(response);
+                            console.log(data);
+                            console.log(response);
+                            data = {nodes: new vis.DataSet(response.nodes),
+                                            edges: new vis.DataSet(response.edges)};
+                            nodes = data.nodes;
+                            edges = data.edges;
+                            network.setData(data);
+
                             stopSimulation();
+
                         });
                 } else {
                     throw Error('something went wrong!');
@@ -121,19 +133,30 @@
             }
         }
 
+        function changeColor(c){
+            let node1 = nodes.get('__delay');
+            node1.color = c;
+
+            let node2 = nodes.get('pin_page_for_write');
+            node2.color = c;
+            nodes.updateOnly([node1,node2]);
+        }
+
     </script>
 </head>
 
 <body onload="draw({{ graph }});">
 
 <div class="container mt-5 border border-primary">
-    <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
-    <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
-    <button type="button" class="btn btn-success" onclick="storeData();">Store Data</button>
-    <button type="button" class="btn btn-primary" onclick="retrieveData();">Retrieve Data</button>
-    <button type="button" class="btn btn-primary" onclick="nodesList();">Generate List</button>
-
+        <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
+        <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
+        <button type="button" class="btn btn-success" onclick="storeData();">Store Data</button>
+        <button type="button" class="btn btn-primary" onclick="retrieveData();">Retrieve Data</button>
+        <button type="button" class="btn btn-primary" onclick="nodesList();">Generate List</button>
+        <button type="button" class="btn btn-outline-danger" onclick="changeColor('red');">Change color</button>
+        <button type="button" class="btn btn-outline-primary" onclick="changeColor('blue');">Reset color</button>
 </div>
+
 <div class="container my-5 border border-primary">
     <div id="mynetwork" style="height: 600px"></div>
 </div>
