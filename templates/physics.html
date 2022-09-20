@@ -13,12 +13,13 @@
         let nodes;
         let edges;
         let data;
+        let hiddenData = {nodes: new vis.DataSet(), edges: new vis.DataSet()};
 
         function draw(g) {
             data = vis.parseDOTNetwork(g);
             nodes = new vis.DataSet(data.nodes);
             edges = new vis.DataSet(data.edges);
-            data = {nodes: nodes.get(), edges: edges.get()};
+            data = {nodes: nodes, edges: edges};
 
             // create a network
             var container = document.getElementById("mynetwork");
@@ -142,6 +143,24 @@
             nodes.updateOnly([node1,node2]);
         }
 
+        function hideNode(id){
+            var n = nodes.get(id); // get the node
+            var e = edges.get({filter: function(item){return (item.from == id)}}) // get the edges
+            hiddenData.nodes.add(n);
+            hiddenData.edges.add(e);
+            nodes.remove(id);
+            edges.remove(e);
+        }
+
+        function showNode(id){
+            var n = hiddenData.nodes.get(id); // get the node
+            var e = hiddenData.edges.get({filter: function(item){return (item.from == id)}}) // get the edges
+            nodes.add(n);
+            edges.add(e);
+            hiddenData.nodes.remove(id);
+            hiddenData.edges.remove(e);
+        }
+
     </script>
 </head>
 
@@ -155,6 +174,8 @@
         <button type="button" class="btn btn-primary" onclick="nodesList();">Generate List</button>
         <button type="button" class="btn btn-outline-danger" onclick="changeColor('red');">Change color</button>
         <button type="button" class="btn btn-outline-primary" onclick="changeColor('blue');">Reset color</button>
+        <button type="button" class="btn btn-danger" onclick="hideNode('__delay');">Hide Node</button>
+        <button type="button" class="btn btn-success" onclick="showNode('__delay');">Show Node</button>
 </div>
 
 <div class="container my-5 border border-primary">
