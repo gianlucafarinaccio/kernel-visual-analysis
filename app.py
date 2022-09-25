@@ -34,9 +34,8 @@ def kmallocx():
 def physics():
     file = open('static/dots/kmallocx_adpt.dot', 'r')
     graph = file.read()
-    file = open('static/positionsData.json', 'r')
-    positions = file.read()
-    return render_template('physics.html', graph=' "{}"'.format(graph), positions=positions)
+    file.close()
+    return render_template('physics.html', graph=' "{}"'.format(graph))
 
 
 # Function for storing positions of nodes and edges into a locale .JSON file
@@ -48,7 +47,7 @@ def storeData():
     #       request.get_json() -> return python dict
 
     jsonString = request.get_data() #get the data received
-    with open('static/positionsData.json', 'wb') as json_file: # 'wb' mode for write bytes instead of string
+    with open('static/data/positions.json', 'wb') as json_file: # 'wb' mode for write bytes instead of string
         json_file.write(jsonString)
     return {'response' : 'data received :)'}
 
@@ -57,8 +56,8 @@ def storeData():
 @app.route('/retrieve', methods=["GET"])
 def retrieveData():
 
-    with open('static/kmallocx.json', 'rb') as json_file: # 'rb' mode for read bytes instead of string
-        return json_file.read()
+    with open('static/data/positions.json', 'rb') as json_file: # 'rb' mode for read bytes instead of string
+        return json_file.read(),{'Content-Type': 'application/json'}
 
 if __name__ == '__main__':
     app.run()

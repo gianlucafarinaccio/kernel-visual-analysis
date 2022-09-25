@@ -3,8 +3,7 @@
 <head>
     <title>Vis Network | Physics | Playing with Physics</title>
     <meta charset="UTF-8">
-    <link href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"
-          type="text/css"/>
+    <link href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
     <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js') }}"></script>
 
@@ -74,55 +73,59 @@
             network.stopSimulation();
         }
 
+
         function storeData() {
             network.storePositions();
-            var data = {nodes: nodes.get(), edges: edges.get()};
+            
+            // data 
+            const toSend = {
+                'lastSync': (new Date()).toString(),
+                nodes: nodes.get(),
+                edges: edges.get()
+            }
+
             fetch('http://127.0.0.1:5000/store', {
                 headers: {'Content-Type': 'application/json'},
                 method: 'POST',
-                body: JSON.stringify({nodes: nodes.get(), edges: edges.get()}) // convert JS Object into JSON string
-            }).then(function (response) {
+                body: JSON.stringify(toSend) // convert JS Object into JSON string
+            })
+            .then(function (response) {
                 if (response.ok) {
                     response.json()
-                        .then(function (response) {
-                            console.log(response);
-                        });
+                    .then(response => console.log(response));
                 } else {
                     throw Error('something went wrong!');
                 }
             })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            .catch(error => console.log(error));
         }
 
         function retrieveData() {
-            fetch('http://127.0.0.1:5000/retrieve', {
-                headers: {'Content-Type': 'application/json'},
-                method: 'GET',
-            }).then(function (response) {
-                if (response.ok) {
-                    response.json()
+            fetch('http://127.0.0.1:5000/retrieve', { method: 'GET'})
+            .then(
+                function (response) {
+                    if (response.ok) {
+                        response.json()
                         .then(function (response) {
-                            console.log(data);
-                            console.log(response);
+                            console.log(Object.entries(response)[0].toString()); // print file's lastsync
+                            
+                            // update global variables
                             data = {nodes: new vis.DataSet(response.nodes),
-                                            edges: new vis.DataSet(response.edges)};
+                                    edges: new vis.DataSet(response.edges)};
                             nodes = data.nodes;
                             edges = data.edges;
                             network.setData(data);
-
                             stopSimulation();
-
-                        });
-                } else {
-                    throw Error('something went wrong!');
+                        })
+                        .catch(() => console.log('parsing json response error!'))
+                    } else {
+                        throw Error('something went wrong!');
                 }
             })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            .catch( error => console.log(error) );
         }
+
+
 
         function nodesList() {
             let data = nodes.getIds();
