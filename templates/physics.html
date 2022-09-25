@@ -92,7 +92,8 @@
             .then(function (response) {
                 if (response.ok) {
                     response.json()
-                    .then(response => console.log(response));
+                    .then(response => console.log(response))
+                    .catch(() => console.log('parsing json response error!'))
                 } else {
                     throw Error('something went wrong!');
                 }
