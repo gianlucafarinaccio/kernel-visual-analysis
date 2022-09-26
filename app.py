@@ -30,6 +30,12 @@ def kmallocx():
     return render_template('dot_example2.html', graph=' "{}"'.format(graph))
 
 
+@app.route('/cluster')
+def cluster():
+    return render_template('cluster.html')
+
+
+
 @app.route('/physics')
 def physics():
     file = open('static/dots/kmallocx_adpt.dot', 'r')
