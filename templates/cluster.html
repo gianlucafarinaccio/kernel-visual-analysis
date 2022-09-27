@@ -18,14 +18,36 @@
 
         function draw() {
             nodes = new vis.DataSet(
-            	[{id:'1',label:'1',cid:1},
-            	{id:'2',label:'2',cid:1},
-            	{id:'3',label:'3'}]);
+            	[{
+                    id:'back', 
+                    fixed: {x: true, y: true}, 
+                    x:0, y:0, 
+                    color:{background:'rgba(0,0,0,0.1)', border:'rgba(0,0,0,0.5)' }, 
+                    size: 100,
+                    shape:'square'},
+                {   id:'my', 
+                    shape: 'custom',
+                        ctxRenderer: function({ ctx, x, y, state: { selected, hover }, style }){
+                            return{
+                                drawNode(){
+                                    ctx.fillRect(25, 25, 100, 100);  
+                                }
+                            }
+                    }
+                },
+                {id:'1',label:'1)1',cid:1, fixed: {x: true, y: true}, x:0, y:0},
+            	{id:'2',label:'1)2',cid:1, color: 'red'},
+            	{id:'3',label:'3', color: 'red'}]);
             
-            edges = new vis.DataSet(
-            	[{from:'1', to:'2', arrows:'to'},{from:'1', to:'3', arrows:'to'},
-            	{from:'2', to:'1', arrows:'to'},{from:'2', to:'3', arrows:'to'},
-            	{from:'3', to:'1', arrows:'to'},{from:'3', to:'2', arrows:'to'}]);
+            // edges = 
+            // 	[{from:'1', to:'2', arrows:'to'},{from:'1', to:'3', arrows:'to'},
+            // 	{from:'2', to:'1', arrows:'to'},{from:'2', to:'3', arrows:'to'},
+            // 	{from:'3', to:'1', arrows:'to'},{from:'3', to:'2', arrows:'to'}];
+
+            edges = 
+                [{from:'1', to:'2' },{from:'1', to:'3', arrows:'to'},
+                {from:'2', to:'1'},{from:'2', to:'3'},
+                {from:'3', to:'1',arrows:'to'},{from:'3', to:'2'}];
             data = {nodes: nodes, edges: edges};
 
             // create a network
@@ -38,7 +60,10 @@
                 edges: {
                     smooth: {
                         forceDirection: "none",
-                        roundness: 0
+                        roundness: 0,
+                    },
+                   color:{
+                        inherit: false,
                     }
                 },
                 layout: {
@@ -53,6 +78,7 @@
                     stabilization: false,
                     timestep: 0.3,
                     wind: {x: 0, y: 0},
+                    minVelocity:10 // più lo aumento più la rete diventa 'insensibile' a variazioni
                 },
             };
 
@@ -110,13 +136,34 @@
         function clusterById(id){
         	var clusterOptions = {
         		joinCondition: function(param){
-        			console.log(param)
+        			//console.log(param)
         			return param.cid == '1';
         		}, 
+                clusterEdgeProperties:{arrows: 'to'},
         		clusterNodeProperties:{ id : "cluster1" },
-        		clusterEdgeProperties:{ arrows:"to,from"},
+                processProperties: function(clnp, n, e){
+                    console.log(clnp);
+                    console.log(n);
+                    console.log(e);
+                    return clnp;
+                }
         	};
         	network.clustering.cluster(clusterOptions);
+        }
+
+        function clusterByColor(color){
+            var clusterOptions = {
+                joinCondition: function(param){
+                    console.log(param);
+                    return param.color.background == 'red';
+                },
+                clusterNodeProperties:{ id : "clusterRed", color: 'red'},
+            }
+            network.clustering.cluster(clusterOptions);
+        }
+
+        function openCluster(clusterId){
+            network.openCluster(clusterId);
         }
 
     </script>
@@ -129,7 +176,9 @@
         <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
         <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
         <button type="button" class="btn btn-success" onclick="clusterById('1');">Cluster by ID</button>
-        <button type="button" class="btn btn-primary" onclick="retrieveData();">Retrieve Data</button>
+        <button type="button" class="btn btn-primary" onclick="openCluster('cluster1');">Open Cluster</button>
+        <button type="button" class="btn btn-success" onclick="clusterByColor('red');">Cluster by Color</button>
+        <button type="button" class="btn btn-primary" onclick="openCluster('clusterRed');">Open Cluster</button>
         <button type="button" class="btn btn-primary" onclick="nodesList();">Generate List</button>
         <button type="button" class="btn btn-outline-danger" onclick="changeColor('red');">Change color</button>
         <button type="button" class="btn btn-outline-primary" onclick="changeColor('blue');">Reset color</button>
