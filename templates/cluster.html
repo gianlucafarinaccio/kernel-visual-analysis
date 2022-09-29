@@ -19,25 +19,33 @@
         function draw() {
             nodes = new vis.DataSet(
             	[{
-                    id:'back', 
+                    id:45, 
+                    label:'CLUSTER_1',
                     fixed: {x: true, y: true}, 
                     x:0, y:0, 
-                    color:{background:'rgba(0,0,0,0.1)', border:'rgba(0,0,0,0.5)' }, 
+                    color:{
+                        background:'rgba(0,0,0,0.1)', 
+                        border:'rgba(0,0,0,0.5)',
+                        highlight: {
+                            background: 'rgba(0,0,0,0.1)',
+                            border: 'rgba(0,0,0,1)'
+                        },
+                    }, 
                     size: 100,
                     shape:'square'},
-                {   id:'my', 
-                    shape: 'custom',
-                        ctxRenderer: function({ ctx, x, y, state: { selected, hover }, style }){
-                            return{
-                                drawNode(){
-                                    ctx.fillRect(25, 25, 100, 100);  
-                                }
-                            }
-                    }
-                },
-                {id:'1',label:'1)1',cid:1, fixed: {x: true, y: true}, x:0, y:0},
-            	{id:'2',label:'1)2',cid:1, color: 'red'},
-            	{id:'3',label:'3', color: 'red'}]);
+                // {   id:'my', 
+                //     shape: 'custom',
+                //         ctxRenderer: function({ ctx, x, y, state: { selected, hover }, style }){
+                //             return{
+                //                 drawNode(){
+                //                     ctx.fillRect(25, 25, 100, 100);  
+                //                 }
+                //             }
+                //     }
+                // },
+                {id:'A',label:'1)1',cid:1, fixed: {x: true, y: true}, x:0, y:0},
+            	{id:'B',label:'1)2',cid:1, color: 'red'},
+            	{id:'C',label:'3', color: 'red'}]);
             
             // edges = 
             // 	[{from:'1', to:'2', arrows:'to'},{from:'1', to:'3', arrows:'to'},
@@ -45,9 +53,9 @@
             // 	{from:'3', to:'1', arrows:'to'},{from:'3', to:'2', arrows:'to'}];
 
             edges = 
-                [{from:'1', to:'2' },{from:'1', to:'3', arrows:'to'},
-                {from:'2', to:'1'},{from:'2', to:'3'},
-                {from:'3', to:'1',arrows:'to'},{from:'3', to:'2'}];
+                [{from:'1', to:'2' },{from:'1', to:'3', arrows:'from'},
+                {from:'2', to:'1'},{from:'2', to:'3', arrows:'from'},
+                {from:'3', to:'1',arrows:'to,from'},{from:'3', to:'2', label: '[x,y]',arrows:'to,from'}];
             data = {nodes: nodes, edges: edges};
 
             // create a network
@@ -55,7 +63,7 @@
 
             var options = {
                 interaction: {
-                    zoomSpeed: 3
+                    zoomSpeed: 2
                 },
                 edges: {
                     smooth: {
@@ -139,7 +147,6 @@
         			//console.log(param)
         			return param.cid == '1';
         		}, 
-                clusterEdgeProperties:{arrows: 'to'},
         		clusterNodeProperties:{ id : "cluster1" },
                 processProperties: function(clnp, n, e){
                     console.log(clnp);
