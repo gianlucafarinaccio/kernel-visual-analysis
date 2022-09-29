@@ -15,12 +15,13 @@
         let edges;
         let data;
         let hiddenData = {nodes: new vis.DataSet(), edges: new vis.DataSet()};
+        var network;
 
         function draw() {
             nodes = new vis.DataSet(
             	[{
                     id:45, 
-                    label:'CLUSTER_1',
+                    label:"CLUSTER_1",
                     fixed: {x: true, y: true}, 
                     x:0, y:0, 
                     color:{
@@ -43,19 +44,28 @@
                 //             }
                 //     }
                 // },
-                {id:'A',label:'1)1',cid:1, fixed: {x: true, y: true}, x:0, y:0},
-            	{id:'B',label:'1)2',cid:1, color: 'red'},
-            	{id:'C',label:'3', color: 'red'}]);
-            
-            // edges = 
-            // 	[{from:'1', to:'2', arrows:'to'},{from:'1', to:'3', arrows:'to'},
-            // 	{from:'2', to:'1', arrows:'to'},{from:'2', to:'3', arrows:'to'},
-            // 	{from:'3', to:'1', arrows:'to'},{from:'3', to:'2', arrows:'to'}];
+                {id:'A',label:'A',cid:1, fixed: {x: true, y: true}, x:0, y:0},
+            	{id:'B',label:'B',cid:1, color: 'red'},
+            	{id:'C',label:'C', color: 'red'}]);
 
             edges = 
-                [{from:'1', to:'2' },{from:'1', to:'3', arrows:'from'},
-                {from:'2', to:'1'},{from:'2', to:'3', arrows:'from'},
-                {from:'3', to:'1',arrows:'to,from'},{from:'3', to:'2', label: '[x,y]',arrows:'to,from'}];
+                [
+                {
+                    from:'A', 
+                    to:'B',
+                    arrows:{
+                        to:{
+                            enabled: true,
+                            scaleFactor: 1
+                        },
+                        from:{
+                            enabled: true,
+                            scaleFactor: 1.8
+                        },                        
+                    }
+                },{from:'A', to:'C', arrows:'from'},
+                {from:'B', to:'A'},{from:'B', to:'C', arrows:'from'},
+                {from:'C', to:'A',arrows:'to,from'},{from:'C', to:'B', label: '[x,y]',arrows:'to,from'}];
             data = {nodes: nodes, edges: edges};
 
             // create a network
@@ -91,6 +101,8 @@
             };
 
             network = new vis.Network(container, data, options);
+
+            network.on("doubleClick", f);
         }
 
         function deleteNodes(nodeIDS) {
@@ -141,6 +153,7 @@
             hiddenData.edges.remove(e);
         }
 
+
         function clusterById(id){
         	var clusterOptions = {
         		joinCondition: function(param){
@@ -172,6 +185,20 @@
         function openCluster(clusterId){
             network.openCluster(clusterId);
         }
+
+        function f(params){
+            console.log(params.nodes);
+            if(params.nodes.length == 1){
+                selected = nodes.get(params.nodes[0]);
+                if(selected.label === "CLUSTER_1"){
+                    toHide = nodes.get(selected.id);
+                    hiddenData.nodes.add(toHide);
+                    nodes.remove(selected.id);
+                }
+            }
+        };
+
+
 
     </script>
 
