@@ -90,6 +90,7 @@
             network = new vis.Network(container, data, options);
 
             network.on("doubleClick", f);
+            network.on("hold",f2);
         }
 
         function deleteNodes(nodeIDS) {
@@ -205,6 +206,12 @@
                 }
                 network.clustering.cluster(clusterOptions);
             }
+        };
+
+        function f2(params){
+            console.log(params);
+            if(params.nodes.length == 1 && params.nodes[0].startsWith('cluster:'))
+                network.clustering.openCluster(params.nodes[0]);
         };
 
 
