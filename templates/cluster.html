@@ -22,6 +22,7 @@
             	[{
                     id:45, 
                     label:"CLUSTER_1",
+                    cid: 1,
                     fixed: {x: true, y: true}, 
                     x:0, y:0, 
                     color:{
@@ -44,28 +45,14 @@
                 //             }
                 //     }
                 // },
-                {id:'A',label:'A',cid:1, fixed: {x: true, y: true}, x:0, y:0},
-            	{id:'B',label:'B',cid:1, color: 'red'},
+                {id:'A',label:'A',cid:1, fixed: {x: true, y: true}, x:-40, y:-40},
+            	{id:'B',label:'B',cid:1, fixed: {x: true, y: true}, x:40, y:40, color: 'red'},
             	{id:'C',label:'C', color: 'red'}]);
 
             edges = 
                 [
-                {
-                    from:'A', 
-                    to:'B',
-                    arrows:{
-                        to:{
-                            enabled: true,
-                            scaleFactor: 1
-                        },
-                        from:{
-                            enabled: true,
-                            scaleFactor: 1.8
-                        },                        
-                    }
-                },{from:'A', to:'C', arrows:'from'},
-                {from:'B', to:'A'},{from:'B', to:'C', arrows:'from'},
-                {from:'C', to:'A',arrows:'to,from'},{from:'C', to:'B', label: '[x,y]',arrows:'to,from'}];
+                {from:'A', to:'C', arrows:'from'},{from:'B', to:'C', arrows:'from'},
+                {from:'C', to:'A',arrows:'from'}];
             data = {nodes: nodes, edges: edges};
 
             // create a network
@@ -187,16 +174,39 @@
         }
 
         function f(params){
-            console.log(params.nodes);
+            //console.log(params.nodes);
             if(params.nodes.length == 1){
                 selected = nodes.get(params.nodes[0]);
-                if(selected.label === "CLUSTER_1"){
-                    toHide = nodes.get(selected.id);
-                    hiddenData.nodes.add(toHide);
-                    nodes.remove(selected.id);
+                // if(selected.label === "CLUSTER_1"){
+                //     toHide = nodes.get(selected.id);
+                //     hiddenData.nodes.add(toHide);
+                //     nodes.remove(selected.id);
+                // }
+                var clusterOptions = {
+                    joinCondition: function(nodeOptions){
+                        //console.log(nodeOptions, selected, (nodeOptions.cid == selected.cid));
+                        return (nodeOptions.cid != undefined) && (nodeOptions.cid == selected.cid);
+                    }, 
+                    clusterNodeProperties: {
+                        label:"CLUSTER_1",
+                        cid: selected.cid,
+                        fixed: {x: true, y: true}, 
+                        color:{
+                            background:'rgba(0,0,0,1)', 
+                            border:'rgba(0,0,0,0.5)',
+                            highlight: {
+                                background: 'rgba(0,0,0,0.1)',
+                                border: 'rgba(0,0,0,1)'
+                            },
+                        }, 
+                        size: 40,
+                        shape:'square'                       
+                    }
                 }
+                network.clustering.cluster(clusterOptions);
             }
         };
+
 
 
 
@@ -218,6 +228,7 @@
         <button type="button" class="btn btn-outline-primary" onclick="changeColor('blue');">Reset color</button>
         <button type="button" class="btn btn-danger" onclick="hideNode('1');">Hide Node</button>
         <button type="button" class="btn btn-success" onclick="showNode('1');">Show Node</button>
+        <button type="button" class="btn btn-success" onclick="fun();">test</button>
 </div>
 
 <div class="container my-5 border border-primary">
