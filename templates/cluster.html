@@ -22,7 +22,7 @@
             	[{
                     id:45, 
                     label:"CLUSTER_1",
-                    cid: 1,
+                    cid: "CLUSTER_1",
                     fixed: {x: true, y: true}, 
                     x:0, y:0, 
                     color:{
@@ -45,8 +45,8 @@
                 //             }
                 //     }
                 // },
-                {id:'A',label:'A',cid:1, fixed: {x: true, y: true}, x:-40, y:-40},
-            	{id:'B',label:'B',cid:1, fixed: {x: true, y: true}, x:40, y:40, color: 'red'},
+                {id:'A',label:'A',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:-40, y:-40},
+            	{id:'B',label:'B',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:40, y:40, color: 'red'},
             	{id:'C',label:'C', color: 'red'}]);
 
             edges = 
@@ -177,20 +177,25 @@
         function f(params){
             //console.log(params.nodes);
             if(params.nodes.length == 1){
-                selected = nodes.get(params.nodes[0]);
+                 selected = nodes.get(params.nodes[0]);
                 // if(selected.label === "CLUSTER_1"){
                 //     toHide = nodes.get(selected.id);
                 //     hiddenData.nodes.add(toHide);
                 //     nodes.remove(selected.id);
-                // }
+                // 
+                var clusterNodeId = "NODE_" + selected.cid;
+                var clusterEdgeId = "EDGE_" + selected.cid;
+                var fromDim = 10;
+                var toDim   = 2;
                 var clusterOptions = {
                     joinCondition: function(nodeOptions){
                         //console.log(nodeOptions, selected, (nodeOptions.cid == selected.cid));
+
                         return (nodeOptions.cid != undefined) && (nodeOptions.cid == selected.cid);
                     }, 
                     clusterNodeProperties: {
                         label:"CLUSTER_1",
-                        cid: selected.cid,
+                        id: clusterNodeId,
                         fixed: {x: true, y: true}, 
                         color:{
                             background:'rgba(0,0,0,1)', 
@@ -202,15 +207,30 @@
                         }, 
                         size: 40,
                         shape:'square'                       
-                    }
+                    },
+                    clusterEdgeProperties :{
+                        label:"EDGE_CLUSTER_1",
+                        id: clusterEdgeId,
+                        arrows:{
+                            to:{
+                                enabled: true,
+                                scaleFactor: toDim
+                            },
+                            from:{
+                                enabled: true,
+                                scaleFactor: fromDim
+                            }
+                        }                  
+                    },
                 }
                 network.clustering.cluster(clusterOptions);
+
             }
         };
 
         function f2(params){
             console.log(params);
-            if(params.nodes.length == 1 && params.nodes[0].startsWith('cluster:'))
+            if(params.nodes.length == 1 && params.nodes[0].startsWith('NODE_CLUSTER_'))
                 network.clustering.openCluster(params.nodes[0]);
         };
 
