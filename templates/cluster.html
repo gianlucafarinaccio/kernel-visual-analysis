@@ -19,8 +19,9 @@
 
         function draw() {
             nodes = new vis.DataSet(
-            	[{
-                    id:45, 
+            	[              
+                {
+                    id:1, 
                     label:"CLUSTER_1",
                     cid: "CLUSTER_1",
                     fixed: {x: true, y: true}, 
@@ -35,6 +36,7 @@
                     }, 
                     size: 100,
                     shape:'square'},
+                {id:'A',label:'A',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:-40, y:-40},  
                 // {   id:'my', 
                 //     shape: 'custom',
                 //         ctxRenderer: function({ ctx, x, y, state: { selected, hover }, style }){
@@ -45,14 +47,55 @@
                 //             }
                 //     }
                 // },
-                {id:'A',label:'A',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:-40, y:-40},
-            	{id:'B',label:'B',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:40, y:40, color: 'red'},
-            	{id:'C',label:'C', color: 'red'}]);
 
-            edges = 
+            	{id:'B',label:'B',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:40, y:40, color: 'red'},
+            	{id:'C',label:'C', color: 'red'},
+                
+                // {x:-100, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-70, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-40, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-10, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:20, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:50, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:80, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:400,fixed: {x: true, y: true}, mass: 10},
+                
+                // {x:-100, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-70, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-40, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-10, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:20, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:50, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:80, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:600,fixed: {x: true, y: true}, mass: 10},
+
+                // {x:-100, y:430,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:460,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:490,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:520,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:550,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:580,fixed: {x: true, y: true}, mass: 10},
+
+                // {x:110, y:430,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:460,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:490,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:520,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:550,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:580,fixed: {x: true, y: true}, mass: 10},
+
+                // {id:'X',x:0, y:500, color:'red',mass: 1},
+                // {id:'Y',x:50, y:550, color:'red',mass: 1},
+
+
+                ]);
+
+            edges = new vis.DataSet(
                 [
-                {from:'A', to:'C', arrows:'from'},{from:'B', to:'C', arrows:'from'},
-                {from:'C', to:'A',arrows:'from'}];
+                {from:'A', to:'C', arrows:'to'},{from:'B', to:'C', arrows:'to'},
+                {from:'C', to:'A',arrows:'to'},
+                // {from:'X', to:'Y'},
+                // {from:'X', to:'A',arrows:'from'}
+                ]);
             data = {nodes: nodes, edges: edges};
 
             // create a network
@@ -72,7 +115,7 @@
                     }
                 },
                 layout: {
-                    improvedLayout: false
+                    improvedLayout: true
                 },
                 physics: {
                     barnesHut: {
@@ -80,65 +123,17 @@
                         centralGravity: 0.6,
                         avoidOverlap: 1
                     },
-                    stabilization: false,
+                    stabilization: true,
                     timestep: 0.3,
                     wind: {x: 0, y: 0},
-                    minVelocity:10 // più lo aumento più la rete diventa 'insensibile' a variazioni
+                    minVelocity:40 // più lo aumento più la rete diventa 'insensibile' a variazioni
                 },
             };
 
             network = new vis.Network(container, data, options);
 
-            network.on("doubleClick", f);
-            network.on("hold",f2);
-        }
-
-        function deleteNodes(nodeIDS) {
-            network.selectNodes(nodeIDS, false);
-            console.log(network.getSelection());
-            network.deleteSelected();
-        }
-
-        function stopSimulation() {
-            network.stopSimulation();
-        }
-
-
-        function nodesList() {
-            let data = nodes.getIds();
-            let list = document.getElementById("nodes-list");
-            for (i = 0; i < data.length; ++i) {
-                var li = document.createElement('li');
-                li.innerText = data[i];
-                list.appendChild(li);
-            }
-        }
-
-        function changeColor(c){
-            let node1 = nodes.get('__delay');
-            node1.color = c;
-
-            let node2 = nodes.get('pin_page_for_write');
-            node2.color = c;
-            nodes.updateOnly([node1,node2]);
-        }
-
-        function hideNode(id){
-            var n = nodes.get(id); // get the node
-            var e = edges.get({filter: function(item){return (item.from == id)}}) // get the edges
-            hiddenData.nodes.add(n);
-            hiddenData.edges.add(e);
-            nodes.remove(id);
-            edges.remove(e);
-        }
-
-        function showNode(id){
-            var n = hiddenData.nodes.get(id); // get the node
-            var e = hiddenData.edges.get({filter: function(item){return (item.from == id)}}) // get the edges
-            nodes.add(n);
-            edges.add(e);
-            hiddenData.nodes.remove(id);
-            hiddenData.edges.remove(e);
+            network.on("doubleClick", closeCluster);
+            network.on("hold",openCluster);
         }
 
 
@@ -170,29 +165,32 @@
             network.clustering.cluster(clusterOptions);
         }
 
-        function openCluster(clusterId){
-            network.openCluster(clusterId);
-        }
 
-        function f(params){
+        function closeCluster(params){
             //console.log(params.nodes);
+            var fromDim;
+            var toDim;
+            var containedEdge;
+
             if(params.nodes.length == 1){
-                 selected = nodes.get(params.nodes[0]);
-                // if(selected.label === "CLUSTER_1"){
-                //     toHide = nodes.get(selected.id);
-                //     hiddenData.nodes.add(toHide);
-                //     nodes.remove(selected.id);
-                // 
+                selected = nodes.get(params.nodes[0]);
+
+                if(selected == null) return;
+
                 var clusterNodeId = "NODE_" + selected.cid;
                 var clusterEdgeId = "EDGE_" + selected.cid;
-                var fromDim = 10;
-                var toDim   = 2;
+
                 var clusterOptions = {
                     joinCondition: function(nodeOptions){
-                        //console.log(nodeOptions, selected, (nodeOptions.cid == selected.cid));
-
                         return (nodeOptions.cid != undefined) && (nodeOptions.cid == selected.cid);
                     }, 
+                    processProperties: function(clusterNodeProperties,containedNodes,containedEdges){
+                        containedEdge = containedEdges[0].id;
+                        containedNodesIds = new vis.DataSet(containedNodes).getIds();
+                        toDim = 5;
+                        fromDim = 3;
+                        return clusterNodeProperties;
+                    },
                     clusterNodeProperties: {
                         label:"CLUSTER_1",
                         id: clusterNodeId,
@@ -201,7 +199,7 @@
                             background:'rgba(0,0,0,1)', 
                             border:'rgba(0,0,0,0.5)',
                             highlight: {
-                                background: 'rgba(0,0,0,0.1)',
+                                background: 'rgba(0,0,0,0.8)',
                                 border: 'rgba(0,0,0,1)'
                             },
                         }, 
@@ -210,8 +208,27 @@
                     },
                     clusterEdgeProperties :{
                         label:"EDGE_CLUSTER_1",
-                        id: clusterEdgeId,
-                        arrows:{
+                        id: "EDGE_CLUSTER_1",
+                        color: 'red',
+                        // arrows:{
+                        //     to:{
+                        //         enabled: true,
+                        //         scaleFactor: toDim
+                        //     },
+                        //     from:{
+                        //         enabled: true,
+                        //         scaleFactor: fromDim
+                        //     }
+                        // }             
+                    },
+                };
+
+                network.clustering.cluster(clusterOptions);
+                e = network.getClusteredEdges(containedEdge)[0];
+                console.log(toDim, fromDim);
+                network.clustering.updateEdge(e, 
+                    {color:'blue',                         
+                    arrows:{
                             to:{
                                 enabled: true,
                                 scaleFactor: toDim
@@ -220,18 +237,23 @@
                                 enabled: true,
                                 scaleFactor: fromDim
                             }
-                        }                  
-                    },
-                }
-                network.clustering.cluster(clusterOptions);
+                    } });
 
             }
         };
 
-        function f2(params){
+        function openCluster(params){
             console.log(params);
-            if(params.nodes.length == 1 && params.nodes[0].startsWith('NODE_CLUSTER_'))
-                network.clustering.openCluster(params.nodes[0]);
+            if(params.nodes.length == 1){
+                n = new String(params.nodes[0]);
+                try{
+                    if(n.startsWith('NODE_CLUSTER_'))
+                        network.clustering.openCluster(params.nodes[0]);
+                } catch(error){
+                    console.log(error);
+                }
+
+            }                
         };
 
 
@@ -242,21 +264,6 @@
 
 </head>
 <body onload="draw();">
-
-<div class="container mt-5 border border-primary">
-        <button type="button" class="btn btn-danger" onclick="stopSimulation();">Stop</button>
-        <button type="button" class="btn btn-danger" onclick="deleteNodes(['unlikely','likely']);">Delete Nodes</button>
-        <button type="button" class="btn btn-success" onclick="clusterById('1');">Cluster by ID</button>
-        <button type="button" class="btn btn-primary" onclick="openCluster('cluster1');">Open Cluster</button>
-        <button type="button" class="btn btn-success" onclick="clusterByColor('red');">Cluster by Color</button>
-        <button type="button" class="btn btn-primary" onclick="openCluster('clusterRed');">Open Cluster</button>
-        <button type="button" class="btn btn-primary" onclick="nodesList();">Generate List</button>
-        <button type="button" class="btn btn-outline-danger" onclick="changeColor('red');">Change color</button>
-        <button type="button" class="btn btn-outline-primary" onclick="changeColor('blue');">Reset color</button>
-        <button type="button" class="btn btn-danger" onclick="hideNode('1');">Hide Node</button>
-        <button type="button" class="btn btn-success" onclick="showNode('1');">Show Node</button>
-        <button type="button" class="btn btn-success" onclick="fun();">test</button>
-</div>
 
 <div class="container my-5 border border-primary">
     <div id="mynetwork" style="height: 600px"></div>

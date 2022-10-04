@@ -35,7 +35,8 @@
                     }
                 },
                 layout: {
-                    improvedLayout: false
+                    improvedLayout: false,
+                    clusterThreshold: 150
                 },
                 physics: {
                     barnesHut: {
@@ -43,10 +44,9 @@
                         centralGravity: 0.6,
                         avoidOverlap: 1
                     },
-                    stabilization: false,
                     timestep: 0.3,
                     minVelocity:40,
-                    wind: {x: 0, y: 0},
+                    stabilization: false
                 },
                 {#          configure: {
                             filter: function (option, path) {
