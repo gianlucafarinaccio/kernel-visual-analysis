@@ -187,8 +187,19 @@
                     processProperties: function(clusterNodeProperties,containedNodes,containedEdges){
                         containedEdge = containedEdges[0].id;
                         containedNodesIds = new vis.DataSet(containedNodes).getIds();
-                        toDim = 5;
-                        fromDim = 3;
+                        var f = 0, t = 0;
+                        for(let i = 0; i < containedEdges.length; i++){
+                            if(containedNodesIds.includes(containedEdges[i].to)){
+                                console.log('from');
+                                f++;
+                            }
+                            else {
+                                console.log('to');
+                                t++;
+                            }
+                        }
+                        fromDim = f;
+                        toDim = t;
                         return clusterNodeProperties;
                     },
                     clusterNodeProperties: {
@@ -208,18 +219,7 @@
                     },
                     clusterEdgeProperties :{
                         label:"EDGE_CLUSTER_1",
-                        id: "EDGE_CLUSTER_1",
-                        color: 'red',
-                        // arrows:{
-                        //     to:{
-                        //         enabled: true,
-                        //         scaleFactor: toDim
-                        //     },
-                        //     from:{
-                        //         enabled: true,
-                        //         scaleFactor: fromDim
-                        //     }
-                        // }             
+                        id: "EDGE_CLUSTER_1",          
                     },
                 };
 
@@ -227,7 +227,7 @@
                 e = network.getClusteredEdges(containedEdge)[0];
                 console.log(toDim, fromDim);
                 network.clustering.updateEdge(e, 
-                    {color:'blue',                         
+                    {                         
                     arrows:{
                             to:{
                                 enabled: true,
