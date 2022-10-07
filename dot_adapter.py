@@ -8,8 +8,8 @@
 # name <filename>_adpt.dot
 def dot_adapter():
     default_path = 'static/dots/'
-    file = open(default_path + 'kmallocx.dot', 'r')
-    out = open(default_path + 'kmallocx_adpt.dot', 'w')
+    file = open(default_path + 'kmalloc.dot', 'r')
+    out = open(default_path + 'kmalloc_adpt.dot', 'w')
     for line in file:
         str = line.replace('\n','\\n')
         print(repr(str))

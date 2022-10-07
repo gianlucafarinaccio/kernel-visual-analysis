@@ -8,9 +8,26 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'application/json'
 
 
+# @app.route('/')
+# def hello_world():  # put application's code here
+#     return render_template('index.html')
+
 @app.route('/')
 def hello_world():  # put application's code here
     return render_template('index.html')
+
+
+
+@app.route('/symbol')
+@app.route('/symbol/<string:name>')
+def getSymbol(name = None):
+    if(name == None):
+        name = request.args.get("symbol-name")
+    print(name)
+    return render_template('symbol.html', symbolName = name)
+
+
+
 
 
 # This route show an example of graph imported by a .DOT file
@@ -40,10 +57,9 @@ def cluster():
     return render_template('cluster.html')
 
 
-
 @app.route('/physics')
 def physics():
-    file = open('static/dots/kmallocx_adpt.dot', 'r')
+    file = open('static/dots/kmalloc_adpt.dot', 'r')
     graph = file.read()
     file.close()
     return render_template('physics.html', graph=' "{}"'.format(graph))
