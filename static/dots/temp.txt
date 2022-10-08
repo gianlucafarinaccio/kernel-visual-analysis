@@ -1,0 +1,11 @@
+total 48
+-rw-r--r--   1 gianlucafarinaccio  staff   332 Sep  6 12:49 README.md
+drwxr-xr-x   4 gianlucafarinaccio  staff   128 Oct  8 11:36 __pycache__
+-rw-r--r--   1 gianlucafarinaccio  staff  3180 Oct  8 11:36 app.py
+-rw-r--r--   1 gianlucafarinaccio  staff   603 Oct  5 19:40 dot_adapter.py
+-rw-r--r--   1 gianlucafarinaccio  staff   405 Sep  9 18:45 dot_creator.py
+-rw-r--r--   1 gianlucafarinaccio  staff   247 Oct  8 14:23 pipe.py
+-rw-r--r--   1 gianlucafarinaccio  staff   125 Sep 26 19:13 requirements.txt
+drwxr-xr-x  10 gianlucafarinaccio  staff   320 Sep 26 19:13 static
+drwxr-xr-x  10 gianlucafarinaccio  staff   320 Oct  7 17:55 templates
+drwxr-xr-x   7 gianlucafarinaccio  staff   224 Aug 31 21:18 venv
