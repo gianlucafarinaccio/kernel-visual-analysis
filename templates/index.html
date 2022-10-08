@@ -1,34 +1,22 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} <!-- extends base model for html files -->
 
-{% block title %}Welcome{% endblock %}	<!-- set page's title -->
+{% block title %} Welcome {% endblock %}	<!-- set page's title -->
 
-{% block body %}
+<!-- {% block body %} -->
 <!-- insert here your body code -->
-	<div class="container border border-danger m-5 p-5">
+<body>
+	<div class="container card m-5 p-5">
 		<h1>Kernel Visual Analysis</h1>
 		<form id="symbol-name-form" action="/symbol" method="GET">
 			<div class="mb-3">
 		    	<label for="symbol-name" class="form-label">Symbol name</label>
 		    	<input type="text" name="symbol-name" class="form-control">
 		  	</div>
-		  <button type="submit" class="btn btn-primary" onclick="getSymbolPage();">Draw</button>
+		  <button type="submit" class="btn btn-primary">Draw</button>
 		</form>
-	</div>
-
-	<script type="text/javascript">
-
-		function requireSymbol(symbolName){
-			fetch('/symbol/' + symbolName, { method: 'GET'})
-			.then(() => console.log('ok'))
-        	.catch( error => console.log(error) );
-		};
+	</div>	
+</body>
 
 
-		function getSymbolPage(){
-			const form = document.getElementById('symbol-name-form');
-			console.log(form.elements['symbol-name'].value);
-			//requireSymbol(form.elements['symbol-name'].value);
-		};
-	</script>
-{% endblock %}
+<!-- {% endblock %} -->

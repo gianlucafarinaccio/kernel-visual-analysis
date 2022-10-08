@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -18,15 +18,22 @@ def hello_world():  # put application's code here
 
 
 
-@app.route('/symbol')
-@app.route('/symbol/<string:name>')
-def getSymbol(name = None):
+@app.route('/symbol', methods=["GET"])
+@app.route('/symbol/<string:name>', methods=["GET"])
+def get_symbol(name = None):
     if(name == None):
         name = request.args.get("symbol-name")
+        if name == None:
+            return redirect('/')
     print(name)
-    return render_template('symbol.html', symbolName = name)
+    return render_template('symbol.html', symbol_name = name)
 
 
+@app.route('/retrieve/symbol/<string:name>', methods=["GET"])
+def retrieve_symbol(name):
+    print('required -> {}'.format(name))
+    with open('static/dots/kmalloc.dot', 'r') as file: # 'rb' mode for read bytes instead of string
+        return {'data':file.read()},{'Content-Type': 'application/json'}
 
 
 

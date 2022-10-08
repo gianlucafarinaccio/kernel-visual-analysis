@@ -1,15 +1,63 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} <!-- extends base model for html files -->
 
-{% block title %}{{symbolName}}{% endblock %}	<!-- set page's title -->
+{% block title %} {{symbol_name}} {% endblock %}	<!-- set page's title -->
 
-{% block body %}
+<!-- {% block body %} -->
+<body onload="drawSymbol('{{ symbol_name }}');">
+    <div class="container card m-5 p-5">
+        <h1>{{symbol_name}}</h1>
+    </div>
+
+    <script type="text/javascript">
+        // function retrieveSymbol(symbolName) {
+        //     console.log(symbolName);
+        //     fetch('/retrieve/symbol/' + symbolName, { method: 'GET'})
+        //     .then(
+        //         function (response) {
+        //             if (response.ok) {
+        //                 response.json()
+        //                 .then(function (response) {
+        //                     console.log(response.data);
+        //                     return response;
+        //                 })
+        //                 .catch(() => console.log('parsing json response error!'))
+        //             } else 
+        //                 throw Error('something went wrong!');
+        //     })
+        //     .catch( error => console.log(error) );
+        // }
+
+        // function retrieveSymbol(symbolName){
+        //     return fetch('/retrieve/symbol/' + symbolName, { method: 'GET'});
+        // }
+
+        function createNetwork(data){
+            console.log('creazione');
+            var parsedData = vis.parseDOTNetwork(data);
+            var nodes = new vis.DataSet(parsedData.nodes);
+            var edges = new vis.DataSet(parsedData.edges);
+            var networkData = {nodes: nodes, edges: edges};
+            console.log(networkData.nodes.get(), networkData.edges.get());
+        };
+
+        function drawSymbol(symbolName){
+            console.log('ciao');
+            fetch('/retrieve/symbol/' + symbolName, { method: 'GET'})
+            .then(function (response){
+                if(response.ok){
+                    response.json()
+                    .then( function(response) {
+                        console.log(response);
+                        createNetwork(response.data)})
+                    // .catch( () => console.log('parsing json error'));
+                }
+            })
+            .catch(error => console.log(error));
+        };
+
+    </script>   
+</body>
 <!-- insert here your body code -->
-	<div class="container border border-danger m-5 p-5">
-		<h1>{{symbolName}}</h1>
-	</div>
 
-	<script type="text/javascript">
-
-	</script>
-{% endblock %}
+<!-- {% endblock %} -->
