@@ -7,6 +7,9 @@
 <body onload="drawSymbol('{{ symbol_name }}');">
     <div class="container card m-5 p-5">
         <h1>{{symbol_name}}</h1>
+        <div id="network" style="width: 600px; height: 400px;">
+            
+        </div>
     </div>
 
     <script type="text/javascript">
@@ -39,6 +42,9 @@
             var edges = new vis.DataSet(parsedData.edges);
             var networkData = {nodes: nodes, edges: edges};
             console.log(networkData.nodes.get(), networkData.edges.get());
+
+            var container = document.getElementById("network");
+            var network = new vis.Network(container, networkData, {});
         };
 
         function drawSymbol(symbolName){
