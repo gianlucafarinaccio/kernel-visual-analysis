@@ -31,10 +31,8 @@ def get_symbol(name = None):
 
 @app.route('/retrieve/symbol/<string:name>', methods=["GET"])
 def retrieve_symbol(name):
-    print('required -> {}'.format(name))
-    #with open('static/dots/kmalloc.dot', 'r') as file: # 'rb' mode for read bytes instead of string
-        #return {'data':file.read()},{'Content-Type': 'application/json'}
-    return {'data':nav()},{'Content-Type': 'application/json'}
+    #print('required -> {}'.format(name))
+    return {'data':nav(name)},{'Content-Type': 'application/json'}
 
 
 # This route show an example of graph imported by a .DOT file

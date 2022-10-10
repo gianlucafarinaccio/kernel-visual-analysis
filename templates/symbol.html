@@ -5,35 +5,13 @@
 
 <!-- {% block body %} -->
 <body onload="drawSymbol('{{ symbol_name }}');">
-    <div class="container card m-5 p-5">
-        <h1>{{symbol_name}}</h1>
-        <div id="network" style="width: 600px; height: 400px;">
-            
-        </div>
+    <div class="container card m-5 p-3">
+        <h1>/symbol/{{symbol_name}}</h1>
     </div>
+    <div id="network" class="container card m-5 p-5" style="width: auto; height: 700px;">    </div>
+
 
     <script type="text/javascript">
-        // function retrieveSymbol(symbolName) {
-        //     console.log(symbolName);
-        //     fetch('/retrieve/symbol/' + symbolName, { method: 'GET'})
-        //     .then(
-        //         function (response) {
-        //             if (response.ok) {
-        //                 response.json()
-        //                 .then(function (response) {
-        //                     console.log(response.data);
-        //                     return response;
-        //                 })
-        //                 .catch(() => console.log('parsing json response error!'))
-        //             } else 
-        //                 throw Error('something went wrong!');
-        //     })
-        //     .catch( error => console.log(error) );
-        // }
-
-        // function retrieveSymbol(symbolName){
-        //     return fetch('/retrieve/symbol/' + symbolName, { method: 'GET'});
-        // }
 
         function createNetwork(data){
             console.log('creazione');
@@ -43,8 +21,33 @@
             var networkData = {nodes: nodes, edges: edges};
             console.log(networkData.nodes.get(), networkData.edges.get());
 
+            var options = {
+                interaction: {
+                    zoomSpeed: 3
+                },
+                edges: {
+                    smooth: {
+                        forceDirection: "none",
+                        roundness: 0
+                    }
+                },
+                layout: {
+                    improvedLayout: false,
+                    clusterThreshold: 150
+                },
+                physics: {
+                    barnesHut: {
+                        gravitationalConstant: -758211,
+                        centralGravity: 0.6,
+                        avoidOverlap: 1
+                    },
+                    timestep: 0.3,
+                    minVelocity:40,
+                    stabilization: false
+                }};
+
             var container = document.getElementById("network");
-            var network = new vis.Network(container, networkData, {});
+            var network = new vis.Network(container, networkData, options);
         };
 
         function drawSymbol(symbolName){
