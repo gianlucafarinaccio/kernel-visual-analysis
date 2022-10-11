@@ -8,32 +8,41 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'application/json'
 
 
-# @app.route('/')
-# def hello_world():  # put application's code here
-#     return render_template('index.html')
+
+#-----------------------------------------------------------------
 
 @app.route('/')
-def hello_world():  # put application's code here
+def index():  # put application's code here
     return render_template('index.html')
-
 
 
 @app.route('/symbol', methods=["GET"])
 @app.route('/symbol/<string:name>', methods=["GET"])
 def get_symbol(name = None):
-    if(name == None):
-        name = request.args.get("symbol-name")
-        if name == None:
-            return redirect('/')
-    print(name)
+    if(name == None):                                   # request received from form,
+                                                        # we need to retrieve the symbol-name typed in form
+        name = request.args.get("symbol-name")          # get name from form 
+        if (name == None or name == ""):                
+            return redirect('/')                        #undefined name or empty form
     return render_template('symbol.html', symbol_name = name)
 
 
+# Retrieve data from nav
+# return a json file
 @app.route('/retrieve/symbol/<string:name>', methods=["GET"])
 def retrieve_symbol(name):
-    #print('required -> {}'.format(name))
     return {'data':nav(name)},{'Content-Type': 'application/json'}
 
+#-----------------------------------------------------------------
+
+
+
+
+#---------------------- TESTING ----------------------------------
+
+@app.route('/setup')
+def setup():  # put application's code here
+    return render_template('setup.html')
 
 # This route show an example of graph imported by a .DOT file
 # The string which contain the file data is stored inside the
@@ -64,7 +73,7 @@ def cluster():
 
 @app.route('/physics')
 def physics():
-    file = open('static/dots/kmalloc_adpt.dot', 'r')
+    file = open('static/dots/kmallocx_adpt.dot', 'r')
     graph = file.read()
     file.close()
     return render_template('physics.html', graph=' "{}"'.format(graph))
