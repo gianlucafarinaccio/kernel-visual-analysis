@@ -27,18 +27,21 @@
       <button type="button" class="btn btn-link">Link</button>
     </div>
 
-    <div id="mynetwork" style="width: 600px; height: 400px;" class="container card m-5"></div>
-
+    <div id="mynetwork" style="width: auto; height: 700px;" class="container card m-5"></div>
+    <div id="config"></div>
 
 
     <script type="text/javascript">
       // create an array with nodes
       var nodes = new vis.DataSet([
-        { id: 1, label: "Node 1", group: 1 },
-        { id: 2, label: "Node 2" ,group: 1},
-        { id: 3, label: "Node 3" },
-        { id: 4, label: "Node 4" },
-        { id: 5, label: "Node 5" ,group: 1},
+        { id: 1, label: "Node 1", group: 'l'},
+        { id: 2, label: "Node 2" ,group: 'l'},
+        { id: 3, label: "Node 3" ,group: 'ciao'},
+        { id: 4, label: "Node 4" ,group: 'x'},
+        { id: 5, label: "Node 5" ,group: 'ciao'},
+        { id: "a", label: "Node 7" , x:0, y:0, physics: false},
+        { id: "A", label: "Node 6" , x:0, y:0, physics: false},        
+ 
       ]);
 
       // create an array with edges
@@ -56,8 +59,46 @@
         nodes: nodes,
         edges: edges,
       };
+
       var options = {
+          interaction: {
+              zoomSpeed: 3
+          },
+          edges: {
+              smooth: {
+                  forceDirection: "none",
+                  roundness: 0
+              }
+          },
+          layout: {
+              improvedLayout: false,
+              clusterThreshold: 150
+          },
+          physics: {
+              barnesHut: {
+                  gravitationalConstant: -758211,
+                  centralGravity: 0.6,
+                  avoidOverlap: 1
+              },
+              timestep: 0.3,
+              minVelocity:40,
+              stabilization: false
+          },
+          // configure: {
+          //             filter: function (option, path) {
+          //               if (path.indexOf("physics") !== -1) {
+          //                 return true;
+          //               }
+          //               if (path.indexOf("smooth") !== -1 || option === "smooth") {
+          //                 return true;
+          //               }
+          //               return false;
+          //             },
+          //             container: document.getElementById("config"),
+          //           },
       };
+
+
       var network = new vis.Network(container, data, options);
     </script>
 
