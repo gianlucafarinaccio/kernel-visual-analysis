@@ -18,8 +18,8 @@
             var parsedData = vis.parseDOTNetwork(data);
             var nodes = new vis.DataSet(parsedData.nodes);
             var edges = new vis.DataSet(parsedData.edges);
-            var networkData = {nodes: nodes, edges: edges};
-            console.log(networkData.nodes.get(), networkData.edges.get());
+            networkData = {nodes: nodes, edges: edges};
+            //console.log(networkData.nodes.get(), networkData.edges.get());
 
             var options = {
                 interaction: {
@@ -42,13 +42,25 @@
                         avoidOverlap: 1
                     },
                     timestep: 0.3,
-                    minVelocity:40,
+                    minVelocity:10,
                     stabilization: false
                 }};
 
             var container = document.getElementById("network");
             var network = new vis.Network(container, networkData, options);
+            network.stopSimulation();
         };
+
+        function addSubsystems(symbols){
+            symbols.forEach(function(symbol){
+              [[,symname],[,ss]] = Object.entries(symbol);
+              if(ss.length > 0){
+                n = networkData.nodes.get(symname);
+                n.group = ss[0];
+                networkData.nodes.updateOnly(n);
+              }
+            });
+        }
 
         function drawSymbol(symbolName){
             console.log('ciao');
@@ -58,7 +70,9 @@
                     response.json()
                     .then( function(response) {
                         console.log(response);
-                        createNetwork(response.data)})
+                        createNetwork(response.graph);
+                        addSubsystems(response.symbols);
+                    })
                     // .catch( () => console.log('parsing json error'));
                 }
             })

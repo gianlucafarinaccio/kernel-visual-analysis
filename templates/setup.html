@@ -34,11 +34,11 @@
     <script type="text/javascript">
       // create an array with nodes
       var nodes = new vis.DataSet([
-        { id: 1, label: "Node 1", group: 'l'},
-        { id: 2, label: "Node 2" ,group: 'l'},
-        { id: 3, label: "Node 3" ,group: 'ciao'},
-        { id: 4, label: "Node 4" ,group: 'x'},
-        { id: 5, label: "Node 5" ,group: 'ciao'},
+        { id: "Node1", label: "Node 1"},
+        { id: "Node2", label: "Node 2"},
+        { id: "Node3", label: "Node 3"},
+        { id: "Node4", label: "Node 4"},
+        { id: "Node5", label: "Node 5"},
         { id: "a", label: "Node 7" , x:0, y:0, physics: false},
         { id: "A", label: "Node 6" , x:0, y:0, physics: false},        
  
@@ -52,6 +52,11 @@
         { from: 2, to: 5 },
         { from: 3, to: 3 },
       ]);
+
+      var subsystems = {
+        "subystem1": ["Node1", "Node2"], 
+        "subsystem2": ["Node3", "Node4"],
+      }
 
       // create a network
       var container = document.getElementById("mynetwork");
@@ -100,6 +105,19 @@
 
 
       var network = new vis.Network(container, data, options);
+
+      for(const [key, value] of Object.entries(subsystems)){
+        //console.log(key + '-->');
+        for(const node of value){
+          //console.log(y);
+          x = nodes.get(node);
+          if(x != undefined){
+            x.group = key;
+            nodes.updateOnly(x);
+          }
+        }
+      }
+
     </script>
 
 

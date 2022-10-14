@@ -31,8 +31,10 @@ def get_symbol(name = None):
 # return a json file
 @app.route('/retrieve/symbol/<string:name>', methods=["GET"])
 def retrieve_symbol(name):
-    
-    return {'data':nav(name)},{'Content-Type': 'application/json'}
+    # data = str(nav(name))
+    # print(type(data))
+    # print(data)
+    return nav(name),{'Content-Type': 'application/json'}
 
 #-----------------------------------------------------------------
 

@@ -29,7 +29,8 @@
         // provide data in the DOT language
         function myFunction(g) {
             //console.log(g);
-            var DOTstring = g;
+            // var DOTstring = g;
+            var DOTstring = 'digraph G {\n"__kmalloc"->"ciso" \n"__kmalloc"->"kmalloc_slab"}';
             var parsedData = vis.parseDOTNetwork(DOTstring);
 
             var data = {

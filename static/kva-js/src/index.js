@@ -1,0 +1,1 @@
+var g = new Graph(1);
