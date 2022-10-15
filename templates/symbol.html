@@ -1,17 +1,22 @@
-<!DOCTYPE html>
 {% extends 'base.html' %} <!-- extends base model for html files -->
 
+{% block head %} 
+    <script type="module" src="{{url_for('static', filename='kva-js/src/index.js')}}" ></script>
+{% endblock}
 {% block title %} {{symbol_name}} {% endblock %}	<!-- set page's title -->
 
-<!-- {% block body %} -->
-<body onload="drawSymbol('{{ symbol_name }}');">
-    <div class="container card m-5 p-3">
+{% block body %}
+<body>
+    <div class="container card mx-5 my-2 p-3">
         <h1>/symbol/{{symbol_name}}</h1>
     </div>
-    <div id="network" class="container card m-5 p-5" style="width: auto; height: 700px;">    </div>
+    <div hidden id="symname">{{symbol_name}}</div>
+    <div class="container card mx-5 my-2 p-3" id="status"> ... </div>
+    <div id="network" class="container card mx-5 my-2 p-5" style="width: auto; height: 700px;">    </div>
+</body>
+{% endblock %}
 
-
-    <script type="text/javascript">
+<!--     <script type="text/javascript">
 
         function createNetwork(data){
             console.log('creazione');
@@ -79,8 +84,5 @@
             .catch(error => console.log(error));
         };
 
-    </script>   
-</body>
-<!-- insert here your body code -->
+    </script>    -->
 
-<!-- {% endblock %} -->
