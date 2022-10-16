@@ -15,12 +15,20 @@ async function init(entryPoint){
 
 	status(STATUS_DIV, "network creation...");
 	network = new vis.Network(container, REPOSITORY.networkData, REPOSITORY.options);
-	
 	status(STATUS_DIV, "network created from entry point: " + entryPoint);
 
 	status(STATUS_DIV, "importing subsystems...");	
 	addSubsystems(REPOSITORY.nodes, REPOSITORY.symbols);
 	status(STATUS_DIV, "subsystems imported...");
+
+	status(STATUS_DIV, "generating subsystems list...");	
+	REPOSITORY.generateSubsystemsList();
+	console.log(REPOSITORY.subsystems);
+	status(STATUS_DIV, "subsystems list generated...");	
+
+	status(STATUS_DIV, "clustering subsystems...");	
+	startClustering(REPOSITORY.subsystems);
+	status(STATUS_DIV, "subsystems clustered...");	
 
 	// 	CANVAS EVENTs
     network.on("doubleClick", clust);
@@ -55,8 +63,9 @@ function clust(params){
             console.log(param);
             return param.group === gr;
         },
-        clusterNodeProperties:{ id : ("CLUSTER_"+gr), label: ("CLUSTER_"+gr), group: gr, shape: 'box',
-        						allowSingleNodeCluster: true},
+        clusterNodeProperties:{ id : ("CLUSTER_"+gr), label: ("CLUSTER_"+gr), group: gr,
+        			shape: 'square', size:50, font:{bold:{size:24}},
+	        		allowSingleNodeCluster: true},
     }
     network.clustering.cluster(clusterOptions);
     status(STATUS_DIV, "clustered group: " + gr);
@@ -75,6 +84,23 @@ function open(params){
         }
 
     }                
+}
+
+
+function startClustering(subsystems){
+	subsystems.forEach(function(subsystem){
+	    var clusterOptions = {
+	        joinCondition: function(param){
+	            return param.group === subsystem;
+	        },
+	        clusterNodeProperties:{ id : ("CLUSTER_"+subsystem), label: ("CLUSTER_"+subsystem), group: subsystem, shape: 'square', size:50,
+	        						font:{bold:{size:24}},
+	        						allowSingleNodeCluster: true},
+	    }
+	    network.clustering.cluster(clusterOptions);
+	    status(STATUS_DIV, "clustered group: " + subsystem);
+	    // network.stopSimulation();		
+	});
 }
 
 

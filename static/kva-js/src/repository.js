@@ -23,7 +23,7 @@ export class Repository {
                         avoidOverlap: 1
                     },
                     timestep: 0.3,
-                    minVelocity:10,
+                    minVelocity:1,
                     stabilization: false
                 }
 		};
@@ -51,6 +51,17 @@ export class Repository {
         this.symbols = response.symbols;
 
 	}
+
+    generateSubsystemsList(){
+        const subsystems = [undefined];
+        this.symbols.forEach(function(symbol){
+            symbol.subsystems.forEach(function(subsystem){
+                if(!subsystems.includes(subsystem))
+                    subsystems.push(subsystem);
+            }); 
+        });
+        this.subsystems = subsystems;
+    }
 
 
 
