@@ -53,24 +53,5 @@ export class Repository {
 	}
 
 
-	getDefaultOptions(){
-		return this.options;
-	}
-
-	getNetworkData(){
-		return this.networkData;
-	}
-
-	getNodes(){
-		return this.networkData.nodes;
-	}
-
-	getEdges(){
-		return this.networkData.edges;
-	}
-
-	getSymbols(){
-		return this.symbols;
-	}
 
 }
