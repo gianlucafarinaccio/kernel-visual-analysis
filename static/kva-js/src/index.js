@@ -22,7 +22,9 @@ async function init(entryPoint){
 	addSubsystems(REPOSITORY.nodes, REPOSITORY.symbols);
 	status(STATUS_DIV, "subsystems imported...");
 
+	// 	CANVAS EVENTs
     network.on("doubleClick", clust);
+    network.on("hold", open);    
 }
 
 function status(elementID, text){
@@ -53,10 +55,26 @@ function clust(params){
             console.log(param);
             return param.group === gr;
         },
-        clusterNodeProperties:{ id : gr, label: gr, group: gr, shape: 'box' },
+        clusterNodeProperties:{ id : ("CLUSTER_"+gr), label: ("CLUSTER_"+gr), group: gr, shape: 'box',
+        						allowSingleNodeCluster: true},
     }
     network.clustering.cluster(clusterOptions);
     status(STATUS_DIV, "clustered group: " + gr);
+    network.stopSimulation();
+}
+
+function open(params){
+    console.log(params);
+    if(params.nodes.length == 1){
+        let n = new String(params.nodes[0]);
+        try{
+            if(n.startsWith('CLUSTER_'))
+                network.clustering.openCluster(params.nodes[0]);
+        } catch(error){
+            console.log(error);
+        }
+
+    }                
 }
 
 
@@ -69,5 +87,6 @@ window.onload = () => {
 };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };
+document.getElementById("start").onclick = function() { network.startSimulation() };
 /********************************/
 
