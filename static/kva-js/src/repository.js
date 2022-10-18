@@ -23,7 +23,7 @@ export class Repository {
                         avoidOverlap: 1
                     },
                     timestep: 0.3,
-                    minVelocity:1,
+                    minVelocity:0.1,
                     stabilization: false
                 }
 		};
@@ -37,31 +37,56 @@ export class Repository {
         const response = await fetch('/retrieve/symbol/' + entryPoint, { method: 'GET'});
 		if (!response.ok) 
 			throw new Error(`HTTP error! status: ${response.status}`);
-		this.jsonResponse = await response.json();
+		
+        //parsing data
+        this.jsonResponse = await response.json();
 		this.parseResponse(this.jsonResponse);
+        this.parseSubsystems(this.nodes, this.symbols);
+        this.subsystems = this.generateSubsystemsList(this.symbols);
 	}
-
 
 	parseResponse(response){
 		let parsed = vis.parseDOTNetwork(response.graph);
         this.nodes = new vis.DataSet(parsed.nodes);
         this.edges = new vis.DataSet(parsed.edges);
         this.networkData = {nodes: this.nodes, edges: this.edges};
-
         this.symbols = response.symbols;
-
 	}
 
-    generateSubsystemsList(){
-        const subsystems = [undefined];
-        this.symbols.forEach(function(symbol){
+    parseSubsystems(nodes, symbols){
+        let update = []
+        
+        symbols.forEach(function(symbol){
+            let symbolName = symbol.FuncName;
+            let subsystems = symbol.subsystems;
+            let node = nodes.get(symbolName);
+            
+            // assign "NONE" subsystem for nodes which
+            // haven't a subsystem
+            if(subsystems[0] == undefined) 
+                node.group = "NONE"
+            else
+                node.group = subsystems[0];
+
+            update.push(node);
+        });
+        nodes.updateOnly(update);
+    }
+
+    generateSubsystemsList(symbols){
+        const subsystems = ["NONE"];
+
+        symbols.forEach(function(symbol){
             symbol.subsystems.forEach(function(subsystem){
                 if(!subsystems.includes(subsystem))
                     subsystems.push(subsystem);
             }); 
         });
-        this.subsystems = subsystems;
+        return subsystems;
     }
+
+
+
 
 
 

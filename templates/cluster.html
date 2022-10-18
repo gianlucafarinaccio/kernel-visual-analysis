@@ -91,7 +91,7 @@
 
             edges = new vis.DataSet(
                 [
-                {from:'A', to:'C', arrows:'to'},{from:'B', to:'C', arrows:'to'},
+                {from:'A', to:'C', arrows:'to', id:"test"},{from:'B', to:'C', arrows:'to'},
                 {from:'C', to:'A',arrows:'to'},
                 // {from:'X', to:'Y'},
                 // {from:'X', to:'A',arrows:'from'}
@@ -185,6 +185,7 @@
                         return (nodeOptions.cid != undefined) && (nodeOptions.cid == selected.cid);
                     }, 
                     processProperties: function(clusterNodeProperties,containedNodes,containedEdges){
+                        console.log(containedNodes, containedEdges);
                         containedEdge = containedEdges[0].id;
                         containedNodesIds = new vis.DataSet(containedNodes).getIds();
                         var f = 0, t = 0;
