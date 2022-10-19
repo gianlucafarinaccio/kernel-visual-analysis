@@ -56,6 +56,31 @@ export function openCluster(network, cluster){
 
 
 
+/*
+	PROBLEMA CREAZIONE FRECCE DINAMICHE IN FUNZIONE 
+	DEL NUMERO DI ARCHI ENTRANTI E USCENTI IN UN CLUSTER.
+
+	1. Non posso impostare un id a mio piacimento per il 
+	   clusteredEdge... potrebbe essere 1 o anche 1000
+	   --> non posso decidere io gli ID
+
+	2. Il vecchio metodo non teneva conto che potrebbero 
+	   verificarsi dei casi in cui il clustering di un 
+	   subsystem non contiene archi
+	   (perchè li hanno già trasformati gli altri cluster)
+	   --> non riesco a risalire ad un arco di partenza per 
+	   	   poi ritrovare il clusteredEdge associato a quel 
+	   	   "cluster senza archi" 
+
+	Possibili soluzioni...
+
+	1. Potrei 'pre-calcolare' queste quantità di to e from
+	   per ogni subsystem con i subsystem collegati...
+	   Partendo dagli edges del network e combinando i subsystems(?)
+
+	2. Potrei Verificare se c'è qualche struttura dati nascosta
+*/
+
 
 
 // function startClustering(subsystems){

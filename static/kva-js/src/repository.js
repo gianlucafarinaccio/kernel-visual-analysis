@@ -20,7 +20,8 @@ export class Repository {
                     barnesHut: {
                         gravitationalConstant: -758211,
                         centralGravity: 0.6,
-                        avoidOverlap: 1
+                        avoidOverlap: 1,
+                        springLength: 400,
                     },
                     timestep: 0.3,
                     minVelocity:0.1,
@@ -84,6 +85,38 @@ export class Repository {
         });
         return subsystems;
     }
+
+
+    setEdgeSubsystem(edges, nodes){
+        edges.forEach(function(properties){
+            properties.group = nodes.get(properties.from).group;
+        });
+    }
+
+
+    generateArrowsData(edges, nodes){
+        //this.setEdgeSubsystem(edges,nodes);
+        
+        let arrowsData = {};
+        
+        edges.forEach(function(edge){
+            let fromSubsystem = edge.group;
+            console.log(fromSubsystem);
+            
+            if(!arrowsData.hasOwnProperty(fromSubsystem))
+                arrowsData.fromSubsystem = {};
+
+            let toSubsystem = nodes.get(edge.to).group;
+
+            arrowsData.fromSubsystem.toSubsystem +=1;
+        });
+
+        return arrowsData;
+    }
+
+
+
+
 
 
 

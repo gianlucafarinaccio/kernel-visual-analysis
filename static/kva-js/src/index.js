@@ -9,13 +9,15 @@ import {Repository} from './repository.js';
 import {clusteringBySubsystems, clusteringBySubsystem, openCluster} from './clustering.js';
 
 
-const 	REPOSITORY = new Repository();
+// const 	REPOSITORY = new Repository();
 const	NETWORK_DIV = "network";
 const	STATUS_DIV = "status";
-let		network = null;
+// let		network = null;
 
 
 async function init(entryPoint){
+	REPOSITORY = new Repository();
+
 	status(STATUS_DIV, "fetching data for entry point: " + entryPoint);
 	console.log("fetching data for entry point: " + entryPoint);
 	await REPOSITORY.fetchData(entryPoint);

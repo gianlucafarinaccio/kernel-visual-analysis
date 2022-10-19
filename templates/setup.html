@@ -34,7 +34,7 @@
     <script type="text/javascript">
       // create an array with nodes
       var nodes = new vis.DataSet([
-        { id: "Node1", label: "Node 1"},
+        { id: "Node1", label: "Node 1", group: 1},
         { id: "Node2", label: "Node 2"},
         { id: "Node3", label: "Node 3"},
         { id: "Node4", label: "Node 4"},
@@ -46,7 +46,7 @@
 
       // create an array with edges
       var edges = new vis.DataSet([
-        { from: 1, to: 3 },
+        { from: "Node1", to: "Node3", group: 1},
         { from: 1, to: 2 },
         { from: 2, to: 4 },
         { from: 2, to: 5 },
