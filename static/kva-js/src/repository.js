@@ -104,14 +104,62 @@ export class Repository {
             console.log(fromSubsystem);
             
             if(!arrowsData.hasOwnProperty(fromSubsystem))
-                arrowsData.fromSubsystem = {};
+                arrowsData[fromSubsystem] = {};
 
             let toSubsystem = nodes.get(edge.to).group;
 
-            arrowsData.fromSubsystem.toSubsystem +=1;
+            if(fromSubsystem === toSubsystem)
+                return; //skip to next iteration
+
+            if(!arrowsData[fromSubsystem].hasOwnProperty(toSubsystem))
+                arrowsData[fromSubsystem][toSubsystem] = 0;
+
+            arrowsData[fromSubsystem][toSubsystem] +=1;
         });
 
-        return arrowsData;
+        this.arrowsData = arrowsData;
+    }
+
+
+
+    /*
+    La soluzione corretta potrebbe essere lavorare con getConnectedNodes(sub, from)
+    Prima gli passo un subsystem che sono sicuro abbia archi entranti..
+    otterrò l'id dell'arco che collega tot. subsystem a quel sub
+    a quel punto tutti quegli archi avranno il campo to che sarà necessariamente sub 
+    mentre il from sarà un certo subsystem
+
+    a quel punto itero sulle arrow data che già conosco e dovrebbe essere fatta...
+
+    [a questo punto forse potrebbe essere l'ideale rivedere struttura dell'oggetto arrowsdata]
+
+    */
+
+    testArrow(network){
+        let from = "NONE";
+        let to = "LOCKING PRIMITIVES";
+        let value = this.arrowsData[from][to];
+        console.log(value);
+        
+        let baseEdge = REPOSITORY.edges.getIds({filter: function(e){
+          return e.group == from && (REPOSITORY.nodes.get(e.to)).group == to;
+        }})[0];
+
+        let[realFrom, realTo] = network.getConnectedNodes(baseEdge);
+        if(! realFrom === from) {
+            realFrom = to;
+            realTo = from;
+        }
+
+        network.updateEdge(baseEdge, {
+            color: 'red',
+            arrows: {
+                to: {
+                    enabled: true,
+                    scaleFactor: value
+                }
+            }
+        });
     }
 
 

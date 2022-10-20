@@ -48,6 +48,9 @@ async function init(entryPoint){
 
     network.on("hold", (params) => openCluster(network, params.nodes[0])); 
     network.on("click", (params) => console.log(params));   
+
+    REPOSITORY.setEdgeSubsystem(REPOSITORY.edges, REPOSITORY.nodes);
+    REPOSITORY.generateArrowsData(REPOSITORY.edges, REPOSITORY.nodes);
 }
 
 

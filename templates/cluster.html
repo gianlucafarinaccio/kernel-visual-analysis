@@ -91,7 +91,7 @@
 
             edges = new vis.DataSet(
                 [
-                {from:'A', to:'C', arrows:'to', id:"test"},{from:'B', to:'C', arrows:'to'},
+                {from:'A', to:'C', arrows:'to', id:"test", arrows:'to'},{from:'B', to:'C', arrows:'to'},
                 {from:'C', to:'A',arrows:'to'},{from:'D', to:'A',arrows:'to'},
                 // {from:'X', to:'Y'},
                 // {from:'X', to:'A',arrows:'from'}
@@ -134,6 +134,7 @@
 
             network.on("doubleClick", closeCluster);
             network.on("hold",openCluster);
+            network.on("click", (params) => console.log(params));  
         }
 
 
@@ -184,25 +185,25 @@
                     joinCondition: function(nodeOptions){
                         return (nodeOptions.cid != undefined) && (nodeOptions.cid == selected.cid);
                     }, 
-                    processProperties: function(clusterNodeProperties,containedNodes,containedEdges){
-                        console.log(containedNodes, containedEdges);
-                        containedEdge = containedEdges[0].id;
-                        containedNodesIds = new vis.DataSet(containedNodes).getIds();
-                        var f = 0, t = 0;
-                        for(let i = 0; i < containedEdges.length; i++){
-                            if(containedNodesIds.includes(containedEdges[i].to)){
-                                console.log('from');
-                                f++;
-                            }
-                            else {
-                                console.log('to');
-                                t++;
-                            }
-                        }
-                        fromDim = f;
-                        toDim = t;
-                        return clusterNodeProperties;
-                    },
+                    // processProperties: function(clusterNodeProperties,containedNodes,containedEdges){
+                    //     console.log(containedNodes, containedEdges);
+                    //     containedEdge = containedEdges[0].id;
+                    //     containedNodesIds = new vis.DataSet(containedNodes).getIds();
+                    //     var f = 0, t = 0;
+                    //     for(let i = 0; i < containedEdges.length; i++){
+                    //         if(containedNodesIds.includes(containedEdges[i].to)){
+                    //             console.log('from');
+                    //             f++;
+                    //         }
+                    //         else {
+                    //             console.log('to');
+                    //             t++;
+                    //         }
+                    //     }
+                    //     fromDim = f;
+                    //     toDim = t;
+                    //     return clusterNodeProperties;
+                    // },
                     clusterNodeProperties: {
                         label:"CLUSTER_1",
                         id: clusterNodeId,
@@ -226,20 +227,20 @@
                 };
 
                 network.clustering.cluster(clusterOptions);
-                e = network.getClusteredEdges(containedEdge)[0];
-                console.log(toDim, fromDim);
-                network.clustering.updateEdge(e, 
-                    {                         
-                    arrows:{
-                            to:{
-                                enabled: true,
-                                scaleFactor: toDim
-                            },
-                            from:{
-                                enabled: true,
-                                scaleFactor: fromDim
-                            }
-                    } });
+                // e = network.getClusteredEdges(containedEdge)[0];
+                // console.log(toDim, fromDim);
+                // network.clustering.updateEdge(e, 
+                //     {                         
+                //     arrows:{
+                //             to:{
+                //                 enabled: true,
+                //                 scaleFactor: toDim
+                //             },
+                //             from:{
+                //                 enabled: true,
+                //                 scaleFactor: fromDim
+                //             }
+                //     } });
 
             }
         };
