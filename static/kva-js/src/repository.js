@@ -44,6 +44,7 @@ export class Repository {
 		this.parseResponse(this.jsonResponse);
         this.parseSubsystems(this.nodes, this.symbols);
         this.subsystems = this.generateSubsystemsList(this.symbols);
+        this.usedSubsystems = this.generateUsedSubsystemsList(this.nodes);
 	}
 
 	parseResponse(response){
@@ -84,6 +85,15 @@ export class Repository {
             }); 
         });
         return subsystems;
+    }
+
+    generateUsedSubsystemsList(nodes){
+        let all = [];
+
+        nodes.forEach(function(node){
+            all.push(node.group);
+        });
+        return Array.from(new Set(all)); //remove duplicates
     }
 
 
@@ -163,8 +173,25 @@ export class Repository {
     }
 
 
+    getAllClusteredEdges(network, subsystems){
+        let set = new Set();
+        console.log(subsystems.forEach(function(subsystem){
+            let connectedEdges = network.getConnectedEdges("CLUSTER_"+ subsystem);
+            set.add(connectedEdges);
+        }));
+        return [... set];
+    }
 
 
+    // function(all){
+    //     let set = new Set();
+    //     all.forEach(function(arr){
+    //         arr.forEach(function(edge){
+    //             set.add(edge);
+    //         });
+    //     });
+    //     return[... set];
+    // }
 
 
 
