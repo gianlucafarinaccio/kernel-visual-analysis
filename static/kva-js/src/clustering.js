@@ -26,6 +26,7 @@ export function clusteringBySubsystem(network, subsystem){
         	id : ("CLUSTER_"+subsystem), 
         	label: ("CLUSTER_"+subsystem), 
         	group: subsystem, 
+        	mass: 5,
         	shape: 'square', size:50,
 			font: { bold: { size: 24 } },
 			allowSingleNodeCluster: true },

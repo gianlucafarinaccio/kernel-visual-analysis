@@ -177,21 +177,60 @@ export class Repository {
         let set = new Set();
         console.log(subsystems.forEach(function(subsystem){
             let connectedEdges = network.getConnectedEdges("CLUSTER_"+ subsystem);
-            set.add(connectedEdges);
+            connectedEdges.forEach(function(edge){
+                let nodes = network.getConnectedNodes(edge);
+                if(nodes[0].startsWith("CLUSTER_") && nodes[1].startsWith("CLUSTER_"))
+                    set.add(edge);
+            });
         }));
-        return [... set];
+        
+        let items = []; //pattern [edge, from node, to node]
+
+        [... set].forEach(function(edge){
+            let nodes = []; // pattern [from node, to node]
+            nodes = network.getConnectedNodes(edge);
+            items.push([edge, nodes[0].substring(8), nodes[1].substring(8)]); //[edge, from sub, to sub]
+        });
+
+        return items;
+    }
+
+    updateClusteredEdges(network, items){
+        let arrowsData = this.arrowsData;
+        items.forEach(function([edge, fromsub, tosub]){
+            let todim = arrowsData[fromsub][tosub];
+            if (todim > 50)
+                todim = 50;
+
+            let fromdim = arrowsData[tosub];
+            if (fromdim != undefined){
+                fromdim = arrowsData[tosub][fromsub];
+
+                if(fromdim == undefined)
+                    fromdim = 0;
+                else
+                 console.log("updateClusteredEdges() --> edges from: " + fromsub + " to: " + tosub);                   
+            } else{
+                console.log("updateClusteredEdges() --> NOT edges from: " + fromsub + " to: " + tosub);
+            }     
+
+            network.updateEdge(edge, {
+                arrows:{
+                    to:{
+                        enabled: true,
+                        scaleFactor: todim/3
+                    },
+                    from:{
+                        enabled: true,
+                        scaleFactor: fromdim/3
+                    }
+                }
+            });
+        });
     }
 
 
-    // function(all){
-    //     let set = new Set();
-    //     all.forEach(function(arr){
-    //         arr.forEach(function(edge){
-    //             set.add(edge);
-    //         });
-    //     });
-    //     return[... set];
-    // }
+
 
 
 
