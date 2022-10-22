@@ -195,34 +195,40 @@ export class Repository {
         return items;
     }
 
+
+    getArrowDimension(fromSubsystem, toSubsystem){
+        let dim = this.arrowsData[fromSubsystem];
+        if (dim == undefined)
+            return 0;
+        
+        dim = this.arrowsData[fromSubsystem][toSubsystem];
+        if(dim == undefined)
+            return 0;
+
+        if(dim < 4) return dim;
+
+        return Math.log(dim) / Math.log(2);
+    }
+
     updateClusteredEdges(network, items){
         let arrowsData = this.arrowsData;
+        let self = this;
         items.forEach(function([edge, fromsub, tosub]){
-            let todim = arrowsData[fromsub][tosub];
-            if (todim > 50)
-                todim = 50;
-
-            let fromdim = arrowsData[tosub];
-            if (fromdim != undefined){
-                fromdim = arrowsData[tosub][fromsub];
-
-                if(fromdim == undefined)
-                    fromdim = 0;
-                else
-                 console.log("updateClusteredEdges() --> edges from: " + fromsub + " to: " + tosub);                   
-            } else{
-                console.log("updateClusteredEdges() --> NOT edges from: " + fromsub + " to: " + tosub);
-            }     
+            
+            let todim = self.getArrowDimension(fromsub, tosub);
+            let fromdim = self.getArrowDimension(tosub, fromsub);
+            
+            console.log(`updateClusteredEdges() || ${fromsub} [${fromdim}] <---> [${todim}] ${tosub} `);                
 
             network.updateEdge(edge, {
                 arrows:{
                     to:{
                         enabled: true,
-                        scaleFactor: todim/3
+                        scaleFactor: todim
                     },
                     from:{
                         enabled: true,
-                        scaleFactor: fromdim/3
+                        scaleFactor: fromdim
                     }
                 }
             });

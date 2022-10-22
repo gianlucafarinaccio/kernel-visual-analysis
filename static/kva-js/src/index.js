@@ -6,8 +6,8 @@
 
 
 import {Repository} from './repository.js';
-import {clusteringBySubsystems, clusteringBySubsystem, openCluster} from './clustering.js';
-
+//import {clusteringBySubsystems, clusteringBySubsystem, openCluster} from './clustering.js';
+import {clustering} from './clustering-module.js'
 
 // const 	REPOSITORY = new Repository();
 const	NETWORK_DIV = "network";
@@ -33,7 +33,7 @@ async function init(entryPoint){
 
 
 	console.log("clustering subsystems...");	
-	clusteringBySubsystems(network, REPOSITORY.subsystems);
+	clustering.clusteringBySubsystems(REPOSITORY.subsystems, network);
 	console.log(REPOSITORY.edges.get());
 	status(STATUS_DIV, "subsystems clustered...");	
 
@@ -43,10 +43,10 @@ async function init(entryPoint){
     	if(params.nodes[0] == null) return;
     	let node = REPOSITORY.nodes.get(params.nodes[0]);
     	if(node != null)
-    		clusteringBySubsystem(network, node.group);
+    		clusteringBySubsystem(node.group, network);
 	});
 
-    network.on("hold", (params) => openCluster(network, params.nodes[0])); 
+    network.on("hold", (params) => openCluster(params.nodes[0], network)); 
     network.on("click", (params) => console.log(params));   
 
     REPOSITORY.setEdgeSubsystem(REPOSITORY.edges, REPOSITORY.nodes);
@@ -58,10 +58,10 @@ async function init(entryPoint){
 /********************************
 *	EVENTS
 ********************************/
-window.onload = () => {
+ window.onload = () => {
 	let entryPoint = document.getElementById('symname').textContent;
 	init(entryPoint);
-};
+ };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };
 document.getElementById("start").onclick = function() { network.startSimulation() };
