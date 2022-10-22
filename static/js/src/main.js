@@ -5,8 +5,9 @@
 *************************************************/
 
 
-import {Repository} from './repository.js';
+// import {Repository} from './repository.js';
 //import {clusteringBySubsystems, clusteringBySubsystem, openCluster} from './clustering.js';
+import {repository} from './repository-module.js';
 import {clustering} from './clustering-module.js';
 import {ui} from './ui-module.js'
 
@@ -17,32 +18,31 @@ const STATUS_DIV = "status";
 
 
 async function init(entryPoint){
-	REPOSITORY = new Repository();
+	// REPOSITORY = new Repository();
 
 	status(STATUS_DIV, "fetching data for entry point: " + entryPoint);
 	ui.debug("fetching data for entry point: " + entryPoint);
-	await REPOSITORY.fetchData(entryPoint);
+	await repository.fetchData(entryPoint);
 	
 	status(STATUS_DIV, "fetched data for entry point: " + entryPoint);
 	ui.debug("fetched data for entry point: " + entryPoint);
 	let container = document.getElementById(NETWORK_DIV);
 
 	ui.debug("network creation...");
-	network = new vis.Network(container, REPOSITORY.networkData, REPOSITORY.options);
+	network = new vis.Network(container, repository.getNetworkData(), repository.getOptions());
 	status(STATUS_DIV, "network created from entry point: " + entryPoint);
 	ui.debug("network created from entry point: " + entryPoint);	
 
 
 	ui.debug("clustering subsystems...");	
-	clustering.clusteringBySubsystems(REPOSITORY.subsystems, network);
-	ui.debug(REPOSITORY.edges.get());
+	clustering.clusteringBySubsystems(repository.getSubsystems(), network);
 	status(STATUS_DIV, "subsystems clustered...");	
 
 
 	// 	CANVAS EVENTS
     network.on("doubleClick", function(params) {
     	if(params.nodes[0] == null) return;
-    	let node = REPOSITORY.nodes.get(params.nodes[0]);
+    	let node = repository.nodes.get(params.nodes[0]);
     	if(node != null)
     		clustering.clusteringBySubsystem(node.group, network);
 	});
@@ -50,8 +50,8 @@ async function init(entryPoint){
     network.on("hold", (params) => clustering.openCluster(params.nodes[0], network)); 
     network.on("click", (params) => ui.debug(params));   
 
-    REPOSITORY.setEdgeSubsystem(REPOSITORY.edges, REPOSITORY.nodes);
-    REPOSITORY.generateArrowsData(REPOSITORY.edges, REPOSITORY.nodes);
+    // repository.setEdgeSubsystem(repository.getEdges(), repository.getNodes());
+    // repository.generateArrowsData(repository.getEdges(), repository.getNodes());
 }
 
 

@@ -1,5 +1,5 @@
 /**
- * In this are declared all functions for clustering a network.
+ * In this module are declared all functions for clustering a network.
  *
  * @author		Gianluca Farinaccio 
  * @date		22.10.2022 
