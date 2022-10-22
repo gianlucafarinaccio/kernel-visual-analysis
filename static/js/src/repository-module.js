@@ -59,13 +59,13 @@ export const repository = function(){
 	let getUsedSubsystems = function(){ return _usedSubsystems; };	
 
 
-	/**
-	 * Fetch data from backend.
-	 * 
-	 * @privacy public
-	 * @param {String} entryPoint -> entry point to fetch from backend 
-	 * @returns None
-	 */
+/**
+ * Fetch data from backend.
+ * 
+ * @privacy public
+ * @param {String} entryPoint: entry point to fetch from backend 
+ * @returns None
+ */
 	let fetchData = async function(entryPoint){
         const response = await fetch('/retrieve/symbol/' + entryPoint, { method: 'GET'});
 		if (!response.ok) 
@@ -80,13 +80,13 @@ export const repository = function(){
 	};
 
 
-	/**
-	 * Parse json response 
-	 * 
-	 * @privacy public
-	 * @param {Object} response -> response to parsing 
-	 * @returns None
-	 */
+/**
+ * Parse json response 
+ * 
+ * @privacy public
+ * @param {Object} response 
+ * @returns None
+ */
 	let parseResponse = function(response){
 		let parsed = vis.parseDOTNetwork(response.graph);
         _nodes = new vis.DataSet(parsed.nodes);
@@ -97,6 +97,21 @@ export const repository = function(){
 	};
 
 
+/**
+ * Parse subsystems from fetched data and add subsystem
+ * to all node of the network.
+ * 
+ * Default symbols format
+ * symbols = [{
+ * 		FuncName: "symbolName", 
+ * 		subsystems: ["s1","s2",...]
+ * 	}];
+ * 
+ * @privacy public
+ * @param {Array} nodes: nodes of the network
+ * @param {Array} symbols: subsystems of each node
+ * @returns None
+ */
     let parseSubsystems = function(nodes, symbols){
         let update = []
         
@@ -117,6 +132,15 @@ export const repository = function(){
         nodes.updateOnly(update);
     };
 
+
+/**
+ * Generate an array which contains all subsystems
+ * contained in fetched data.
+ * 
+ * @privacy public
+ * @param {Array} symbols 
+ * @returns {Array}
+ */
     let generateSubsystemsList = function(symbols){
         const subsystems = ["NONE"];
 
@@ -129,6 +153,15 @@ export const repository = function(){
         return subsystems;
     };
 
+
+/**
+ * Generate an array which contains all subsystems
+ * (used) contained in fetched data.
+ * 
+ * @privacy public
+ * @param {Array} nodes 
+ * @returns {Array}
+ */
     let generateUsedSubsystemsList = function(nodes){
         let all = [];
 
@@ -139,6 +172,15 @@ export const repository = function(){
     };
 
 
+/**
+ * Set the group properties of all edges.
+ * The group of an edge is the same group of the 
+ * 'from' node of the edge.
+ * 
+ * @privacy public
+ * @param {Array} symbols 
+ * @returns {Array}
+ */
     let setEdgeSubsystem = function(edges, nodes){
         edges.forEach(function(properties){
             properties.group = nodes.get(properties.from).group;
@@ -150,7 +192,7 @@ export const repository = function(){
 	 return{
 	 	getOptions : getOptions,
 		getNetworkData : getNetworkData,
-		getNodes :  getNodes,
+		getNodes : getNodes,
 		getEdges : getEdges,
 		getSymbols : getSymbols,
 		getSubsystems : getSubsystems,	
