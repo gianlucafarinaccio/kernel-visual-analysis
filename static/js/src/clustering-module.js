@@ -33,7 +33,7 @@ export const clustering = function(){
  * @returns None
  */
     const clusteringBySubsystem = function(subsystem, network = _network){
-	    const clusterOptions = {
+	   const clusterOptions = {
 	        joinCondition: function(param){
 	            return param.group === subsystem;
 	        },

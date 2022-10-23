@@ -16,6 +16,7 @@ export const repository = function(){
 	let _subsystems = undefined;
 	let _usedSubsystems = undefined;
 	let _jsonResponse = undefined;
+    let _arrowsData = undefined;
 
 	let _options = {
 		interaction: {
@@ -83,7 +84,7 @@ export const repository = function(){
 /**
  * Parse json response 
  * 
- * @privacy public
+ * @privacy private
  * @param {Object} response 
  * @returns None
  */
@@ -107,7 +108,7 @@ export const repository = function(){
  * 		subsystems: ["s1","s2",...]
  * 	}];
  * 
- * @privacy public
+ * @privacy private
  * @param {Array} nodes: nodes of the network
  * @param {Array} symbols: subsystems of each node
  * @returns None
@@ -137,7 +138,7 @@ export const repository = function(){
  * Generate an array which contains all subsystems
  * contained in fetched data.
  * 
- * @privacy public
+ * @privacy private
  * @param {Array} symbols 
  * @returns {Array}
  */
@@ -158,7 +159,7 @@ export const repository = function(){
  * Generate an array which contains all subsystems
  * (used) contained in fetched data.
  * 
- * @privacy public
+ * @privacy private
  * @param {Array} nodes 
  * @returns {Array}
  */
@@ -188,6 +189,44 @@ export const repository = function(){
     };
 
 
+/**
+ * Generate an object which contains info about arrows 
+ * dimension for every subsystem used in the network.
+ * 
+ * @privacy public
+ * @param {Array} edges : all edges in the network
+ * @param {Array} nodes : all nodes in the network
+ * @return {Object} arrowsData : info about 'to' arrow
+ *         dimension for all subsystems used in the network
+ * 
+ * default format for arrowsData {
+ *      sub1 : { sub2: 10, sub3:30, ...},
+ *      sub2 : { sub1: 5, sub5:20, ...},
+ * };
+ * 
+ */
+    let generateArrowsData = function(edges, nodes){      
+        
+        edges.forEach(function(edge){
+            let fromSubsystem = edge.group;
+            console.log(fromSubsystem);
+            
+            if(!_arrowsData.hasOwnProperty(fromSubsystem))
+                _arrowsData[fromSubsystem] = {};
+
+            let toSubsystem = nodes.get(edge.to).group;
+
+            if(fromSubsystem === toSubsystem)
+                return; //skip to next iteration
+
+            if(!_arrowsData[fromSubsystem].hasOwnProperty(toSubsystem))
+                _arrowsData[fromSubsystem][toSubsystem] = 0;
+
+            _arrowsData[fromSubsystem][toSubsystem] +=1;
+        });
+        return _arrowsData;
+    };
+
 
 	 return{
 	 	getOptions : getOptions,
@@ -198,8 +237,7 @@ export const repository = function(){
 		getSubsystems : getSubsystems,	
 		getUsedSubsystems : getUsedSubsystems, 	
 		fetchData : fetchData,
+        generateArrowsData : generateArrowsData,
 	 };
-
-
 
 }();

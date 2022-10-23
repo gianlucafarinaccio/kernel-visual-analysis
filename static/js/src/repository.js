@@ -191,7 +191,6 @@ export class Repository {
             nodes = network.getConnectedNodes(edge);
             items.push([edge, nodes[0].substring(8), nodes[1].substring(8)]); //[edge, from sub, to sub]
         });
-
         return items;
     }
 
