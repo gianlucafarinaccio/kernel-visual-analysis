@@ -16,7 +16,7 @@ export const repository = function(){
 	let _subsystems = undefined;
 	let _usedSubsystems = undefined;
 	let _jsonResponse = undefined;
-    let _arrowsData = undefined;
+    let _arrowsData = {};
 
 	let _options = {
 		interaction: {
@@ -237,6 +237,7 @@ export const repository = function(){
 		getSubsystems : getSubsystems,	
 		getUsedSubsystems : getUsedSubsystems, 	
 		fetchData : fetchData,
+        setEdgeSubsystem : setEdgeSubsystem,
         generateArrowsData : generateArrowsData,
 	 };
 

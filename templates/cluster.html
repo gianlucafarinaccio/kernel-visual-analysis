@@ -20,23 +20,23 @@
         function draw() {
             nodes = new vis.DataSet(
             	[              
-                {
-                    id:1, 
-                    label:"CLUSTER_1",
-                    cid: "CLUSTER_1",
-                    fixed: {x: true, y: true}, 
-                    x:0, y:0, 
-                    color:{
-                        background:'rgba(0,0,0,0.1)', 
-                        border:'rgba(0,0,0,0.5)',
-                        highlight: {
-                            background: 'rgba(0,0,0,0.1)',
-                            border: 'rgba(0,0,0,1)'
-                        },
-                    }, 
-                    size: 100,
-                    shape:'square'},
-                {id:'A',label:'A',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:-40, y:-40},  
+                // {
+                //     id:1, 
+                //     label:"CLUSTER_1",
+                //     cid: "CLUSTER_1",
+                //     fixed: {x: true, y: true}, 
+                //     x:0, y:0, 
+                //     color:{
+                //         background:'rgba(0,0,0,0.1)', 
+                //         border:'rgba(0,0,0,0.5)',
+                //         highlight: {
+                //             background: 'rgba(0,0,0,0.1)',
+                //             border: 'rgba(0,0,0,1)'
+                //         },
+                //     }, 
+                //     size: 100,
+                //     shape:'square'},
+                {id:'A',label:'A',cid:"CLUSTER_A"},  
                 // {   id:'my', 
                 //     shape: 'custom',
                 //         ctxRenderer: function({ ctx, x, y, state: { selected, hover }, style }){
@@ -48,43 +48,43 @@
                 //     }
                 // },
 
-            	{id:'B',label:'B',cid:"CLUSTER_1", fixed: {x: true, y: true}, x:40, y:40, color: 'red'},
-            	{id:'C',label:'C', color: 'red', cid:2},{id:'D',label:'D', color: 'green', cid:2},
+            	{id:'B',label:'B',cid:"CLUSTER_B", color: 'red'},
+            	{id:'C',label:'C', color: 'blue', cid:"CLUSTER_C"},{id:'D',label:'D', color: 'green', cid:"CLUSTER_D" },
                 
-                {x:-100, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:-70, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:-40, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:-10, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:20, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:50, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:80, y:400,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-70, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-40, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:-10, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:20, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:50, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:80, y:400,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:400,fixed: {x: true, y: true}, mass: 10},
                 
-                {x:-100, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:-70, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:-40, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:-10, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:20, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:50, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:80, y:600,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-70, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-40, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:-10, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:20, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:50, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:80, y:600,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:600,fixed: {x: true, y: true}, mass: 10},
 
-                {x:-100, y:430,fixed: {x: true, y: true}, mass: 10},
-                {x:-100, y:460,fixed: {x: true, y: true}, mass: 10},
-                {x:-100, y:490,fixed: {x: true, y: true}, mass: 10},
-                {x:-100, y:520,fixed: {x: true, y: true}, mass: 10},
-                {x:-100, y:550,fixed: {x: true, y: true}, mass: 10},
-                {x:-100, y:580,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:430,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:460,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:490,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:520,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:550,fixed: {x: true, y: true}, mass: 10},
+                // {x:-100, y:580,fixed: {x: true, y: true}, mass: 10},
 
-                {x:110, y:430,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:460,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:490,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:520,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:550,fixed: {x: true, y: true}, mass: 10},
-                {x:110, y:580,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:430,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:460,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:490,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:520,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:550,fixed: {x: true, y: true}, mass: 10},
+                // {x:110, y:580,fixed: {x: true, y: true}, mass: 10},
 
-                {id:'X',x:0, y:500, color:'red',mass: 1},
-                {id:'Y',x:50, y:550, color:'red',mass: 1},
+                // {id:'X',x:0, y:500, color:'red',mass: 1},
+                // {id:'Y',x:50, y:550, color:'red',mass: 1},
 
 
                 ]);
@@ -92,7 +92,7 @@
             edges = new vis.DataSet(
                 [
                 {from:'A', to:'C', arrows:'to', id:"test", arrows:'to'},{from:'B', to:'C', arrows:'to'},
-                {from:'C', to:'A',arrows:'to'},{from:'D', to:'A',arrows:'to'},
+                {from:'C', to:'A',arrows:'to'},{from:'D', to:'A',arrows:'to'},{from:'B', to:'A',arrows:'to'},
                 // {from:'X', to:'Y'},
                 // {from:'X', to:'A',arrows:'from'}
                 ]);
@@ -178,7 +178,7 @@
 
                 if(selected == null) return;
 
-                var clusterNodeId = "NODE_" + selected.cid;
+                var clusterNodeId = selected.cid;
                 var clusterEdgeId = "EDGE_" + selected.cid;
 
                 var clusterOptions = {
@@ -205,7 +205,7 @@
                     //     return clusterNodeProperties;
                     // },
                     clusterNodeProperties: {
-                        label:"CLUSTER_1",
+                        label:selected.cid,
                         id: clusterNodeId,
                         fixed: {x: true, y: true}, 
                         color:{
@@ -220,9 +220,7 @@
                         shape:'square',
                         allowSingleNodeCluster: true                    
                     },
-                    clusterEdgeProperties :{
-                        label:"EDGE_CLUSTER_1",
-                        id: "EDGE_CLUSTER_1",          
+                    clusterEdgeProperties :{        
                     },
                 };
 
@@ -250,7 +248,7 @@
             if(params.nodes.length == 1){
                 n = new String(params.nodes[0]);
                 try{
-                    if(n.startsWith('NODE_CLUSTER_'))
+                    if(n.startsWith('CLUSTER_'))
                         network.clustering.openCluster(params.nodes[0]);
                 } catch(error){
                     console.log(error);

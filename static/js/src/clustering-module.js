@@ -24,6 +24,26 @@ export const clustering = function(){
     }
 
 
+	const getConnectedEdges = function(cluster, network = _network){
+		let connectedEdges = network.getConnectedEdges(cluster);		
+		if(connectedEdges.length === 0)
+			throw new Error("0 connected edges to: " + cluster);
+
+		let items = [];
+		connectedEdges.forEach(function(edge){
+			let arr = network.getConnectedNodes(edge);
+			items.push([edge, arr[0], arr[1]])
+		});
+		return items;
+	};
+
+
+	// [edge, fromnode, tonode]
+	const getArrowScale = function(item, network = _network){
+		
+	};
+
+
 /**
  * Clustering the network by a subsystem.
  * 
@@ -54,6 +74,7 @@ export const clustering = function(){
 	    }
 	    network.clustering.cluster(clusterOptions);
 	    console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
+	    return getConnectedEdges("CLUSTER_"+subsystem, network);
 	};
 
 
@@ -96,6 +117,7 @@ export const clustering = function(){
     /* public */
     return {
     	setDefaultNetwork	: setDefaultNetwork,
+    	getConnectedEdges : getConnectedEdges,
     	clusteringBySubsystem : clusteringBySubsystem,
     	clusteringBySubsystems : clusteringBySubsystems,
     	openCluster : openCluster,

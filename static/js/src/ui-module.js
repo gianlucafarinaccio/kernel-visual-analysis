@@ -9,17 +9,21 @@
  export const ui = function(){
 
     /* private */
-
-
+    const _STATUS_DIV = "status";
 
     const debug = function(message = "no message"){
         console.log(message);
     };
 
 
+    const status = function(message = "message", elementID = _STATUS_DIV ){
+        document.getElementById(elementID).innerText = "STATUS => [ " + message + " ]";
+    };
+
 
     return{
-        debug: debug
+        debug: debug,
+        status : status
     }
 
  }();
