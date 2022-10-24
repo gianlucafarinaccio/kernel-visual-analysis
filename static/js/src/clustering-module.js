@@ -38,11 +38,6 @@ export const clustering = function(){
 	};
 
 
-	// [edge, fromnode, tonode]
-	const getArrowScale = function(item, network = _network){
-		
-	};
-
 
 /**
  * Clustering the network by a subsystem.
@@ -75,6 +70,10 @@ export const clustering = function(){
 	    network.clustering.cluster(clusterOptions);
 	    console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
 	    return getConnectedEdges("CLUSTER_"+subsystem, network);
+	    // [edge,fromnode,tonode]
+	    //todim = repo.getArrowScale(from,to); tonode and fromnode could be clusternode or node
+	    //fromdim = repo.getArrowScale(to,from); tonode and fromnode could be clusternode or node
+	    // update edge with fromdim and to dim
 	};
 
 

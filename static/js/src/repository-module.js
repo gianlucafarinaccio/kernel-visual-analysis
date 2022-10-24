@@ -228,6 +228,19 @@ export const repository = function(){
     };
 
 
+
+    // a function which return an array [fromdim, to dim]
+    // where todim and fromdim are the scale factors of the arrow
+    // between this two nodes
+    // from and to could be nodes or cluster-nodes
+    // remember... cluster-nodes are identified with id 'CLUSTER_[subsname]'
+    // if one of two params is a normal-node, the scale factor can be 
+    // retrieved from the network data 
+    const getArrowsScaleFactor = function(from, to){
+
+    };
+
+
 	 return{
 	 	getOptions : getOptions,
 		getNetworkData : getNetworkData,
