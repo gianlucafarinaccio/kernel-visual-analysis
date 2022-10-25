@@ -228,6 +228,21 @@ export const repository = function(){
     };
 
 
+    const isSubsystem = function (nodeID){
+        return nodeID.startsWith('CLUSTER_');
+    };
+
+    const getSubsystemID = function(nodeID){
+        if(isSubsystem(nodeID))
+            return nodeID.substring(8);
+        else 
+            return undefined;
+    }
+
+    const containsNode = function(nodeID){
+        return _nodes.get(nodeID) != undefined;
+    }
+
 
     // a function which return an array [fromdim, to dim]
     // where todim and fromdim are the scale factors of the arrow
@@ -236,8 +251,50 @@ export const repository = function(){
     // remember... cluster-nodes are identified with id 'CLUSTER_[subsname]'
     // if one of two params is a normal-node, the scale factor can be 
     // retrieved from the network data 
-    const getArrowsScaleFactor = function(from, to){
+    const getArrowScaleFactor = function(fromnode, tonode){
+        let scaleFactor = 0;
+        
+        // @case1 [CLUSTER --> CLUSTER]
+        if(isSubsystem(fromnode) && isSubsystem(tonode)){
 
+            fromnode = getSubsystemID(fromnode);
+            tonode = getSubsystemID(tonode);
+            scaleFactor = _arrowsData[fromnode];
+            if (scaleFactor == undefined)
+                return 0;
+            
+            scaleFactor = _arrowsData[fromnode][tonode];
+            if(scaleFactor == undefined)
+                return 0;          
+        }
+
+        // @case2 [CLUSTER --> NODE] 
+        else if(isSubsystem(fromnode) && containsNode(tonode)){
+            fromnode = getSubsystemID(fromnode);   
+            let x = _edges.get({filter: function(item){
+                return (item.to === tonode) && (item.group === fromnode);
+            }});
+            scaleFactor = x.length;
+        }
+
+
+        // @case3 [NODE --> CLUSTER]
+        else if(containsNode(fromnode) && isSubsystem(tonode)){
+            tonode = getSubsystemID(tonode);
+            let x = _edges.get({filter: function(item){
+                if(item.from === fromnode){
+                    return (_nodes.get(item.to).group === tonode)
+                }
+                else
+                    return false;
+            }});
+            scaleFactor = x.length;
+        }
+
+        else
+            return 0
+
+        return Math.log(scaleFactor) / Math.log(2);
     };
 
 
@@ -252,6 +309,7 @@ export const repository = function(){
 		fetchData : fetchData,
         setEdgeSubsystem : setEdgeSubsystem,
         generateArrowsData : generateArrowsData,
+        getArrowScaleFactor : getArrowScaleFactor
 	 };
 
 }();

@@ -40,7 +40,7 @@ async function init(entryPoint){
     	if(params.nodes[0] == null) return;
     	let node = repository.getNodes().get(params.nodes[0]);
     	if(node != null)
-    		console.log(clustering.clusteringBySubsystem(node.group, network));
+    		console.log(clustering.clusteringBySubsystem(node.group, repository, network));
 	});
 
     network.on("hold", (params) => clustering.openCluster(params.nodes[0], network)); 
@@ -48,6 +48,7 @@ async function init(entryPoint){
 
     repository.setEdgeSubsystem(repository.getEdges(), repository.getNodes());
     repository.generateArrowsData(repository.getEdges(), repository.getNodes());
+    clustering.clusteringBySubsystems(repository.getUsedSubsystems(), repository, network);
 }
 
 

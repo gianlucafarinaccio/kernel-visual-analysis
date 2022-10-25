@@ -32,7 +32,9 @@ export const clustering = function(){
 		let items = [];
 		connectedEdges.forEach(function(edge){
 			let arr = network.getConnectedNodes(edge);
-			items.push([edge, arr[0], arr[1]])
+			let x = [edge, arr[0], arr[1] ];
+			console.log(x);
+			items.push(x);
 		});
 		return items;
 	};
@@ -47,7 +49,7 @@ export const clustering = function(){
  * @param {Object} network -> Visjs network
  * @returns None
  */
-    const clusteringBySubsystem = function(subsystem, network = _network){
+    const clusteringBySubsystem = function(subsystem, repository, network = _network){
 	   const clusterOptions = {
 	        joinCondition: function(param){
 	            return param.group === subsystem;
@@ -67,13 +69,32 @@ export const clustering = function(){
 	            id: "EDGE_CLUSTER_"+subsystem,          
 	        },
 	    }
-	    network.clustering.cluster(clusterOptions);
-	    console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
-	    return getConnectedEdges("CLUSTER_"+subsystem, network);
+	   network.clustering.cluster(clusterOptions);
+	   console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
+	   let connectedEdges = getConnectedEdges("CLUSTER_"+subsystem, network);
 	    // [edge,fromnode,tonode]
 	    //todim = repo.getArrowScale(from,to); tonode and fromnode could be clusternode or node
 	    //fromdim = repo.getArrowScale(to,from); tonode and fromnode could be clusternode or node
 	    // update edge with fromdim and to dim
+	   connectedEdges.forEach(function(item){
+	   	console.log(item);
+	   	let todim = repository.getArrowScaleFactor(item[1], item[2]);
+	   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
+	   	network.clustering.updateEdge(item[0], 
+	   		{
+	   			arrows:{
+	   				to:{
+	   					enabled: true,
+	   					scaleFactor: todim
+	   				},
+	   				from:{
+	   					enabled: true,
+	   					scaleFactor: fromdim
+	   				}
+	   			}
+	   		});	    	
+	   });
+
 	};
 
 
@@ -85,9 +106,9 @@ export const clustering = function(){
  * @param {Object} network -> Visjs network
  * @returns None
  */
-    const clusteringBySubsystems = function(subsystems, network = _network){
+    const clusteringBySubsystems = function(subsystems, repository, network = _network){
 		subsystems.forEach(function(subsystem){
-		    clusteringBySubsystem(subsystem, network);
+		    clusteringBySubsystem(subsystem, repository, network);
 		});
 	};
 
