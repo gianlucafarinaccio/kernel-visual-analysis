@@ -40,7 +40,6 @@ export const clustering = function(){
 	};
 
 
-
 /**
  * Clustering the network by a subsystem.
  * 
@@ -49,7 +48,7 @@ export const clustering = function(){
  * @param {Object} network -> Visjs network
  * @returns None
  */
-    const clusteringBySubsystem = function(subsystem, repository, network = _network){
+    const clusteringBySubsystem = function(subsystem, repository, network = _network, scale = false){
 	   const clusterOptions = {
 	        joinCondition: function(param){
 	            return param.group === subsystem;
@@ -62,40 +61,51 @@ export const clustering = function(){
 	        	mass: 5,
 	        	shape: 'square', size:50,
 				font: { bold: { size: 24 } },
-				allowSingleNodeCluster: true },
-
-	        clusterEdgeProperties :{
-	            label:"EDGE_CLUSTER_"+subsystem,
-	            id: "EDGE_CLUSTER_"+subsystem,          
-	        },
+				allowSingleNodeCluster: true 
+			 },
 	    }
 	   network.clustering.cluster(clusterOptions);
 	   console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
-	   let connectedEdges = getConnectedEdges("CLUSTER_"+subsystem, network);
-	    // [edge,fromnode,tonode]
-	    //todim = repo.getArrowScale(from,to); tonode and fromnode could be clusternode or node
-	    //fromdim = repo.getArrowScale(to,from); tonode and fromnode could be clusternode or node
-	    // update edge with fromdim and to dim
-	   connectedEdges.forEach(function(item){
-	   	console.log(item);
-	   	let todim = repository.getArrowScaleFactor(item[1], item[2]);
-	   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
-	   	network.clustering.updateEdge(item[0], 
-	   		{
-	   			arrows:{
-	   				to:{
-	   					enabled: true,
-	   					scaleFactor: todim
-	   				},
-	   				from:{
-	   					enabled: true,
-	   					scaleFactor: fromdim
-	   				}
-	   			}
-	   		});	    	
-	   });
+	   
+	   if(scale){
+		   let connectedEdges = getConnectedEdges("CLUSTER_"+subsystem, network);
+		   connectedEdges.forEach(function(item){
+		   	console.log(item);
+		   	let todim = repository.getArrowScaleFactor(item[1], item[2]);
+		   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
+		   	network.clustering.updateEdge(item[0], 
+		   		{
+		   			arrows:{
+		   				to:{
+		   					enabled: true,
+		   					scaleFactor: todim
+		   				},
+		   				from:{
+		   					enabled: true,
+		   					scaleFactor: fromdim
+		   				}
+		   			}
+		   		});	    	
+		   });
+		}
 
 	};
+
+
+	const updateClusteredEdge = function(item, network = _network){
+	      network.updateEdge(item[0], {
+	          arrows:{
+	              to:{
+	                  enabled: true,
+	                  scaleFactor: item[2]
+	              },
+	              from:{
+	                  enabled: true,
+	                  scaleFactor: item[1]
+	              }
+	          }
+	      });
+	}
 
 
 /**
@@ -106,10 +116,18 @@ export const clustering = function(){
  * @param {Object} network -> Visjs network
  * @returns None
  */
-    const clusteringBySubsystems = function(subsystems, repository, network = _network){
+	const clusteringBySubsystems = function(subsystems, repository, network = _network){
 		subsystems.forEach(function(subsystem){
 		    clusteringBySubsystem(subsystem, repository, network);
 		});
+
+		let items = repository.getAllClusteredEdges(repository.getUsedSubsystems(), network);
+		items.forEach(function(item){
+	   	let todim = repository.getArrowScaleFactor(item[1], item[2]);
+	   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
+	   	updateClusteredEdge([item[0],fromdim,todim], network);
+		});   	
+
 	};
 
 

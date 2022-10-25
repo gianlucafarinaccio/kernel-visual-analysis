@@ -40,7 +40,7 @@ async function init(entryPoint){
     	if(params.nodes[0] == null) return;
     	let node = repository.getNodes().get(params.nodes[0]);
     	if(node != null)
-    		console.log(clustering.clusteringBySubsystem(node.group, repository, network));
+    		console.log(clustering.clusteringBySubsystem(node.group, repository, network, true));
 	});
 
     network.on("hold", (params) => clustering.openCluster(params.nodes[0], network)); 
