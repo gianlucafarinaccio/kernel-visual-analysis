@@ -43,7 +43,9 @@ async function init(entryPoint){
 
     repository.setEdgeSubsystem(repository.getEdges(), repository.getNodes());
     repository.generateArrowsData(repository.getEdges(), repository.getNodes());
-    clustering.clusteringBySubsystems(repository.getUsedSubsystems(), repository, network);
+    
+    clustering.clusteringBySubsystems(repository.getUsedSubsystems(), repository, network)
+
 }
 
 
@@ -52,7 +54,7 @@ async function init(entryPoint){
 ********************************/
  window.onload = () => {
 	let entryPoint = document.getElementById('symname').textContent;
-	init(entryPoint);
+		init(entryPoint);
  };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };

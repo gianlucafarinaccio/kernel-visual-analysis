@@ -58,10 +58,10 @@ export const clustering = function(){
 	        	label: ("CLUSTER_"+subsystem), 
 	        	group: subsystem, 
 	        	mass: 5,
-	        	shape: 'square', size:50,
-				font: { bold: { size: 24 } },
-				allowSingleNodeCluster: true 
-			 },
+	        	shape: 'square', size:100,
+						font: { size: 70 } ,
+						allowSingleNodeCluster: true 
+			 		},
 	   };
 
 	   network.clustering.cluster(clusterOptions);
@@ -79,6 +79,7 @@ export const clustering = function(){
 
 
 	const dynamicArrow = function(item, network = _network){
+			console.log("** CLUSTERING: dynamicArrow() => " + item);
       network.updateEdge(item[0], {
           arrows:{
               to:{
@@ -103,9 +104,9 @@ export const clustering = function(){
  * @returns None
  */
 	const clusteringBySubsystems = function(subsystems, repository, network = _network){
-		subsystems.forEach(function(subsystem){
-		    clusteringBySubsystem(subsystem, repository, network);
-		});
+			subsystems.forEach(function(subsystem){
+			    clusteringBySubsystem(subsystem, repository, network);
+			});
 
 		let items = getEdges(repository.getUsedSubsystems(), network);
 		items.forEach(function(item){

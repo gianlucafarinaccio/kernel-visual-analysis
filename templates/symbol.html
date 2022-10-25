@@ -18,11 +18,27 @@
     </div>
     <div hidden id="symname">{{symbol_name}}</div>
     <div class="container  mx-5 my-2 p-3" id="status"> ... </div>
+
+    <div class="container">
+        <div class="row my-1">             
+        </div>
+        <div hidden id="spinner" class="row my-1 justify-content-center align-content-center card" style="height:480px;">
+            <div class="spinner-border" role="status">
+            </div>
+        </div>      
+        <div   id="network-row" class="row my-1">
+            <div id="network" class="container card " style="height:500px;">    
+            </div>  
+        </div>          
+        <div hidden class="row my-1">
+                <div class="container card">    </div>            
+        </div>            
+    </div>
     <div class="container mx-5 my-2 p-3"> 
         <button id="stop" type="button" class="btn btn-danger mx-1" >Stop</button>
         <button id="start" type="button" class="btn btn-success mx-1" >Start</button>
     </div>
-    <div id="network" class="container card mx-5 my-2 p-5" style="width: auto; height: 700px;">    </div>
+
 </body>
 {% endblock %}
 
