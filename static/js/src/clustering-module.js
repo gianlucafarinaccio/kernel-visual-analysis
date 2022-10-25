@@ -33,7 +33,6 @@ export const clustering = function(){
 		connectedEdges.forEach(function(edge){
 			let arr = network.getConnectedNodes(edge);
 			let x = [edge, arr[0], arr[1] ];
-			console.log(x);
 			items.push(x);
 		});
 		return items;
@@ -48,7 +47,7 @@ export const clustering = function(){
  * @param {Object} network -> Visjs network
  * @returns None
  */
-    const clusteringBySubsystem = function(subsystem, repository, network = _network, scale = false){
+   const clusteringBySubsystem = async function(subsystem, repository, network = _network, scale = false){
 	   const clusterOptions = {
 	        joinCondition: function(param){
 	            return param.group === subsystem;
@@ -63,48 +62,35 @@ export const clustering = function(){
 				font: { bold: { size: 24 } },
 				allowSingleNodeCluster: true 
 			 },
-	    }
+	   };
+
 	   network.clustering.cluster(clusterOptions);
 	   console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
 	   
 	   if(scale){
 		   let connectedEdges = getConnectedEdges("CLUSTER_"+subsystem, network);
 		   connectedEdges.forEach(function(item){
-		   	console.log(item);
 		   	let todim = repository.getArrowScaleFactor(item[1], item[2]);
 		   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
-		   	network.clustering.updateEdge(item[0], 
-		   		{
-		   			arrows:{
-		   				to:{
-		   					enabled: true,
-		   					scaleFactor: todim
-		   				},
-		   				from:{
-		   					enabled: true,
-		   					scaleFactor: fromdim
-		   				}
-		   			}
-		   		});	    	
-		   });
+		   	dynamicArrow([item[0], fromdim, todim] ,network);
+			});
 		}
-
 	};
 
 
-	const updateClusteredEdge = function(item, network = _network){
-	      network.updateEdge(item[0], {
-	          arrows:{
-	              to:{
-	                  enabled: true,
-	                  scaleFactor: item[2]
-	              },
-	              from:{
-	                  enabled: true,
-	                  scaleFactor: item[1]
-	              }
-	          }
-	      });
+	const dynamicArrow = function(item, network = _network){
+      network.updateEdge(item[0], {
+          arrows:{
+              to:{
+                  enabled: true,
+                  scaleFactor: item[2]
+              },
+              from:{
+                  enabled: true,
+                  scaleFactor: item[1]
+              }
+          }
+      });
 	}
 
 
@@ -121,15 +107,36 @@ export const clustering = function(){
 		    clusteringBySubsystem(subsystem, repository, network);
 		});
 
-		let items = repository.getAllClusteredEdges(repository.getUsedSubsystems(), network);
+		let items = getEdges(repository.getUsedSubsystems(), network);
 		items.forEach(function(item){
-	   	let todim = repository.getArrowScaleFactor(item[1], item[2]);
-	   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
-	   	updateClusteredEdge([item[0],fromdim,todim], network);
+	   	let todim = repository.getArrowScaleFactor("CLUSTER_"+item[1], "CLUSTER_"+item[2]);
+	   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
+	   	dynamicArrow([item[0],fromdim,todim], network);
 		});   	
 
 	};
 
+
+	const getEdges = function(subsystems, network = _network){
+	  let set = new Set();
+	  subsystems.forEach(function(subsystem){
+	      let connectedEdges = network.getConnectedEdges("CLUSTER_"+ subsystem);
+	      connectedEdges.forEach(function(edge){
+          	let nodes = network.getConnectedNodes(edge);
+          	if(nodes[0].startsWith("CLUSTER_") && nodes[1].startsWith("CLUSTER_"))
+					set.add(edge);
+	      });
+	  });
+	  
+	  let items = []; //pattern [edge, from node, to node]
+
+	  [... set].forEach(function(edge){
+	      let nodes = []; // pattern [from node, to node]
+	      nodes = network.getConnectedNodes(edge);
+	      items.push([edge, nodes[0].substring(8), nodes[1].substring(8)]); //[edge, from sub, to sub]
+	  });
+	  return items;
+	};
 
 /**
  * Open a cluster.
@@ -142,7 +149,7 @@ export const clustering = function(){
 	const openCluster = function(clusterID, network = _network){
 		try{
 		    if(clusterID.startsWith('CLUSTER_')){
-		        network.clustering.openCluster(clusterID);
+		      network.clustering.openCluster(clusterID);
 		    	console.log("** CLUSTERING: openCluster() => opening " + clusterID);   
 		    }
 		} 

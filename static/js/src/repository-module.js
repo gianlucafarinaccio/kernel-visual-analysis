@@ -292,34 +292,11 @@ export const repository = function(){
         }
 
         else
-            return 0
+            return 0;
 
         if(scaleFactor < 3) return scaleFactor;
         return Math.log(scaleFactor) / Math.log(2);
     };
-
-
-    let getAllClusteredEdges = function(subsystems, network = _network){
-        let set = new Set();
-        console.log(subsystems.forEach(function(subsystem){
-            let connectedEdges = network.getConnectedEdges("CLUSTER_"+ subsystem);
-            connectedEdges.forEach(function(edge){
-                let nodes = network.getConnectedNodes(edge);
-                if(nodes[0].startsWith("CLUSTER_") && nodes[1].startsWith("CLUSTER_"))
-                    set.add(edge);
-            });
-        }));
-        
-        let items = []; //pattern [edge, from node, to node]
-
-        [... set].forEach(function(edge){
-            let nodes = []; // pattern [from node, to node]
-            nodes = network.getConnectedNodes(edge);
-            items.push([edge, nodes[0].substring(8), nodes[1].substring(8)]); //[edge, from sub, to sub]
-        });
-        return items;
-    }
-
 
 
 	 return{
@@ -334,7 +311,6 @@ export const repository = function(){
         setEdgeSubsystem : setEdgeSubsystem,
         generateArrowsData : generateArrowsData,
         getArrowScaleFactor : getArrowScaleFactor,
-        getAllClusteredEdges : getAllClusteredEdges
 	 };
 
 }();

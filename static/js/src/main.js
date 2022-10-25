@@ -30,17 +30,12 @@ async function init(entryPoint){
 	ui.debug("network created from entry point: " + entryPoint);	
 
 
-	// ui.debug("clustering subsystems...");	
-	// clustering.clusteringBySubsystems(repository.getSubsystems(), network);
-	// status(STATUS_DIV, "subsystems clustered...");	
-
-
 	// 	CANVAS EVENTS
     network.on("doubleClick", function(params) {
     	if(params.nodes[0] == null) return;
     	let node = repository.getNodes().get(params.nodes[0]);
     	if(node != null)
-    		console.log(clustering.clusteringBySubsystem(node.group, repository, network, true));
+    		clustering.clusteringBySubsystem(node.group, repository, network, true);
 	});
 
     network.on("hold", (params) => clustering.openCluster(params.nodes[0], network)); 
