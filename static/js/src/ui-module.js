@@ -10,6 +10,9 @@
 
     /* private */
     const _STATUS_DIV = "status";
+    const _SEARCH_BUTTON = "search";
+    const _SEARCH_FIELD = "search-field";
+
 
     const debug = function(message = "no message"){
         console.log(message);
@@ -21,9 +24,19 @@
     };
 
 
+    const search = function(){
+        let word = document.getElementById(_SEARCH_FIELD).value;
+        console.log(word);
+    };
+
+    const init = function(){
+        document.getElementById(_SEARCH_BUTTON).onclick = search;
+    };
+
     return{
         debug: debug,
-        status : status
+        status : status,
+        init: init,
     }
 
  }();

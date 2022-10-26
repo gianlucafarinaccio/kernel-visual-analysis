@@ -54,7 +54,8 @@ async function init(entryPoint){
 ********************************/
  window.onload = () => {
 	let entryPoint = document.getElementById('symname').textContent;
-		init(entryPoint);
+		ui.init();
+		//init(entryPoint);
  };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };

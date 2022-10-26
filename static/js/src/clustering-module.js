@@ -55,7 +55,7 @@ export const clustering = function(){
 
 	        clusterNodeProperties:{ 
 	        	id : ("CLUSTER_"+subsystem), 
-	        	label: ("CLUSTER_"+subsystem), 
+	        	label: subsystem, 
 	        	group: subsystem, 
 	        	mass: 5,
 	        	shape: 'square', size:100,
@@ -81,6 +81,7 @@ export const clustering = function(){
 	const dynamicArrow = function(item, network = _network){
 			console.log("** CLUSTERING: dynamicArrow() => " + item);
       network.updateEdge(item[0], {
+      		width: (item[1] + item[2]),
           arrows:{
               to:{
                   enabled: true,
