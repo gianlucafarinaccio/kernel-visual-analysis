@@ -13,6 +13,8 @@
     const _SEARCH_BUTTON = "search";
     const _SEARCH_FIELD = "search-field";
 
+    let _network = undefined;
+    let _repository = undefined;
 
     const debug = function(message = "no message"){
         console.log(message);
@@ -26,17 +28,32 @@
 
     const search = function(){
         let word = document.getElementById(_SEARCH_FIELD).value;
-        console.log(word);
+        if(word != ""){
+            let result = _repository.getNodes().get({filter : function(item){
+                return item.id.startsWith(word);
+            }}); 
+            console.log(result);
+        }
     };
 
     const init = function(){
         document.getElementById(_SEARCH_BUTTON).onclick = search;
     };
 
+    const setDefaultNetwork = function(network){
+        _network = network;
+    };
+
+    const setDefaultRepository = function(repository){
+        _repository = repository;
+    };
+
     return{
         debug: debug,
         status : status,
         init: init,
-    }
+        setDefaultNetwork : setDefaultNetwork,
+        setDefaultRepository : setDefaultRepository,
+    };
 
  }();
