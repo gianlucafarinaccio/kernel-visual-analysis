@@ -54,15 +54,15 @@ async function init(entryPoint){
 ********************************/
  window.onload = () => {
 	let entryPoint = document.getElementById('symname').textContent;
-		ui.init();
-		ui.setDefaultNetwork(network);
-		ui.setDefaultRepository(repository);
-		init(entryPoint);
+	REPOSITORY = repository;
+	ui.init();
+	ui.setDefaultNetwork(network);
+	ui.setDefaultRepository(repository);
+	//init(entryPoint);
  };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };
 document.getElementById("start").onclick = function() { network.startSimulation() };
-
-
+document.getElementById("fit").onclick = function() { network.fit() };
 
 
