@@ -65,7 +65,7 @@ async function init(entryPoint){
 
 	}
 
-	//init(entryPoint);
+	init(entryPoint);
  };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };
