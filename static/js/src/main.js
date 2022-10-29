@@ -58,7 +58,7 @@ async function init(entryPoint){
 	ui.init();
 	ui.setDefaultNetwork(network);
 	ui.setDefaultRepository(repository);
-	//init(entryPoint);
+	init(entryPoint);
  };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };

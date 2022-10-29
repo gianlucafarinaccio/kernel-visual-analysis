@@ -28,11 +28,20 @@
 
     const search = function(){
         let word = document.getElementById(_SEARCH_FIELD).value;
+        let finded = new Set();
+
+        console.log(word);
         if(word != ""){
-            let result = _repository.getNodes().get({filter : function(item){
-                return item.id.startsWith(word);
-            }}); 
-            console.log(result);
+            let result = _repository.getNodes().get().forEach(function(item){
+                if(item.id.startsWith(word))
+                    finded.add("CLUSTER_" + item.group);
+            }); 
+
+            console.log(finded);
+            if(finded.size < 30){
+                network.selectNodes([... finded]);
+                console.log(finded);
+            }
         }
     };
 

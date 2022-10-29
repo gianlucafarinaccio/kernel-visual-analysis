@@ -239,6 +239,7 @@ export const repository = function(){
             return undefined;
     }
 
+
     const containsNode = function(nodeID){
         return _nodes.get(nodeID) != undefined;
     }
