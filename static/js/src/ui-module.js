@@ -17,6 +17,8 @@
     let _network = undefined;
     let _repository = undefined;
 
+    let _unfocusedNodes = [];
+
     const debug = function(message = "no message"){
         console.log(message);
     };
@@ -32,21 +34,23 @@
         let finded = new Set();
 
         console.log(word);
-        if(word != "" || finded.size == 0){
+        if(word != ""){
             let result = _repository.getNodes().get().forEach(function(item){
                 if(item.id.startsWith(word))
                     finded.add("CLUSTER_" + item.group);
             }); 
 
-            console.log(finded);
-            if(finded.size < 30){
+            ui.status("** UI: search(" + word + ") => " + [...finded].toString());
+            if(finded.size < 30 && finded.size > 0){
                 _repository.getUsedSubsystems().forEach(function(subs){
                     setTimeout(function(){
-                        if(!finded.has("CLUSTER_" + subs))
+                        if(!finded.has("CLUSTER_" + subs)){
                             network.updateClusteredNode("CLUSTER_" + subs, {opacity: 0.1});
+                            _unfocusedNodes.push("CLUSTER_"+subs);
+                        }
                         else
                             network.updateClusteredNode("CLUSTER_" + subs, {opacity: 1});
-                    },0);
+                    },50);
                 });
                 network.selectNodes([... finded]);
                 console.log(finded);
@@ -57,11 +61,12 @@
 
     const resetFilter = function(){
         network.unselectAll();
-        _repository.getUsedSubsystems().forEach(function(subs){
+        _unfocusedNodes.forEach(function(node){
             setTimeout(function(){
-                network.updateClusteredNode("CLUSTER_" + subs, {opacity: 1});
-            },0);
+                network.updateClusteredNode(node, {opacity: 1});
+            },50);
         });
+        _unfocusedNodes = [];
     };
 
 

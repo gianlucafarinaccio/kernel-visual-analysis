@@ -12,28 +12,19 @@
         let network = null;
         let REPOSITORY = null;
     </script>
-    <div class="container mx-5 my-4 p-1">
-        <a type="button" href="/"  class="btn btn-primary mx-1" >Home</a>
-        <h1>/symbol/{{symbol_name}}</h1>
-    </div>
-    <div hidden id="symname">{{symbol_name}}</div>
-    <div class="container  mx-5 my-2 p-3" id="status"> ... </div>
 
-    <div class="container">
-        <div class="row my-1">             
+    <div class="container card my-5 p-3">
+        <div class="col-1">
+        <a type="button" href="/"  class="btn btn-outline-dark" >Home</a>           
         </div>
-        <div hidden id="spinner" class="row my-1 justify-content-center align-content-center card" style="height:480px;">
-            <div class="spinner-border" role="status">
-            </div>
-        </div>      
-        <div   id="network-row" class="row my-1">
-            <div id="network" class="container card " style="height:500px;">    
-            </div>  
-        </div>          
-        <div hidden class="row my-1">
-                <div class="container card">    </div>            
-        </div>            
+ 
     </div>
+
+
+    <div hidden id="symname">{{symbol_name}}</div>
+
+           
+
     <div class="container mx-5 my-2 p-3 border">
         <div class="row border">
             <div class="col-1 border d-flex align-items-center justify-content-center">
@@ -55,9 +46,11 @@
                 <button id="reset-filter" type="button" class="btn btn-outline-success" >reset</button>                
             </div>
         </div> 
-
-  
     </div>
+
+    <div class="container  mx-5 my-2 p-3 border " id="status"> ... </div>
+
+    <div id="network" class="card " style="height:500px;">    
 
 </body>
 {% endblock %}

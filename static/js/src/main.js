@@ -58,14 +58,7 @@ async function init(entryPoint){
 	ui.init();
 	ui.setDefaultNetwork(network);
 	ui.setDefaultRepository(repository);
-	for (var i = 0; i < 50; i++) {
-		setTimeout(function() {
-			ui.status(i);
-		}, 1000);
-
-	}
-
-	init(entryPoint);
+	//init(entryPoint);
  };
 
 document.getElementById("stop").onclick = function() { network.stopSimulation() };

@@ -6,6 +6,8 @@
  * 
  */
 
+import {ui} from './ui-module.js' 
+
 export const repository = function(){
 	
 /* private */
@@ -27,8 +29,9 @@ export const repository = function(){
 	    edges: {
 	        smooth: {
 	            forceDirection: "none",
-	            roundness: 0
-	        }
+	            roundness: 0,
+	        },
+            arrowStrikethrough: false,
 	    },
 	    layout: {
 	        improvedLayout: false,

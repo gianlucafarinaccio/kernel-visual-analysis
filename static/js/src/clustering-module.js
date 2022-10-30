@@ -6,6 +6,8 @@
  * 
  */
 
+import {ui} from './ui-module.js' 
+
 export const clustering = function(){
 
 	/* private */
@@ -66,6 +68,7 @@ export const clustering = function(){
 
 	   network.clustering.cluster(clusterOptions);
 	   console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
+	   ui.status("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
 	   
 	   if(scale){
 		   let connectedEdges = getConnectedEdges("CLUSTER_"+subsystem, network);
@@ -80,6 +83,7 @@ export const clustering = function(){
 
 	const dynamicArrow = function(item, network = _network){
 			console.log("** CLUSTERING: dynamicArrow() => " + item);
+			ui.status("** CLUSTERING: dynamicArrow() => " + item);
       network.updateEdge(item[0], {
       		width: (item[1] + item[2]),
           arrows:{
@@ -111,11 +115,13 @@ export const clustering = function(){
 
 		let items = getEdges(repository.getUsedSubsystems(), network);
 		items.forEach(function(item){
-	   	let todim = repository.getArrowScaleFactor("CLUSTER_"+item[1], "CLUSTER_"+item[2]);
-	   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
-	   	dynamicArrow([item[0],fromdim,todim], network);
-		});   	
+			setTimeout(function(){
+		   	let todim = repository.getArrowScaleFactor("CLUSTER_"+item[1], "CLUSTER_"+item[2]);
+		   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
+		   	dynamicArrow([item[0],fromdim,todim], network);
+			},100);
 
+		});   	
 	};
 
 
