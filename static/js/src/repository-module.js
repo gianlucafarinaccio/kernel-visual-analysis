@@ -20,7 +20,9 @@ export const repository = function(){
 
 	let _options = {
 		interaction: {
-	        zoomSpeed: 3
+	        zoomSpeed: 3,
+            hideEdgesOnDrag: true,
+            hideEdgesOnZoom: true,
 	    },
 	    edges: {
 	        smooth: {
