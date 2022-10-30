@@ -4,7 +4,7 @@
 
 {% block body %}
 <body>
-	<div class="container card m-5 p-5">
+<!-- 	<div class="card m-5 p-5">
 		<h1>Kernel Visual Analysis</h1>
 		<form id="symbol-name-form" action="/symbol" method="GET">
 			<div class="mb-3">
@@ -13,6 +13,33 @@
 		  	</div>
 		  <button type="submit" class="btn btn-primary">Draw</button>
 		</form>
+	</div>	 -->
+
+	<div class="card m-5 p-5 rounded-4 bg-dark">
+		<div class="card-header">
+			<h1 class="text-white ">Kernel Visual Analysis</h1>	
+			<p class="text-white mt-3"> Type an available entry point </p>		
+		</div>
+
+		<div class="card-body">
+			<form id="symbol-name-form" action="/symbol" method="GET">
+				<div class="input-group mt-1 w-50">
+					<input type="text" name="symbol-name" class="form-control" placeholder="symbol name">
+					<button class="btn btn-light" type="submit">Draw</button>
+				</div>			
+			</form>			
+		</div>
+
+		<div class="card-footer mt-5 pt-5">
+			<div class="text-center text-white ">Gianluca Farinaccio - @isRoutine</div>					
+			<div class="text-center text-white ">Università degli Studi "RomaTre"</div>	
+			<div class="text-center text-white ">Oct. 2022</div>	
+			<div class="d-flex justify-content-center mt-3">
+			    <a href="https://www.github.com/isRoutine/kernel-visual-analysis">
+	     			<img src="{{url_for('static', filename='media/icons/github.png')}}">
+	  			</a>
+			</div>
+		</div>
 	</div>	
 </body>
 {% endblock %}
