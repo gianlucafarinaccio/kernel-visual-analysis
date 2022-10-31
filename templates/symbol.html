@@ -13,19 +13,19 @@
         let REPOSITORY = null;
     </script>
 
-    <div class="container card my-5 p-3">
+<!--     <div class="container card my-5 p-3">
         <div class="col-1">
         <a type="button" href="/"  class="btn btn-outline-dark" >Home</a>           
         </div>
  
-    </div>
+    </div> -->
 
 
     <div hidden id="symname">{{symbol_name}}</div>
 
            
 
-    <div class="container mx-5 my-2 p-3 border">
+<!--     <div class="container mx-5 my-2 p-3 border">
         <div class="row border">
             <div class="col-1 border d-flex align-items-center justify-content-center">
                 <button id="stop" type="button" class="btn btn-danger" >Stop</button>               
@@ -46,11 +46,70 @@
                 <button id="reset-filter" type="button" class="btn btn-outline-success" >reset</button>                
             </div>
         </div> 
-    </div>
+    </div> -->
 
-    <div class="container  mx-5 my-2 p-3 border " id="status"> ... </div>
+<!--     <div class="container  mx-5 my-2 p-3 border " id="status"> ... </div> -->
 
-    <div id="network" class="card " style="height:500px;">    
+<!--     <div id="network" class="card " style="height:500px;">    -->
+
+    <div class="card m-2 p-5 rounded-4 bg-dark">
+        <div class="card-header">
+            <h1 class="text-white ">Kernel Visual Analysis</h1> 
+            <h5 class="text-white mt-3"> {{symbol_name}}</h5>     
+        </div>
+
+        <div class="card-body my-5 mx-1">
+            <div class="row d-flex flex-row mb-0 py-3 bg-white border border-bottom rounded-top">
+
+                <div class="col-6 d-flex justify-content-evenly ">
+                    <div class="col d-flex justify-content-center ">
+                        <button id="stop" type="button" class="btn btn-outline-danger" >Stop</button>                     
+                    </div>
+                    <div class="col d-flex justify-content-center ">
+                        <button id="start" type="button" class="btn btn-outline-success" >Start</button>                      
+                    </div>
+                    <div class="col d-flex justify-content-center ">
+                        <button id="fit" type="button" class="btn btn-outline-dark" >fit to screen</button>                        
+                    </div>                    
+                </div>
+                
+                <div class="col-6 d-flex justify-content-evenly ">
+                    <div class="col d-flex justify-content-center ">
+                        <button id="reset-filter" type="button" class="btn btn-outline-success" >reset </button>
+                    </div> 
+                    <div class="col-10 d-flex justify-content-center ">                   
+                        <div class="input-group  align-items-center justify-content-center">
+                          <input id="search-field" type="text" class="form-control  -dark" placeholder="Highlight symbols" aria-describedby="button-addon2">
+                          <button id="search" class="btn btn-dark" type="button">Go</button>
+                        </div>                         
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div id="network" class="bg-white" style="height:600px;"> </div>
+            </div>
+            <div class="row border p-3 bg-white rounded-bottom">
+                <div id="status"> ... </div>           
+            </div>
+             
+        </div>
+
+        <div class="card-footer mt-5 pt-5">
+            <div class="text-center text-white ">Gianluca Farinaccio - @isRoutine</div>                 
+            <div class="text-center text-white ">Università degli Studi "RomaTre"</div> 
+            <div class="text-center text-white ">Oct. 2022</div>    
+            <div class="d-flex justify-content-center mt-3">
+                <a href="https://www.github.com/isRoutine/kernel-visual-analysis">
+                    <img src="{{url_for('static', filename='media/icons/github.png')}}">
+                </a>
+            </div>
+        </div>
+    </div>  
+
+
 
 </body>
 {% endblock %}

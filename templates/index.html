@@ -18,12 +18,13 @@
 	<div class="card m-5 p-5 rounded-4 bg-dark">
 		<div class="card-header">
 			<h1 class="text-white ">Kernel Visual Analysis</h1>	
-			<p class="text-white mt-3"> Type an available entry point </p>		
+			<h5 class="text-white mt-3"> Interactive kernel visualization </h5>		
 		</div>
 
-		<div class="card-body">
+		<div class="card-body mt-5">
+			<p class="text-white"> Type an available entry point and start to explore</p>	
 			<form id="symbol-name-form" action="/symbol" method="GET">
-				<div class="input-group mt-1 w-50">
+				<div class="input-group w-50">
 					<input type="text" name="symbol-name" class="form-control" placeholder="symbol name">
 					<button class="btn btn-light" type="submit">Draw</button>
 				</div>			
