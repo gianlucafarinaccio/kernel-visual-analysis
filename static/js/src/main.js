@@ -40,6 +40,7 @@ async function init(entryPoint){
 
     network.on("hold", (params) => clustering.openCluster(params.nodes[0], network)); 
     network.on("click", (params) => ui.debug(params));   
+    network.on("hoverEdge", (params) => console.log(params));
 
     repository.setEdgeSubsystem(repository.getEdges(), repository.getNodes());
     repository.generateArrowsData(repository.getEdges(), repository.getNodes());
