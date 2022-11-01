@@ -23,8 +23,12 @@
 
     <div hidden id="symname">{{symbol_name}}</div>
 
-    <div class="card m-2 p-5 rounded-4 bg-dark">
+    <div class="card m-2 p-3 rounded-4 bg-dark">
         <div class="card-header">
+            <div class="d-flex justify-content-end">
+                <a type="button" href="/"  class="btn btn-outline-light mx-2" >Home</a>                
+            </div>
+            
             <h1 class="text-white ">Kernel Visual Analysis</h1> 
             <h5 class="text-white mt-3"> {{symbol_name}}</h5>     
         </div>
@@ -32,26 +36,22 @@
         <div class="card-body my-2 mx-1">
             <div class="row d-flex flex-row mb-0 py-3 bg-white border border-bottom rounded-top">
 
-                <div class="col-6 d-flex justify-content-evenly ">
-                    <div class="col d-flex justify-content-center ">
-                        <button id="stop" type="button" class="btn btn-outline-danger" >Stop</button>                     
-                    </div>
-                    <div class="col d-flex justify-content-center ">
-                        <button id="start" type="button" class="btn btn-outline-success" >Start</button>                      
-                    </div>
-                    <div class="col d-flex justify-content-center ">
-                        <button id="fit" type="button" class="btn btn-outline-dark" >fit to screen</button>                        
-                    </div>                    
+                <div class="col-6 d-flex justify-content-start ">
+                    <button id="stop" type="button" class="btn btn-outline-danger mx-2" >Stop</button> 
+                    <button id="start" type="button" class="btn btn-outline-success mx-2" >Start</button>  
+                    <button id="fit" type="button" class="btn btn-outline-dark mx-2" >fit to screen</button> 
                 </div>
-                
+
                 <div class="col-6 d-flex justify-content-evenly ">
                     <div class="col d-flex justify-content-center ">
                         <button id="reset-filter" type="button" class="btn btn-outline-success" >reset </button>
                     </div> 
                     <div class="col-10 d-flex justify-content-center ">                   
                         <div class="input-group  align-items-center justify-content-center">
-                          <input id="search-field" type="text" class="form-control  -dark" placeholder="Highlight symbols" aria-describedby="button-addon2">
-                          <button id="search" class="btn btn-dark" type="button">Go</button>
+                          <input id="search-field" type="text" class="form-control" placeholder="Highlight symbols" aria-describedby="button-addon2">
+                          <button id="search" class="btn btn-dark" type="button">
+                            search
+                          </button>
                         </div>                         
                     </div>
 
@@ -63,7 +63,7 @@
                 <div id="network" class="bg-white" style="height:600px;"> </div>
             </div>
             <div class="row border p-3 bg-white rounded-bottom">
-                <div id="status"> ... </div>           
+                <div id="status"> console </div>           
             </div>
              
         </div>
@@ -73,8 +73,8 @@
             <div class="text-center text-white ">Università degli Studi "RomaTre"</div> 
             <div class="text-center text-white ">Oct. 2022</div>    
             <div class="d-flex justify-content-center mt-3">
-                <a href="https://www.github.com/isRoutine/kernel-visual-analysis">
-                    <img src="{{url_for('static', filename='media/icons/github.png')}}">
+                <a class="mx-2" href="https://www.github.com/isRoutine/kernel-visual-analysis" target="_blank">
+                    <img src="{{url_for('static', filename='media/icons/github.png')}}" style="width:40px; height:auto ;">
                 </a>
             </div>
         </div>

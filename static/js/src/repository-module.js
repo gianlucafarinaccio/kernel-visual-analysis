@@ -28,7 +28,8 @@ export const repository = function(){
             hover: true,
 	    },
         nodes:{
-            shape: 'circle'
+            shape: 'dot',
+            size:50,
         },
 	    edges: {
             width: 3,
@@ -84,11 +85,14 @@ export const repository = function(){
 			throw new Error(`HTTP error! status: ${response.status}`);
 		
         //parsing data
+        ui.status("parsing data...");
         _jsonResponse = await response.json();
 		parseResponse(_jsonResponse);
         parseSubsystems(_nodes, _symbols);
+        ui.status("parsing subsystems...");
         _subsystems = generateSubsystemsList(_symbols);
         _usedSubsystems = generateUsedSubsystemsList(_nodes);
+        ui.status("parsing ok...");
 	};
 
 

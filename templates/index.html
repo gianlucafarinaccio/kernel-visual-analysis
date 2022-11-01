@@ -15,20 +15,21 @@
 		</form>
 	</div>	 -->
 
-	<div class="card m-5 p-5 rounded-4 bg-dark">
+	<div class="card m-2 p-5 rounded-4 bg-dark">
 		<div class="card-header">
 			<h1 class="text-white ">Kernel Visual Analysis</h1>	
 			<h5 class="text-white mt-3"> Interactive kernel visualization </h5>		
 		</div>
 
 		<div class="card-body mt-5">
-			<p class="text-white"> Type an available entry point and start to explore</p>	
+			<p class="text-white"> Type an available entry point</p>	
 			<form id="symbol-name-form" action="/symbol" method="GET">
 				<div class="input-group w-50">
 					<input type="text" name="symbol-name" class="form-control" placeholder="symbol name">
-					<button class="btn btn-light" type="submit">Draw</button>
+					<button class="btn btn-outline-light" type="submit">Draw</button>
 				</div>			
-			</form>			
+			</form>		
+			<p hidden id="not-found" class="mt-3 fw-bold text-danger"> Entry point not found! Please type an available entry point.</p>	
 		</div>
 
 		<div class="card-footer mt-5 pt-5">
@@ -36,8 +37,8 @@
 			<div class="text-center text-white ">Università degli Studi "RomaTre"</div>	
 			<div class="text-center text-white ">Oct. 2022</div>	
 			<div class="d-flex justify-content-center mt-3">
-			    <a href="https://www.github.com/isRoutine/kernel-visual-analysis">
-	     			<img src="{{url_for('static', filename='media/icons/github.png')}}">
+			    <a class="mx-2" href="https://www.github.com/isRoutine/kernel-visual-analysis" target="_blank">
+	     			<img src="{{url_for('static', filename='media/icons/github.png')}}" style="width:40px; height:auto ;">
 	  			</a>
 			</div>
 		</div>
