@@ -34,10 +34,7 @@ export const repository = function(){
 	    edges: {
             width: 3,
             selectionWidth: 10,
-	        smooth: {
-	            forceDirection: "none",
-	            roundness: 0,
-	        },
+	        smooth: false,
             arrowStrikethrough: false,
 	    },
 	    layout: {
@@ -53,7 +50,10 @@ export const repository = function(){
 	        },
 	        timestep: 0.3,
 	        minVelocity:0.1,
-	        stabilization: false
+	        stabilization : {
+                enabled : true
+            },
+            solver: 'barnesHut'
 	    }
 	};
 

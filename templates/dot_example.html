@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link href= "{{url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
     <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
+    <script src="{{url_for('static', filename='dependencies/vis/vis-network.min.js')}}"></script>
     <title>dot example</title>
     <style type="text/css">
       #mynetwork {
@@ -29,8 +29,8 @@
         // provide data in the DOT language
         function myFunction(g) {
             //console.log(g);
-            // var DOTstring = g;
-            var DOTstring = 'digraph G {\n"__kmalloc"->"ciso" \n"__kmalloc"->"kmalloc_slab"}';
+            var DOTstring = g;
+            //var DOTstring = 'digraph G {\n"__kmalloc"->"ciso" \n"__kmalloc"->"kmalloc_slab"}';
             var parsedData = vis.parseDOTNetwork(DOTstring);
 
             var data = {
@@ -50,7 +50,11 @@
                         springConstant: 0.04,
                         damping: 0.09,
                         avoidOverlap: 0
-                    }
+                    },
+                    stabilization: false,
+                },
+                layout:{
+                    improvedLayout: false
                 },
                 interaction:{
                     hideEdgesOnDrag: true,

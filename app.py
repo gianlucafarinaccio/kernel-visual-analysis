@@ -52,7 +52,7 @@ def setup():  # put application's code here
 # template's variable 'graph'
 @app.route('/dot')
 def dot():
-    file = open('static/dots/network_100.dot', 'r')
+    file = open('static/dots/kmallocx_adpt.dot', 'r')
     graph = file.read()
     file.close()
     return render_template('dot_example.html', graph='"{}"'.format(graph))
