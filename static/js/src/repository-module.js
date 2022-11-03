@@ -53,7 +53,7 @@ export const repository = function(){
 	        },
 	        timestep: 0.3,
 	        minVelocity:0.1,
-	        stabilization: false
+	        stabilization: true
 	    }
 	};
 
