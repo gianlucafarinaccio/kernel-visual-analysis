@@ -29,7 +29,8 @@ export const repository = function(){
 	    },
         nodes:{
             shape: 'dot',
-            size:50,
+            size:60,
+            font: { size: 70 } ,
         },
 	    edges: {
             width: 3,
@@ -49,7 +50,7 @@ export const repository = function(){
 	            springLength: 400,
 	        },
 	        timestep: 0.3,
-	        minVelocity:0.1,
+	        minVelocity: 20,
 	        stabilization : {
                 enabled : true
             },

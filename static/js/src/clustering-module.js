@@ -127,11 +127,13 @@ export const clustering = function(){
 			    clusteringBySubsystem(subsystem, repository, network);
 			});
 
-		let items = getEdges(repository.getUsedSubsystems(), network);
+		//let items = getEdges(repository.getUsedSubsystems(), network);
+		let items = network.body.edgeIndices;
 		items.forEach(function(item){
-	   	let todim = repository.getArrowScaleFactor("CLUSTER_"+item[1], "CLUSTER_"+item[2]);
-	   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
-	   	dynamicArrowUpdt([item[0],fromdim,todim], network);
+			let connectedNodes = network.getConnectedNodes(item);
+	   	let todim = repository.getArrowScaleFactor(connectedNodes[0], connectedNodes[1]);
+	   	let fromdim = repository.getArrowScaleFactor(connectedNodes[1], connectedNodes[0]);
+	   	dynamicArrowUpdt([item,fromdim,todim], network);
 		});   	
 		network.redraw();
 	};
