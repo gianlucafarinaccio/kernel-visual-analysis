@@ -118,6 +118,7 @@
         let nodes = Object.entries(network.body.nodes);
         nodes.forEach(function([id, properties]){
             properties.options.opacity = 1.0;
+            properties.options.font.color = "rgb(0,0,0)";
         });
         network.redraw();
     };

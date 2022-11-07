@@ -25,7 +25,7 @@ export const repository = function(){
 	        zoomSpeed: 3,
             hideEdgesOnDrag: true,
             hideEdgesOnZoom: true,
-            hover: true,
+            hover: false,
 	    },
         nodes:{
             shape: 'dot',
@@ -35,7 +35,7 @@ export const repository = function(){
 	    edges: {
             width: 3,
             selectionWidth: 10,
-	        smooth: false,
+	        smooth: true,
             arrowStrikethrough: false,
 	    },
 	    layout: {
