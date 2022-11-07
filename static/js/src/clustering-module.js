@@ -81,6 +81,25 @@ export const clustering = function(){
 	};
 
 
+/*
+	updateEdge, updateClusteredNode
+	al loro interno chiamano un redrawing dell'intera rete
+	attuale...
+	Una soluzione potrebbe essere sfruttare le strutture dati interne
+	della libreria, questo porterebbe a:
+
+		1. Vantaggio di poter ridisegnare la rete solo dopo aver aggiornato
+				TUTTI i nodi che vogliamo aggiornare
+		2. Vantaggio nell'ottenere i dati per le frecce dinamiche più rapidamente
+		3. Svantaggio poichè sto sfruttando strutture dati interne della libreria,
+				non esposte in modo 'pubblico'
+				Tuttavia questo non dovrebbe essere un grande problema, poichè le strutture
+				dati che toccherei sono quelle su cui si fonda tutta la libreria...
+				Qual'è la probabilità che con un aggiornamento venga stravolta l'intera 
+				struttura dati della libreria...?
+*/
+
+
 	const dynamicArrow = function(item, network = _network){
 			console.log("** CLUSTERING: dynamicArrow() => " + item);
 			ui.status("** CLUSTERING: dynamicArrow() => " + item);
@@ -115,12 +134,9 @@ export const clustering = function(){
 
 		let items = getEdges(repository.getUsedSubsystems(), network);
 		items.forEach(function(item){
-			setTimeout(function(){
-		   	let todim = repository.getArrowScaleFactor("CLUSTER_"+item[1], "CLUSTER_"+item[2]);
-		   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
-		   	dynamicArrow([item[0],fromdim,todim], network);
-			},100);
-
+	   	let todim = repository.getArrowScaleFactor("CLUSTER_"+item[1], "CLUSTER_"+item[2]);
+	   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
+	   	dynamicArrow([item[0],fromdim,todim], network);
 		});   	
 	};
 
