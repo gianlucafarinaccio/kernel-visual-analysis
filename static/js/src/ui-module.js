@@ -64,6 +64,7 @@ import {networkUtil} from './networkUtil-module.js'
         let word = document.getElementById(_SEARCH_FIELD).value;
         let clusters = new Set();
 
+        status("** UI: search( "+word+" )");
         console.log(word);
         if(word != "" || word != undefined){
 
@@ -108,6 +109,7 @@ import {networkUtil} from './networkUtil-module.js'
         // network.redraw();
 
         let nodes = Object.entries(network.body.nodes);
+        status("** UI: resetFilter()");
         
         nodes.forEach(function(node){
             let options = node[1].options;
