@@ -29,12 +29,16 @@ export const repository = function(){
         nodes:{
             shape: 'dot',
             size:50,
+            font: { size: 70 } ,
         },
 	    edges: {
             width: 3,
             selectionWidth: 10,
 	        smooth: true,
             arrowStrikethrough: false,
+            color: {
+                inherit: false
+            },
 	    },
 	    layout: {
 	        improvedLayout: false,
@@ -48,8 +52,11 @@ export const repository = function(){
 	            springLength: 400,
 	        },
 	        timestep: 0.3,
-	        minVelocity:0.1,
-	        stabilization: true
+	        minVelocity: 10,
+	        stabilization: {
+                enabled: true,
+                fit: true
+            }
 	    }
 	};
 
