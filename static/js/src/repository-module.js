@@ -48,7 +48,7 @@ export const repository = function(){
 	            springLength: 400,
 	        },
 	        timestep: 0.3,
-	        minVelocity:0.1,
+	        minVelocity:10,
 	        stabilization: true
 	    }
 	};
