@@ -56,7 +56,7 @@ export const repository = function(){
 	        stabilization: {
                 enabled: true,
                 fit: true
-            }
+          }
 	    }
 	};
 
