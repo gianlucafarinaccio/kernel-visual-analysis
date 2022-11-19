@@ -52,7 +52,7 @@ export const repository = function(){
 	            springLength: 400,
 	        },
 	        timestep: 0.3,
-	        minVelocity: 10,
+	        minVelocity: 30,
 	        stabilization: {
                 enabled: true,
                 fit: true
