@@ -29,7 +29,10 @@
 					<button class="btn btn-outline-light" type="submit">Draw</button>
 				</div>			
 			</form>		
-			<p hidden id="not-found" class="mt-3 fw-bold text-danger"> Entry point not found! Please type an available entry point.</p>	
+			{% if not_found -%}
+			<p id="not-found" class="mt-3 fw-bold text-danger"> Entry point not found! Please type an available entry point.
+			{%- endif %}
+			</p>	
 		</div>
 
 		<div class="card-footer mt-5 pt-5">

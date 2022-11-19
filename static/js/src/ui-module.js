@@ -55,12 +55,18 @@ import {networkUtil} from './networkUtil-module.js'
                 let options = node[1].options;
 
                 if(options.id.includes(word)){
-                    let newOptions = {opacity: 1.0, font:{color: 'rgba(0,0,0,1)'} };
+                    let newOptions = {
+                        opacity: 1.0, 
+                        font:{color: 'rgba(0,0,0,1)'},
+                        label: options.label + "\n[ " + options.group + " ]", 
+                    };
                     networkUtil.updateNode(network, options.id, newOptions);
 
                     let cluster = "CLUSTER_" + options.group;
-                    if(network.body.nodeIndices.includes(cluster)) // se il subsystem è chiuso, allora focus anche sul nodo cluster
+                    if(network.body.nodeIndices.includes(cluster)){ // se il subsystem è chiuso, allora focus anche sul nodo cluster
+                        let newOptions = { opacity: 1.0, font:{color: 'rgba(0,0,0,1)'}};
                         networkUtil.updateNode(network, cluster, newOptions);
+                    }
                 } 
 
             });
@@ -75,7 +81,7 @@ import {networkUtil} from './networkUtil-module.js'
         
         nodes.forEach(function(node){
             let options = node[1].options;
-            let newOptions = { opacity: 1.0, font:{color: 'rgba(0,0,0,1)'}};
+            let newOptions = { opacity: 1.0, font:{color: 'rgba(0,0,0,1)'}, label: options.id};
             networkUtil.updateNode(network, options.id, newOptions);                
         });   
 
