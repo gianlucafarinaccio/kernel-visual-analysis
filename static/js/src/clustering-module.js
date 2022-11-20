@@ -7,6 +7,7 @@
  */
 
 import {ui} from './ui-module.js'
+import {networkUtil} from './networkUtil-module.js'
 
 
 
@@ -68,7 +69,7 @@ export const clustering = function(){
 			 		},
 	   };
 
-	   network.clustering.cluster(clusterOptions);
+	   network.clustering.cluster(clusterOptions, false);
 	   console.log("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
 	   ui.status("** CLUSTERING: clusteringBySubsystem() => " + subsystem);
 	   
@@ -79,6 +80,7 @@ export const clustering = function(){
 		   	let fromdim = repository.getArrowScaleFactor(item[2], item[1]);
 		   	dynamicArrow([item[0], fromdim, todim] ,network);
 			});
+		  network.body.emitter.emit("_dataChanged");
 		}
 	};
 
@@ -105,7 +107,7 @@ export const clustering = function(){
 	const dynamicArrow = function(item, network = _network){
 			console.log("** CLUSTERING: dynamicArrow() => " + item);
 			ui.status("** CLUSTERING: dynamicArrow() => " + item);
-      network.updateEdge(item[0], {
+      networkUtil.updateEdge(item[0], {
       		width: (item[1] + item[2]),
           arrows:{
               to:{
@@ -140,6 +142,7 @@ export const clustering = function(){
 	   	let fromdim = repository.getArrowScaleFactor("CLUSTER_"+item[2], "CLUSTER_"+item[1]);
 	   	dynamicArrow([item[0],fromdim,todim], network);
 		});   	
+		network.body.emitter.emit("_dataChanged");
 	};
 
 

@@ -48,10 +48,37 @@ export const networkUtil = function(){
   };
 
 
+  /**
+   * Using a base edgeId, update all related clustered edges with the new options
+   *
+   * @param {vis.Edge.id} startEdgeId
+   * @param {object} newOptions
+   */
+  const updateEdge = function(startEdgeId, newOptions) {
+    if (startEdgeId === undefined) {
+      throw new Error("No startEdgeId supplied to updateEdge.");
+    }
+    if (newOptions === undefined) {
+      throw new Error("No newOptions supplied to updateEdge.");
+    }
+    if (network.body.edges[startEdgeId] === undefined) {
+      throw new Error("The startEdgeId supplied to updateEdge does not exist.");
+    }
+
+    const allEdgeIds = network.getClusteredEdges(startEdgeId);
+    for (let i = 0; i < allEdgeIds.length; i++) {
+      const edge = network.body.edges[allEdgeIds[i]];
+      edge.setOptions(newOptions);
+    }
+    // this.body.emitter.emit("_dataChanged");
+  };
+
+
 
 	return{
 		updateClusteredNode: updateClusteredNode,
 		updateNode: updateNode,
+    updateEdge: updateEdge,
 	};
 
 }();

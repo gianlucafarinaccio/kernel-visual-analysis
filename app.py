@@ -23,7 +23,7 @@ def get_symbol(name = None):
                                                         # we need to retrieve the symbol-name typed in form
         name = request.args.get("symbol-name")          # get name from form 
         if (name == None or name == ""):                
-            return redirect('/')                        #undefined name or empty form
+            return render_template('index.html', not_found=True)
     return render_template('symbol.html', symbol_name = name)
 
 
@@ -31,9 +31,6 @@ def get_symbol(name = None):
 # return a json file
 @app.route('/retrieve/symbol/<string:name>', methods=["GET"])
 def retrieve_symbol(name):
-    # data = str(nav(name))
-    # print(type(data))
-    # print(data)
     return nav(name),{'Content-Type': 'application/json'}
 
 #-----------------------------------------------------------------

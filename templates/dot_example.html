@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href= "{{url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
-    <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', filename='node_modules/vis-network/standalone/umd/vis-network.min.js')}}"></script>
+    <link href= "{{url_for('static', filename='dependencies/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
+    <script src="{{url_for('static', filename='dependencies/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='dependencies/vis/vis-network.min.js')}}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>dot example</title>
     <style type="text/css">
       #mynetwork {
@@ -30,7 +31,9 @@
         function myFunction(g) {
             //console.log(g);
             // var DOTstring = g;
-            var DOTstring = 'digraph G {\n"__kmalloc"->"ciso" \n"__kmalloc"->"kmalloc_slab"}';
+            //var DOTstring = 'digraph G {\\\n"__kmalloc"->"should_failslab" \\\n"__kmalloc"->"kmalloc_slab" \\\n}';
+            var DOTstring = 'digraph G {"__kmalloc"->"should_failslab"\n "__kmalloc"->"kmalloc_slab"\n }';
+            console.log(DOTstring);         
             var parsedData = vis.parseDOTNetwork(DOTstring);
 
             var data = {

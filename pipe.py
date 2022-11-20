@@ -6,8 +6,8 @@ def nav(symbol = None):
 	if(symbol == None):
 		raise Exception("symbol name must not be 'None' ")
 
-	completed_process = subprocess.run(["./nav", "-f","conf-local.json","-s",symbol], capture_output=True) 
-	#print(completed_process.stdout)
+	completed_process = subprocess.run(["./nav", "-f","conf-local.json","-s",symbol], capture_output=True, text=True) 
+
 	# if(completed_process.stdout.startswith("digraph G {")):
 	# 	return completed_process.stdout
 	# else:
@@ -19,4 +19,4 @@ def nav(symbol = None):
 	return dict_data
 
 if __name__ == '__main__':
-	print(nav("__kmalloc"))
+	nav("__kmalloc")
