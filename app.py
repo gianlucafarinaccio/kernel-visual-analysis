@@ -1,11 +1,11 @@
 import json
 from pipe import nav
 from flask import Flask, render_template, request, redirect, jsonify, make_response
-from flask_cors import CORS, cross_origin
+#from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'application/json'
+# cors = CORS(app)
+# app.config['CORS_HEADERS'] = 'application/json'
 
 
 
