@@ -84,9 +84,9 @@ export const repository = function(){
  */
 	let fetchData = async function(entryPoint){
         const response = await fetch('/retrieve/symbol/' + entryPoint, { method: 'GET'});
-		if (!response.ok) 
-			throw new Error(`HTTP error! status: ${response.status}`);
-		
+		if (!response.ok)
+            return false;    
+ 
         //parsing data
         ui.status("parsing data...");
         _jsonResponse = await response.json();
@@ -96,6 +96,7 @@ export const repository = function(){
         _subsystems = generateSubsystemsList(_symbols);
         _usedSubsystems = generateUsedSubsystemsList(_nodes);
         ui.status("parsing ok...");
+        return true;
 	};
 
 

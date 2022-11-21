@@ -1,6 +1,6 @@
 import json
 from pipe import nav
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, make_response
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -14,6 +14,10 @@ app.config['CORS_HEADERS'] = 'application/json'
 @app.route('/')
 def index():  # put application's code here
     return render_template('index.html')
+
+@app.route('/symbol-not-found')
+def symbol_not_found():
+    return render_template('index.html', not_found=True)
 
 
 @app.route('/symbol', methods=["GET"])
@@ -31,7 +35,14 @@ def get_symbol(name = None):
 # return a json file
 @app.route('/retrieve/symbol/<string:name>', methods=["GET"])
 def retrieve_symbol(name):
-    return nav(name),{'Content-Type': 'application/json'}
+    try:
+        data = nav(name)
+        return jsonify(data)
+    except:
+        error_message = jsonify(message='symbol_id missing')
+        return make_response(error_message, 400)
+
+
 
 #-----------------------------------------------------------------
 

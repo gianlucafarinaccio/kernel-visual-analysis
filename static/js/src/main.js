@@ -10,6 +10,7 @@
 import {repository} from './repository-module.js';
 import {clustering} from './clustering-module.js';
 import {ui} from './ui-module.js'
+import {routing} from './routing-module.js'
 
 const	NETWORK_DIV = "network";
 
@@ -18,7 +19,10 @@ async function init(entryPoint){
 
 	ui.status("fetching data for entry point: " + entryPoint);
 	ui.debug("fetching data for entry point: " + entryPoint);
-	await repository.fetchData(entryPoint);
+	if(!await repository.fetchData(entryPoint)){
+		console.log("error");
+		routing.route("/symbol-not-found")
+	}
 	
 	ui.status("fetched data for entry point: " + entryPoint);
 	ui.debug("fetched data for entry point: " + entryPoint);
