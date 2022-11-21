@@ -6,7 +6,7 @@
  * 
  */
 
-
+import {options} from './options.js'
 import {repository} from './repository-module.js';
 import {clustering} from './clustering-module.js';
 import {ui} from './ui-module.js'
@@ -19,8 +19,8 @@ async function init(entryPoint){
 
 	ui.status("fetching data for entry point: " + entryPoint);
 	ui.debug("fetching data for entry point: " + entryPoint);
+	
 	if(!await repository.fetchData(entryPoint)){
-		console.log("error");
 		routing.route("/symbol-not-found")
 	}
 	
@@ -29,7 +29,7 @@ async function init(entryPoint){
 	let container = document.getElementById(NETWORK_DIV);
 
 	ui.debug("network creation...");
-	network = new vis.Network(container, repository.getNetworkData(), repository.getOptions());
+	network = new vis.Network(container, repository.getNetworkData(), options);
 	ui.status("network created from entry point: " + entryPoint);
 	ui.debug("network created from entry point: " + entryPoint);	
 
