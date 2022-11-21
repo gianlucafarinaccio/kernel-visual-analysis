@@ -34,6 +34,16 @@ export const repository = function(){
 
 	let getUsedSubsystems = function(){ return _usedSubsystems; };	
 
+    const data = {
+        responseJSON: null,
+        network: {
+            nodes: new vis.DataSet(),
+            edges: new vis.DataSet(),
+        },
+        subsystems: null,
+
+    };
+
 
 /**
  * Fetch data from backend.
@@ -44,13 +54,14 @@ export const repository = function(){
  */
 	let fetchData = async function(entryPoint){
         const response = await fetch('/retrieve/symbol/' + entryPoint, { method: 'GET'});
-		if (!response.ok)
+		if (!response.ok) //symbol-id not found in nav, switch to index page
             return false;    
  
         //parsing data
         ui.status("parsing data...");
-        _jsonResponse = await response.json();
-		parseResponse(_jsonResponse);
+        // _jsonResponse = await response.json();
+        data.responseJSON = await response.json();
+		parseResponse(data.responseJSON);
         parseSubsystems(_nodes, _symbols);
         ui.status("parsing subsystems...");
         _subsystems = generateSubsystemsList(_symbols);
@@ -60,8 +71,42 @@ export const repository = function(){
 	};
 
 
+
+
 /**
- * Parse json response 
+ * Parse JSON Response.
+ * 
+ * @privacy public 
+ * @returns None
+ */
+    // const parseData(){
+    //     let parsedData = vis.parseDOTNetwork(data.responseJSON.graph);
+    //     data.network.nodes.add(parseData.nodes);
+    //     data.network.edges.add(parseData.edges);
+
+    //     let data.subsystems = parseSubsystems(data.responseJSON.symbol);
+
+
+    // };
+
+
+    // const parseSubsystems = function(symbols){
+    //     let subsystems = new Set(["NONE"]);
+
+    //     symbols.forEach(function(symbol){
+    //         symbol.subsystems.forEach(item){
+    //             subsystems.add(item);
+    //         };
+    //     });
+
+    //     return [...subsystems];
+    // };
+
+
+
+
+/**
+ * Parse JSON response 
  * 
  * @privacy private
  * @param {Object} response 
