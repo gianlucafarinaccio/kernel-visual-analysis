@@ -1,8 +1,15 @@
 /**
- * In this module are declared all functions for storing/retrieving data-network.
- *
- * @author		Gianluca Farinaccio 
- * @date		22.10.2022 
+ * In this module are declared functions for fetching, parsing and
+ * retrieving data.
+ * 
+ * @name        repository-module.js
+ * @author      Gianluca Farinaccio <gianluca.farinaccio@gmail.com>
+ * @date        24.11.2022  
+ * 
+ * In this implementation, all functions for parsing data are based on nav's output 
+ * format "JsonOutputPlain".
+ * For more information about nav and its output please visit: 
+ * github.com/alessandrocarminati/nav
  * 
  */
 
@@ -40,7 +47,11 @@ export const repository = function(){
             nodes: new vis.DataSet(),
             edges: new vis.DataSet(),
         },
-        subsystems: null,
+        subsys: null,
+        arrows:{
+            subsys: null,
+            nodes: null
+        }
 
     };
 
@@ -84,23 +95,34 @@ export const repository = function(){
     //     data.network.nodes.add(parseData.nodes);
     //     data.network.edges.add(parseData.edges);
 
-    //     let data.subsystems = parseSubsystems(data.responseJSON.symbol);
+    //     let data.subsys = parseSubsystems(data.responseJSON.symbol, data.network.nodes);
 
 
     // };
 
 
-    // const parseSubsystems = function(symbols){
-    //     let subsystems = new Set(["NONE"]);
+/**
+ * Parse subsystems and assing subsystem to all nodes already parsed.
+ * 
+ * @privacy private
+ * @returns None
+ */
+    const parseSubsystems = function(symbols, nodes){
+        let changes = []; //changes applied to original nodes DataSet
+        let subsystems = new Set(["NONE"]); // a set of all used-subsystem for this call
 
-    //     symbols.forEach(function(symbol){
-    //         symbol.subsystems.forEach(item){
-    //             subsystems.add(item);
-    //         };
-    //     });
+        symbols.forEach(function(symbol){
+            let nodesID = symbol.FuncName;
+            let subsystem = symbol.subsystems[0];
+            let change = {id: nodesID, group: subsystem};
 
-    //     return [...subsystems];
-    // };
+            subsystems.add(subsystem); // no duplicate subsystems
+            changes.push(change);
+        });
+
+        nodes.updateOnly(changes); // apply all changes to original nodes DataSet in one instruction
+        return [...subsystems]; // an array of all used-subsystem for this call
+    };
 
 
 
