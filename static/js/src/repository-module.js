@@ -43,12 +43,10 @@ export const repository = function(){
 
     const data = {
         responseJSON: null,
-        network: {
-            nodes: new vis.DataSet(),
-            edges: new vis.DataSet(),
-        },
+        nodes: new vis.DataSet(),
+        edges: new vis.DataSet(),
         subsys: null,
-        arrows:{
+        arrowsScaleFactor:{
             subsys: null,
             nodes: null
         }
@@ -92,8 +90,8 @@ export const repository = function(){
  */
     // const parseData(){
     //     let parsedData = vis.parseDOTNetwork(data.responseJSON.graph);
-    //     data.network.nodes.add(parseData.nodes);
-    //     data.network.edges.add(parseData.edges);
+    //     data.nodes.add(parseData.nodes);
+    //     data.edges.add(parseData.edges);
 
     //     let data.subsys = parseSubsystems(data.responseJSON.symbol, data.network.nodes);
 
