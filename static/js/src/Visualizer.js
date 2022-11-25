@@ -23,8 +23,10 @@ export function Visualizer(contextData, container){
 
 	this.context = {
 		network: 	null,
-		data: 		contextData
+		data: 		null
 	};
+
+	this.context.data = contextData;
 	
 
 	const nodesAndEdges = {

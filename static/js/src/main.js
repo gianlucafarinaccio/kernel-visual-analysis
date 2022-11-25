@@ -7,16 +7,24 @@
  */
 
 import {Repository} from "./modules/Repository.js";
+import {Routing} from "./modules/Routing.js"
 import {Visualizer} from "./Visualizer.js";
 
 
 window.onload = async function(){
 	const ENTRYPOINT = document.getElementById('symname').textContent;
-	const NETWORK_DIV = "network";
+	const NETWORK_DIV = document.getElementById('network');
+
+	const routing = new Routing();
 
 	const repository = new Repository();
 	let contextData = await repository.getContextData(ENTRYPOINT);
+	if(contextData == null)
+		routing.route("/symbol-not-found");
+
 	console.log(contextData);
+
+	const visualizer = new Visualizer(contextData, NETWORK_DIV);
 
 }();
 

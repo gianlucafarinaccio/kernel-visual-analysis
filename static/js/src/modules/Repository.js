@@ -3,7 +3,7 @@
  * retrieving data.
  * 
  * @name        Repository.js
- * @author      Gianluca Farinaccio <gianluca.farinaccio@gmail.com>
+ * @author      Gianluca Farinaccio < gianluca.farinaccio@gmail.com >
  * @date        24.11.2022  
  * 
  * In this implementation, all functions for parsing data are based on nav's output 
@@ -24,8 +24,8 @@ export function Repository(){
     
     this.data = {
         responseJSON: null,
-        nodes: new vis.DataSet(),
-        edges: new vis.DataSet(),
+        nodes: null,
+        edges: null,
         subsys: null,
         arrowsScaleFactor:{
             subsys: null,
@@ -63,10 +63,50 @@ Repository.prototype.fetchData = async function(entrypoint){
  * 
  */
 Repository.prototype.parseData = function(){
-    let parsedData = vis.parseDOTNetwork(this.data.responseJSON.graph);
-    this.data.nodes.add(parsedData.nodes);
-    this.data.edges.add(parsedData.edges);
+
+    let graphData = this.parseDOTString(this.data.responseJSON.graph);
+    this.data.nodes = graphData.nodes;
+    this.data.edges = graphData.edges;
+
 };
+
+
+/**
+ * Parse DOT string to retrieve nodes and edges DataSet.
+ * 
+ * @privacy public 
+ * @param {String} DOTString
+ * @returns {Object} An object which contains nodes and edges DataSet
+ * 
+ */
+Repository.prototype.parseDOTString = function(DOTString){
+    let parsedData = vis.parseDOTNetwork(DOTString); 
+
+    console.log(parsedData);
+    let nodes = new vis.DataSet();
+    let edges = new vis.DataSet();
+
+
+    return{
+        nodes: nodes.add(parsedData.nodes),
+        edges: edges.add(parsedData.edges)
+    };
+};
+
+
+/**
+ * Parse JSON Response.
+ * 
+ * @privacy public 
+ * @param None
+ * @returns None
+ * 
+ */
+Repository.prototype.parseSubsystems = function(){
+
+};
+
+
 
 
 /**
