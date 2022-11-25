@@ -6,17 +6,19 @@
  * 
  */
 
+import {Repository} from "./modules/Repository.js";
+import {Visualizer} from "./Visualizer.js";
 
-import {Visualizer} from "./Visualizer.js"
 
-window.onload = () => {
+window.onload = async function(){
 	const ENTRYPOINT = document.getElementById('symname').textContent;
 	const NETWORK_DIV = "network";
 
-	const visualizer = new Visualizer(ENTRYPOINT, NETWORK_DIV);
-	console.log(visualizer.getContext());
+	const repository = new Repository();
+	let contextData = await repository.getContextData(ENTRYPOINT);
+	console.log(contextData);
 
-}
+}();
 
 
 

@@ -7,18 +7,25 @@
  * 
  */
 
-import {Repository} from './modules/Repository.js';
 import {options} from './options.js';
 
-export function Visualizer(entrypoint, container){
+
+/**
+ * Visualizer module constructor.
+ * 
+ * @privacy public
+ * @param {Object} contextData
+ * @param {String} container
+ * @returns A Visualizer object
+ * 
+ */
+export function Visualizer(contextData, container){
 
 	this.context = {
 		network: 	null,
-		data: 		null
+		data: 		contextData
 	};
 	
-	this.repository = new Repository();
-	this.context.data = this.repository.getContextData();
 
 	const nodesAndEdges = {
 		nodes: this.context.data.nodes, 
@@ -29,30 +36,13 @@ export function Visualizer(entrypoint, container){
 };
 
 
-Visualizer.prototype = function(){
-
-	const getContext = function(){
-		return this.context;
-	};
-
-
-	return{
-		getContext: getContext
-	};
-
-}();
-
-
-
-
-// main.js 
-
-// import {Visualizer} from "./Visualizer.js"
-
-// window.onload = () => {
-// 	const ENTRYPOINT = document.getElementById('symname').textContent;
-// 	const NETWORK_DIV = "network";
-
-// 	const visualizer = new Visualizer(ENTRYPOINT, NETWORK_DIV);
-
-// }
+/**
+ * Get the context of Visualizer.
+ * 
+ * @privacy public
+ * @returns {Object} context
+ * 
+ */
+Visualizer.prototype.getContext = function(){
+	return this.context;
+}
