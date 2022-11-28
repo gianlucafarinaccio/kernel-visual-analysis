@@ -24,6 +24,8 @@ window.onload = async function(){
 
 	console.log(contextData);
 
+	console.log(contextData.nodes.get());
+	console.log(contextData.edges.get());
 	const visualizer = new Visualizer(contextData, NETWORK_DIV);
 
 }();
