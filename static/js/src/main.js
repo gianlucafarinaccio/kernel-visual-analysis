@@ -22,10 +22,7 @@ window.onload = async function(){
 	if(contextData == null)
 		routing.route("/symbol-not-found");
 
-	console.log(contextData);
-
-	console.log(contextData.nodes.get());
-	console.log(contextData.edges.get());
+	console.log("data retrieved");
 	const visualizer = new Visualizer(contextData, NETWORK_DIV);
 
 }();

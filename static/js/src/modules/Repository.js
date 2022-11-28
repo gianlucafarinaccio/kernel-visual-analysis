@@ -48,9 +48,9 @@ export function Repository(){
         nodes: null,
         edges: null,
         subsys: null,
-        arrowsScaleFactor:{
-            subsys: null,
-            nodes: null
+        arrowsWeight:{
+            subsys: {},
+            nodes: {}
         }
 
     };
@@ -92,6 +92,8 @@ Repository.prototype.parseData = function(){
 
     // parsing subsystems
     this.parseSubsystems();
+
+    //this.data.arrowsWeight = this.parseArrowsWeight();
 };
 
 
@@ -146,6 +148,10 @@ Repository.prototype.parseSubsystems = function(){
     this.data.responseJSON.symbols.forEach(function(symbol){
         let nodesID = symbol.FuncName;
         let subsystem = symbol.subsystems[0];
+
+        if(subsystem == undefined)
+            subsystem = "NONE";
+
         let change = {id: nodesID, group: subsystem};
 
         subsystems.add(subsystem); // no duplicate subsystems
@@ -154,22 +160,52 @@ Repository.prototype.parseSubsystems = function(){
 
     this.data.nodes.updateOnly(changes); // apply all changes to original nodes DataSet in one instruction
 
- 
 /**
  * Adding the group properties to all edges: 
  * The group of an edge is the same of the node
  * contained in the 'from' property.
  * 
  */
-
     this.data.edges.get().forEach(function(edge){
         edge.group = this.data.nodes.get(edge.from).group;
     }, this);
 
     this.data.subsystems = [...subsystems]; // an array of all used-subsystem for this call
-
 };
 
+
+/**
+ * Parse JSON Response.
+ * 
+ * @privacy public 
+ * @param None
+ * @returns None
+ * 
+ */
+Repository.prototype.parseArrowsWeight = function(){
+
+    const arrowsWeight = { subsys: {}, nodes: {} };
+    
+    this.data.edges.get().forEach(function(edge){
+        
+        let fromSubsystem = edge.group;
+        
+        if(arrowsWeight.subsys.hasOwnProperty(fromSubsystem))
+            arrowsWeight.subsys[fromSubsystem] = {};
+
+        let toSubsystem = this.data.nodes.get(edge.to).group;
+
+        if(fromSubsystem === toSubsystem)
+            return; //skip to next iteration
+
+        if(!arrowsWeight.subsys[fromSubsystem].hasOwnProperty(toSubsystem))
+            arrowsWeight.subsys[fromSubsystem][toSubsystem] = 0;
+
+        arrowsWeight.subsys[fromSubsystem][toSubsystem] +=1;
+    },this);
+
+    return arrowsWeight;
+};
 
 
 
