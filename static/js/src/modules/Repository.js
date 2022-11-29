@@ -89,6 +89,7 @@ Repository.prototype.parseData = function(){
     let graphData = this.parseDOTString(this.data.responseJSON.graph);
     this.data.nodes = graphData.nodes;
     this.data.edges = graphData.edges;
+  
 
     // parsing subsystems
     this.parseSubsystems();
@@ -220,7 +221,7 @@ Repository.prototype.parseArrowsWeight = function(){
 Repository.prototype.getContextData = async function(entrypoint){
 
     try{
-        this.data.responseJSON = await this.fetchData(entrypoint);            
+        this.data.responseJSON = await this.fetchData(entrypoint);        
     }
     catch(error){
         console.log(error);

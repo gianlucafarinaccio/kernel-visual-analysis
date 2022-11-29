@@ -38,9 +38,11 @@ export const options = {
             avoidOverlap: 1,
             springLength: 400,
         },
-        timestep: 0.3,
+        timestep: 0.35,
         minVelocity: 30,
         stabilization: {
+            iterations: 1000,
+            updateInterval: 50,
             enabled: true,
             fit: true
       }

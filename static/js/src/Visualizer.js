@@ -26,7 +26,10 @@ export function Visualizer(contextData, container){
 		data: 		null,
 	};
 
+
+
 	this.context.data = contextData;
+
 	
 
 	const nodesAndEdges = {
@@ -69,6 +72,24 @@ export function Visualizer(contextData, container){
     */
     this.context.network.on("doubleClick", (params) => this.doubleClickCallback(params));
     this.context.network.on("hold", (params) => this.holdCallback(params)); 
+    
+    this.context.network.once("stabilizationIterationsDone", function(){
+        
+        const loading = document.getElementById("loading");
+        loading.classList.remove("d-block");
+        loading.classList.add("d-none");
+        
+        const visualizer = document.getElementById("visualizer");
+        visualizer.classList.remove("d-none");
+        visualizer.classList.add("d-block");
+
+        this.fit();
+
+    });
+
+    this.context.network.on("stabilized", function(params){
+        console.log(params.iterations);
+    });
 };
 
 

@@ -21,7 +21,8 @@
             <h5 class="text-white mt-3"> {{symbol_name}}</h5>     
         </div>
 
-        <div class="card-body my-2 mx-1">
+<!--  -->
+<!--         <div class="card-body my-2 mx-1">
             <div class="row d-flex flex-row mb-0 py-3 bg-white border border-bottom rounded-top">
 
                 <div class="col-6 d-flex justify-content-start ">
@@ -46,10 +47,60 @@
                 </div>
 
             </div>
+            <div class="row border p-3 bg-white rounded-bottom">
+                <div id="status"> console </div>           
+            </div>
+             
+        </div> -->
+<!--  -->
 
-            <div class="row">
+        <div class="card-body my-2 mx-1">
+            <div class="row d-flex flex-row mb-0 py-3 bg-white border border-bottom rounded-top">
+
+                <div class="col-6 d-flex justify-content-start ">
+                    <button id="stop" type="button" class="btn btn-outline-danger mx-2" >Stop</button> 
+                    <button id="start" type="button" class="btn btn-outline-success mx-2" >Start</button>  
+                    <button id="fit" type="button" class="btn btn-outline-dark mx-2" >fit to screen</button> 
+                </div>
+
+                <div class="col-6 d-flex justify-content-evenly ">
+                    <div class="col d-flex justify-content-center ">
+                        <button id="reset-filter" type="button" class="btn btn-outline-success" >reset </button>
+                    </div> 
+                    <div class="col-10 d-flex justify-content-center ">                   
+                        <div class="input-group  align-items-center justify-content-center">
+                          <input id="search-field" type="text" class="form-control" placeholder="Highlight symbols" aria-describedby="button-addon2">
+                          <button id="search" class="btn btn-dark" type="button">
+                            search
+                          </button>
+                        </div>                         
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- -------- SPINNER ------------ -->
+            <div class="row d-block" id="loading">
+                <div class="bg-white" style="height:256px;"></div>
+                <div class="d-flex justify-content-center bg-white px-5"> 
+                    <div class="spinner-grow mx-3" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                    <div class="spinner-grow mx-3" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </div>
+                <div id="loading-text" class="d-flex justify-content-center fw-semibold bg-white py-5 px-5"> 
+                    No, I'm not sleeping. I'm just resting my eyes.
+                </div>
+                <div class="bg-white" style="height:256px;"> </div>
+            </div>
+            <!--  -------------------------------- -->
+
+            <div class="row d-none" id="visualizer">
                 <div id="network" class="bg-white" style="height:600px;"> </div>
             </div>
+
             <div class="row border p-3 bg-white rounded-bottom">
                 <div id="status"> console </div>           
             </div>
