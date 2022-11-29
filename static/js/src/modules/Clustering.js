@@ -8,12 +8,30 @@
  */
 
 
+/**
+ * Clustering module constructor.
+ * 
+ * @privacy public
+ * @param {Object} context
+ * @returns A Clustering object
+ * 
+ */
 export function Clustering(context){
     this.context = context;
 
 };
 
 
+
+/**
+ * Cluster the network by all groups.
+ * In this implementations, groups means Linux Kernel Subsystems.
+ * The groups are contained in context data fields.
+ * 
+ * @privacy private
+ * @returns None
+ * 
+ */
 Clustering.prototype.clusterByGroups = function(){
     this.context.data.subsystems.forEach(function(sub){
         console.log("cluster by: " + sub);
@@ -23,6 +41,18 @@ Clustering.prototype.clusterByGroups = function(){
 };
 
 
+/**
+ * Cluster the network by group passed by argument.
+ * The optional argument "update" has a default value True.
+ * If the value of "update" is False, the network doesn't 
+ * update its data and the changes doesn't appear on the canvas.
+ * 
+ * @privacy private
+ * @params {String} group
+ * @params {Boolean} [optional] update
+ * @returns None
+ * 
+ */
 Clustering.prototype.clusterByGroup = function(group, update = true){
 
     const clusterOptions = {
@@ -49,8 +79,7 @@ Clustering.prototype.clusterByGroup = function(group, update = true){
  * Open a cluster.
  * 
  * @privacy public
- * @param {String} clusterID -> cluster ID
- * @param {Object} network -> Visjs network
+ * @param {String} nodeID
  * @returns None
  */
 Clustering.prototype.openCluster = function(nodeID){

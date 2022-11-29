@@ -37,31 +37,74 @@ export function Visualizer(contextData, container){
 	this.context.network = new vis.Network(container, nodesAndEdges, options);
     console.log("network created");
     
-    const clustering = new Clustering(this.context);
-    clustering.clusterByGroups();
+    /**
+     * Initizialize the Clustering module 
+     *  
+     * > At startup, the network appears already clustered by groups.
+     * > Each color defined a different Linux Kernel Subsystem
+     * 
+     * For more information about the handling of groups and cluster, plase see 
+     * > ./modules/Clustering.js
+     * > ./modules/Repository.js
+     * 
+    */
 
+    this.clustering = new Clustering(this.context);
+    this.clustering.clusterByGroups();
 
-    this.context.network.on("doubleClick", this.doubleClickCallback);
-
-    this.context.network.on("hold", this.holdCallback); 
-};
-
-
-Visualizer.prototype.doubleClickCallback = function(params){
     
-    if(params.nodes[0] == null) return;
-        let node = this.context.data.nodes.get(params.nodes[0]);
-        if(node.id != null)
-            clustering.clusterByGroup(node.group);    
+    /**
+     * Initizialize the network's events 
+     * 
+     * > doubleClick: on a non-clustered node, this action cluster the node of same group
+     * > hold: on a clustered-node, this action open the cluster
+     * 
+     * For more information about the handling of groups and cluster, plase see 
+     * > ./modules/Clustering.js
+     * > ./modules/Repository.js
+     * 
+     * For more information about Vis.js and its events please visit
+     * > https://visjs.github.io/vis-network/docs/network/#Events
+     * 
+    */
+    this.context.network.on("doubleClick", (params) => this.doubleClickCallback(params));
+    this.context.network.on("hold", (params) => this.holdCallback(params)); 
 };
 
 
+/**
+ * Callback for handling "doubleClick" network's event.
+ * 
+ * 
+ * @privacy private
+ * @returns {Object} params
+ * 
+ */
+Visualizer.prototype.doubleClickCallback = function(params){
+    if(params.nodes[0] == null) 
+        return;
+    let node = this.context.data.nodes.get(params.nodes[0]);
+    if(node.id != null)
+        this.clustering.clusterByGroup(node.group);    
+};
 
+
+/**
+ * Callback for handling "hold" network's event.
+ * 
+ * 
+ * @privacy private
+ * @returns {Object} params
+ * 
+ */
 Visualizer.prototype.holdCallback = function(params){
     const nodeID = params.nodes[0];
 
-    if(nodeID.startsWith('CLUSTER_')){
-      this.context.network.clustering.openCluster(nodeID);
+    if(nodeID == undefined)
+        return;
+
+    else if(nodeID.startsWith('CLUSTER_')){
+        this.context.network.clustering.openCluster(nodeID);
         console.log("** CLUSTERING: openCluster() => opening " + nodeID);  
     } 
     else
@@ -80,3 +123,4 @@ Visualizer.prototype.holdCallback = function(params){
 Visualizer.prototype.getContext = function(){
 	return this.context;
 }
+
