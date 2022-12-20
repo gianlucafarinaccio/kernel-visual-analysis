@@ -70,9 +70,10 @@ export const repository = function(){
  
         //parsing data
         ui.status("parsing data...");
-        // _jsonResponse = await response.json();
-        data.responseJSON = await response.json();
-		parseResponse(data.responseJSON);
+        _jsonResponse = await response.json();
+        //data.responseJSON = await response.json();
+		//parseResponse(data.responseJSON);
+        parseResponse(_jsonResponse);
         parseSubsystems(_nodes, _symbols);
         ui.status("parsing subsystems...");
         _subsystems = generateSubsystemsList(_symbols);
@@ -107,22 +108,22 @@ export const repository = function(){
  * @privacy private
  * @returns None
  */
-    const parseSubsystems = function(symbols, nodes){
-        let changes = []; //changes applied to original nodes DataSet
-        let subsystems = new Set(["NONE"]); // a set of all used-subsystem for this call
+    // const parseSubsystems = function(symbols, nodes){
+    //     let changes = []; //changes applied to original nodes DataSet
+    //     let subsystems = new Set(["NONE"]); // a set of all used-subsystem for this call
 
-        symbols.forEach(function(symbol){
-            let nodesID = symbol.FuncName;
-            let subsystem = symbol.subsystems[0];
-            let change = {id: nodesID, group: subsystem};
+    //     symbols.forEach(function(symbol){
+    //         let nodesID = symbol.FuncName;
+    //         let subsystem = symbol.subsystems[0];
+    //         let change = {id: nodesID, group: subsystem};
 
-            subsystems.add(subsystem); // no duplicate subsystems
-            changes.push(change);
-        });
+    //         subsystems.add(subsystem); // no duplicate subsystems
+    //         changes.push(change);
+    //     });
 
-        nodes.updateOnly(changes); // apply all changes to original nodes DataSet in one instruction
-        return [...subsystems]; // an array of all used-subsystem for this call
-    };
+    //     nodes.updateOnly(changes); // apply all changes to original nodes DataSet in one instruction
+    //     return [...subsystems]; // an array of all used-subsystem for this call
+    // };
 
 
 
