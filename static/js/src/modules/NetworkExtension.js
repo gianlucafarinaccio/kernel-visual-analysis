@@ -1,4 +1,4 @@
-export const networkUtil = function(){
+export const NetworkExtension = function(){
 
   /**
    * Using a clustered nodeId, update with the new options

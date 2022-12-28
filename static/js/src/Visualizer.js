@@ -104,6 +104,9 @@ export function Visualizer(contextData, container){
      * > fit: Fit the network in canvas' window
      * 
     */
+    
+    this.ui = new UI(this.context);
+
 
     document.getElementById("stop").onclick = function(){
         this.context.network.stopSimulation()
