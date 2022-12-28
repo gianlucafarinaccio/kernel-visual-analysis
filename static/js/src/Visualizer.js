@@ -9,6 +9,7 @@
 
 import {options} from './options.js';
 import {Clustering} from './modules/Clustering.js';
+import {UI} from "./modules/UI.js";
 
 /**
  * Visualizer module constructor.
@@ -24,6 +25,7 @@ export function Visualizer(contextData, container){
 	this.context = {
 		network: 	null,
 		data: 		null,
+        visualizer: this,
 	};
 
 
@@ -39,6 +41,7 @@ export function Visualizer(contextData, container){
 
 	this.context.network = new vis.Network(container, nodesAndEdges, options);
     console.log("network created");
+    console.log(this.context.network);
     
     /**
      * Initizialize the Clustering module 
@@ -83,6 +86,7 @@ export function Visualizer(contextData, container){
         visualizer.classList.remove("d-none");
         visualizer.classList.add("d-block");
 
+        console.log(this);
         this.fit();
 
     });
@@ -90,6 +94,29 @@ export function Visualizer(contextData, container){
     this.context.network.on("stabilized", function(params){
         console.log(params.iterations);
     });
+
+
+    /**
+     * Initizialize the UI's events 
+     * 
+     * > start: Start the physics simualation
+     * > stop: Stop the physics simulation
+     * > fit: Fit the network in canvas' window
+     * 
+    */
+
+    document.getElementById("stop").onclick = function(){
+        this.context.network.stopSimulation()
+    }.bind(this);
+
+    document.getElementById("start").onclick = function(){
+        this.context.network.startSimulation();
+    }.bind(this);
+
+    document.getElementById("fit").onclick = function() { 
+        this.context.network.fit();
+    }.bind(this);
+
 };
 
 
@@ -131,6 +158,34 @@ Visualizer.prototype.holdCallback = function(params){
     else
         console.log("** CLUSTERING: openCluster() => impossibile to open this cluster");     
 };
+
+
+/**
+ * Callback for handling "start" UI's event.
+ * 
+ * 
+ * @privacy private
+ * @returns None
+ * 
+ */
+Visualizer.prototype.startSimulation = function(){
+    console.log("simulation started");
+    this.context.network.startSimulation();    
+};
+
+/**
+ * Callback for handling "stop" UI's event.
+ * 
+ * 
+ * @privacy private
+ * @returns None
+ * 
+ */
+Visualizer.prototype.stopSimulation = function(){
+    console.log("simulation stoppped");
+    this.context.network.stopSimulation();    
+};
+
 
 
 

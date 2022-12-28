@@ -8,7 +8,6 @@
 
 import {Repository} from "./modules/Repository.js";
 import {Routing} from "./modules/Routing.js";
-import {UI} from "./modules/UI.js";
 import {Visualizer} from "./Visualizer.js";
 
 
@@ -26,7 +25,6 @@ window.onload = async function(){
 
 	console.log("data retrieved");
 	const visualizer = new Visualizer(contextData, NETWORK_DIV);
-	const ui = new UI(contextData);
 
 }();
 

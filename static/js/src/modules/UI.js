@@ -29,17 +29,16 @@ export function UI(context){
             }
         },
     };
-
-    this.setEventListeners();
-
 	
 };
 
 
 UI.prototype.setEventListeners = function(){
+    console.log(this.components);
     
-    this.components.simulation.buttons.start.addEventListener("click", this.context.network.startSimulation();
+    this.components.simulation.buttons.start.addEventListener("click", this.context.network.startSimulation());
 
-    this.components.simulation.buttons.stop.addEventListener("click",this.context.network.stopSimulation());
+    //this.components.simulation.buttons.stop.addEventListener("click",this.context.visualizer.stopSimulation());
+    this.components.simulation.buttons.stop.onclick = this.context.network.stopSimulation();
 
 };
