@@ -54,6 +54,9 @@ export function Repository(){
         }
 
     };
+
+    console.log("** REPOSITORY: module initialized");  
+
 };
 
 /**

@@ -18,6 +18,7 @@
  */
 export function Clustering(context){
     this.context = context;
+    console.log("** CLUSTERING: module initialized");  
 
 };
 

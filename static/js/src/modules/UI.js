@@ -10,10 +10,7 @@ import {NetworkExtension} from './NetworkExtension.js'
 
 export function UI(context){
 
-
     this.context = context;
-    console.log("ui context:");
-    console.log(this.context);
 
     this.components = {
         search: document.getElementById("search"),
@@ -29,7 +26,16 @@ export function UI(context){
         this.resetFilter();
     }.bind(this);
 
+    console.log("** UI: module initialized");  
+
 };
+
+
+UI.prototype.status = function(message){
+    
+    document.getElementById("status").innerText = "STATUS => [ " + message + " ]";
+};
+
 
 
 UI.prototype.showLoadingPanel = function(){
