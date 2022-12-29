@@ -76,31 +76,23 @@ export function Visualizer(contextData, container){
     this.context.network.on("doubleClick", (params) => this.doubleClickCallback(params));
     this.context.network.on("hold", (params) => this.holdCallback(params)); 
     
-    this.context.network.once("stabilizationIterationsDone", function(){
-        
-        const loading = document.getElementById("loading");
-        loading.classList.remove("d-block");
-        loading.classList.add("d-none");
-        
-        const visualizer = document.getElementById("visualizer");
-        visualizer.classList.remove("d-none");
-        visualizer.classList.add("d-block");
-
-        console.log(this);
-        this.fit();
-
-    });
+    this.context.network.on("stabilizationIterationsDone", function(){
+        this.ui.hideLoadingPanel();
+        this.context.network.fit();
+    }.bind(this));
 
     this.context.network.on("stabilized", function(params){
         console.log(params.iterations);
+        this.fit();
     });
 
 
     /**
      * Initizialize the UI's events 
      * 
-     * > start: Start the physics simualation
      * > stop: Stop the physics simulation
+     * > play: Play the physics simulation
+     * > start: Restart the physics simulation from iteration 0
      * > fit: Fit the network in canvas' window
      * 
     */
@@ -112,8 +104,13 @@ export function Visualizer(contextData, container){
         this.context.network.stopSimulation()
     }.bind(this);
 
-    document.getElementById("start").onclick = function(){
+    document.getElementById("play").onclick = function(){
         this.context.network.startSimulation();
+    }.bind(this);
+
+    document.getElementById("start").onclick = function(){
+        this.ui.showLoadingPanel();
+        this.context.network.stabilize();
     }.bind(this);
 
     document.getElementById("fit").onclick = function() { 
@@ -161,34 +158,6 @@ Visualizer.prototype.holdCallback = function(params){
     else
         console.log("** CLUSTERING: openCluster() => impossibile to open this cluster");     
 };
-
-
-/**
- * Callback for handling "start" UI's event.
- * 
- * 
- * @privacy private
- * @returns None
- * 
- */
-Visualizer.prototype.startSimulation = function(){
-    console.log("simulation started");
-    this.context.network.startSimulation();    
-};
-
-/**
- * Callback for handling "stop" UI's event.
- * 
- * 
- * @privacy private
- * @returns None
- * 
- */
-Visualizer.prototype.stopSimulation = function(){
-    console.log("simulation stoppped");
-    this.context.network.stopSimulation();    
-};
-
 
 
 

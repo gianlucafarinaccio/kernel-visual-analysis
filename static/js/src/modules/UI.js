@@ -32,6 +32,29 @@ export function UI(context){
 };
 
 
+UI.prototype.showLoadingPanel = function(){
+
+    const loading = document.getElementById("loading");
+    loading.classList.add("d-block");
+    loading.classList.remove("d-none");
+    
+    const visualizer = document.getElementById("visualizer");
+    visualizer.classList.add("d-none");
+    visualizer.classList.remove("d-block");     
+};
+
+
+UI.prototype.hideLoadingPanel = function(){
+
+    const loading = document.getElementById("loading");
+    loading.classList.remove("d-block");
+    loading.classList.add("d-none");
+    
+    const visualizer = document.getElementById("visualizer");
+    visualizer.classList.remove("d-none");
+    visualizer.classList.add("d-block");
+};
+
 
 UI.prototype.search = function(){
     console.log(this);
