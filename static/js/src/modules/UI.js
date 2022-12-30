@@ -91,7 +91,7 @@ UI.prototype.search = function(){
                 let newOptions = {
                     opacity: 1.0, 
                     font:{color: 'rgba(0,0,0,1)'},
-                    label: options.label + "\n[ " + options.group + " ]", 
+                    label: options.id + "\n[ " + options.group + " ]", 
                 };
                 NetworkExtension.updateNode(this.context.network, options.id, newOptions);
 
@@ -104,7 +104,8 @@ UI.prototype.search = function(){
 
         },this);
     } 
-    this.context.network.redraw();
+    this.context.network.body.emitter.emit("_dataChanged");
+    //this.context.network.redraw();
 };
 
 
@@ -113,10 +114,19 @@ UI.prototype.resetFilter = function(){
     let nodes = Object.entries(this.context.network.body.nodes);
     
     nodes.forEach(function(node){
-        let options = node[1].options;
-        let newOptions = { opacity: 1.0, font:{color: 'rgba(0,0,0,1)'}, label: options.id};
-        NetworkExtension.updateNode(this.context.network, options.id, newOptions);                
+        if(! node[0].startsWith("edgeId")){ // very strange !!! da analizzare meglio...
+            // sembra che nella struttura dati nodes ci siano anche gli archi (davvero molto strano...)
+            console.log(node);
+            let options = node[1].options;
+            let newOptions = { opacity: 1.0, font:{color: 'rgba(0,0,0,1)'}, label: options.id};
+            NetworkExtension.updateNode(this.context.network, options.id, newOptions);          
+        }      
     }, this);   
-
-    this.context.network.redraw(); 
+    this.context.network.body.emitter.emit("_dataChanged");
+    //this.context.network.redraw(); 
 };
+
+
+
+
+
