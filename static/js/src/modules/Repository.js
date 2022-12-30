@@ -47,12 +47,8 @@ export function Repository(){
         responseJSON: null,
         nodes: null,
         edges: null,
-        subsys: null,
-        arrowsWeight:{
-            subsys: {},
-            nodes: {}
-        }
-
+        subsystems: null,
+        edgesWeight:{},
     };
 
     console.log("** REPOSITORY: module initialized");  
@@ -97,7 +93,7 @@ Repository.prototype.parseData = function(){
     // parsing subsystems
     this.parseSubsystems();
 
-    //this.data.arrowsWeight = this.parseArrowsWeight();
+    this.data.edgesWeight = this.parseEdgesWeight();
 };
 
 
@@ -179,37 +175,43 @@ Repository.prototype.parseSubsystems = function(){
 
 
 /**
- * Parse JSON Response.
+ * Parse .
  * 
  * @privacy public 
  * @param None
- * @returns None
+ * @returns {Object} arrowsWeight
+ * 
+ * default format for arrowsWeight {
+ *      sub1 : { sub2: 10, sub3:30, ...},
+ *      sub2 : { sub1: 5, sub5:20, ...},
+ * };
  * 
  */
-Repository.prototype.parseArrowsWeight = function(){
+Repository.prototype.parseEdgesWeight = function(){
 
-    const arrowsWeight = { subsys: {}, nodes: {} };
+    const arrowsWeight = {};
     
     this.data.edges.get().forEach(function(edge){
         
         let fromSubsystem = edge.group;
         
-        if(arrowsWeight.subsys.hasOwnProperty(fromSubsystem))
-            arrowsWeight.subsys[fromSubsystem] = {};
+        if(!arrowsWeight.hasOwnProperty(fromSubsystem))
+            arrowsWeight[fromSubsystem] = {};
 
         let toSubsystem = this.data.nodes.get(edge.to).group;
 
         if(fromSubsystem === toSubsystem)
             return; //skip to next iteration
 
-        if(!arrowsWeight.subsys[fromSubsystem].hasOwnProperty(toSubsystem))
-            arrowsWeight.subsys[fromSubsystem][toSubsystem] = 0;
+        if(!arrowsWeight[fromSubsystem].hasOwnProperty(toSubsystem))
+            arrowsWeight[fromSubsystem][toSubsystem] = 0;
 
-        arrowsWeight.subsys[fromSubsystem][toSubsystem] +=1;
+        arrowsWeight[fromSubsystem][toSubsystem] +=1;
     },this);
 
     return arrowsWeight;
 };
+
 
 
 

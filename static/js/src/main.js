@@ -23,7 +23,9 @@ window.onload = async function(){
 	if(contextData == null)
 		routing.route("/symbol-not-found");
 
+
     console.log("** MAIN: Data retrieved from REPOSITORY MODULE");  
+    console.log(contextData);
 	const visualizer = new Visualizer(contextData, NETWORK_DIV);
 
 }();

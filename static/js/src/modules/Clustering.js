@@ -54,7 +54,7 @@ Clustering.prototype.clusterByGroups = function(){
  * @returns None
  * 
  */
-Clustering.prototype.clusterByGroup = function(group, update = true){
+Clustering.prototype.clusterByGroup = function(group, update = true, weighted = true){
 
     const clusterOptions = {
         joinCondition: function(param){
@@ -73,7 +73,43 @@ Clustering.prototype.clusterByGroup = function(group, update = true){
     };
 
     this.context.network.clustering.cluster(clusterOptions, update);
+
+   if(weighted){
+       let connectedEdges = this.getConnectedEdges("CLUSTER_"+group, network);
+        connectedEdges.forEach(function(item){
+        let todim = this.context.visualizer.getArrowScaleFactor(item[1], item[2]);
+        let fromdim = this.context.visualizer.getArrowScaleFactor(item[2], item[1]);
+        this.context.visualizer.setEdgeWeight(item[0], fromdim, todim);
+        },this);
+      this.context.network.body.emitter.emit("_dataChanged");
+    }
+
 };
+
+
+/**
+ * Find all connected edges to a cluster and returns it.
+ * 
+ * @privacy public
+ * @param {String} group
+ * @returns Array{Array} items: format of each item [edge, from node, to node]
+ */
+
+Clustering.prototype.getConnectedEdges = function(group){
+
+    let connectedEdges = this.context.network.getConnectedEdges(group);        
+    if(connectedEdges.length === 0)
+        throw new Error("0 connected edges to: " + group);
+
+    let items = [];
+    connectedEdges.forEach(function(edge){
+        let arr = this.context.network.getConnectedNodes(edge);
+        let x = [edge, arr[0], arr[1] ];
+        items.push(x);
+    },this);
+    return items;
+};
+
 
 
 /**

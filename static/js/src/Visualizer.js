@@ -188,8 +188,95 @@ Visualizer.prototype.setEdgeWeight = function(edge, fromWeight, toWeight){
         }
     };
 
-    NetworkExtension.updateEdge(edge, options);
+    NetworkExtension.updateEdge(this.context.network, edge, options);
 };
+
+
+/**
+ * Return true if the nodeID is a subsystem
+ * 
+ * 
+ * @privacy public
+ * @parameter {String} nodeID
+ * @returns {Boolean}
+ * 
+ */
+Visualizer.prototype.isSubsystem = function(nodeID){
+    return nodeID.startsWith('CLUSTER_');
+};   
+
+
+/**
+ * Return the subsystem ID
+ * 
+ * 
+ * @privacy public
+ * @parameter {String} nodeID
+ * @returns {String} | {undefined}
+ * 
+ */
+Visualizer.prototype.getSubsystemID = function(nodeID){
+    if(this.isSubsystem(nodeID))
+        return nodeID.substring(8);
+    else 
+        return undefined;
+};
+
+
+
+Visualizer.prototype.containsNode = function(nodeID){
+    return this.context.data.nodes.get(nodeID) != undefined;
+};
+
+
+Visualizer.prototype.getArrowScaleFactor = function(fromnode, tonode){
+
+    let scaleFactor = 0;
+    
+    // @case1 [CLUSTER --> CLUSTER]
+    if(this.isSubsystem(fromnode) && this.isSubsystem(tonode)){
+
+        fromnode = this.getSubsystemID(fromnode);
+        tonode = this.getSubsystemID(tonode);
+        scaleFactor = this.context.data.edgesWeight[fromnode];
+        if (scaleFactor == undefined)
+            return 0;
+        
+        scaleFactor = this.context.data.edgesWeight[fromnode][tonode];
+        if(scaleFactor == undefined)
+            return 0;          
+    }
+
+    // @case2 [CLUSTER --> NODE] 
+    else if(this.isSubsystem(fromnode) && this.containsNode(tonode)){
+        fromnode = this.getSubsystemID(fromnode);   
+        let x = this.context.data.edges.get({filter: function(item){
+            return (item.to === tonode) && (item.group === fromnode);
+        }});
+        scaleFactor = x.length;
+    }
+
+
+    // @case3 [NODE --> CLUSTER]
+    else if(this.containsNode(fromnode) && this.isSubsystem(tonode)){
+        tonode = this.getSubsystemID(tonode);
+        let x = this.context.data.edges.get({filter: function(item){
+            if(item.from === fromnode){
+                return (this.context.data.nodes.get(item.to).group === tonode)
+            }
+            else
+                return false;
+        }.bind(this)});
+        scaleFactor = x.length;
+    }
+
+    else
+        return 0;
+
+    if(scaleFactor < 3) return scaleFactor;
+    return Math.log(scaleFactor) / Math.log(2);
+};
+
 
 
 

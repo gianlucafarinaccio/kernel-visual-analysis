@@ -54,7 +54,7 @@ export const NetworkExtension = function(){
    * @param {vis.Edge.id} startEdgeId
    * @param {object} newOptions
    */
-  const updateEdge = function(startEdgeId, newOptions) {
+  const updateEdge = function(network, startEdgeId, newOptions) {
     if (startEdgeId === undefined) {
       throw new Error("No startEdgeId supplied to updateEdge.");
     }
