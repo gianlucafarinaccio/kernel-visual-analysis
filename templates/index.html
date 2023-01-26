@@ -18,15 +18,15 @@
 	<div class="card m-2 p-5 rounded-4 bg-dark">
 		<div class="card-header">
 			<h1 class="text-white ">Kernel Visual Analysis</h1>	
-			<h5 class="text-white mt-3"> Interactive kernel visualization </h5>		
+			<h5 class="text-white mt-3"> An interactive tool for Linux kernel functions dependency analysis </h5>		
 		</div>
 
 		<div class="card-body mt-5">
-			<p class="text-white"> Type an available entry point</p>	
+			<p class="text-white"> Type a kernel function name</p>	
 			<form id="symbol-name-form" action="/symbol" method="GET">
 				<div class="input-group w-50">
-					<input type="text" name="symbol-name" class="form-control" placeholder="symbol name">
-					<button class="btn btn-outline-light" type="submit">Draw</button>
+					<input type="text" name="symbol-name" class="form-control" placeholder="function name">
+					<button class="btn btn-outline-light" type="submit">Go</button>
 				</div>			
 			</form>		
 <!-- 			<div class="spinner-grow text-light my-5" role="status">
@@ -39,16 +39,21 @@
 			</p>	
 		</div>
 
-		<div class="card-footer mt-5 pt-5">
-			<div class="text-center text-white ">Gianluca Farinaccio - @isRoutine</div>					
-			<div class="text-center text-white ">Università degli Studi "RomaTre"</div>	
-			<div class="text-center text-white ">Oct. 2022</div>	
-			<div class="d-flex justify-content-center mt-3">
-			    <a class="mx-2" href="https://www.github.com/isRoutine/kernel-visual-analysis" target="_blank">
-	     			<img src="{{url_for('static', filename='media/icons/github.png')}}" style="width:40px; height:auto ;">
-	  			</a>
-			</div>
-		</div>
+		{% block footer %}
+		{% endblock %}
+
+        <div class="card-footer mt-2 pt-5">
+            <div class="text-center text-white ">Alessandro Carminati - RedHat</div>   
+            <div class="text-center text-white ">Gianluca Farinaccio  - RomaTre University</div>        
+            <div class="text-center text-white ">Maurizio Papini      - RedHat</div> 
+            <div class="text-center text-white ">Maurizio Patrignani  - RomaTre University</div>          
+            <div class="text-center text-white ">Feb. 2023</div>     
+            <div class="d-flex justify-content-center mt-3">
+                <a class="mx-2" href="https://www.github.com/isRoutine/kernel-visual-analysis" target="_blank">
+                    <img src="{{url_for('static', filename='media/icons/github.png')}}" style="width:40px; height:auto ;">
+                </a>
+            </div>
+        </div>
 	</div>	
 </body>
 {% endblock %}

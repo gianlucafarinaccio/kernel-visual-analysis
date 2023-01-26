@@ -1,8 +1,21 @@
 # Kernel Visual Analysis
-Gianluca Farinaccio, 11.2022
+This tool represent the result of the collaboration between **RedHat** and the **University of RomaTre** for the development of *an interactive tool for the analysis of Linux kernel functions dependencies*.<br>
 
+- Alessandro Carminati - **RedHat**
+- Gianluca Farinaccio - **University of RomaTre**
+- Maurizio Papini - **RedHat**
+- Maurizio Patrignani - **University of RomaTre**
 
-### How to run flask app
+*Feb. 2023*
+
+---
+
+### Setup and Installation
+This tool is basically a web application composed by [Flask](https://github.com/pallets/flask) + [Vis.js](https://github.com/visjs/vis-network) + [Boostrap](https://getbootstrap.com). 
+
+First of all, install the Python requirements:<br>
+`$ pip install -r requirements.txt`
+
 
 > `$ cd kernel-visual-analysis` <br>
 > `$ . venv/bin/activate` <br>
@@ -11,16 +24,6 @@ Gianluca Farinaccio, 11.2022
 > `$ flask --app app --debug run` <br>
 
 ### Input data-format
-JSON String <br>
-```javascript
-{
-"graph" : "a compatible DOT-format string which represent your graph", 
-"symbol" : 
-	[
-		{ 
-			"FuncName": "symbol-id", 
-			"subsystems":[ "SUBSYSTEM-NAME-1", "SUBSYSTEM-NAME-2"]
-		}
-	],
-}
-```
+This project is thinked and developed for work side-by-side with [**Nav**](https://github.com/alessandrocarminati/nav) and for this, the input data-format supported is the same of Nav's output.
+
+
