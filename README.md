@@ -4,7 +4,8 @@
 
 This tool was thinked and developed for work side-by-side with [**Nav**](https://github.com/alessandrocarminati/nav), a Red Hat's tool that uses a pre-constituted database to emit call trees graphs. Therefore, Kva consents to visualize and interact with these graphs.
 
-<img width="1268" alt="Screenshot 2023-02-03 at 16 34 46" src="https://user-images.githubusercontent.com/81380857/216643514-becb3b88-2f39-46d9-95e6-5625ed3dc23e.png">
+<img width="1268" alt="__arm64_sys_getpid" src="https://user-images.githubusercontent.com/81380857/216648420-39332912-140c-4fb2-8ae2-53b544d5e017.png">
+
 
 
 - Alessandro Carminati - **Red Hat**
