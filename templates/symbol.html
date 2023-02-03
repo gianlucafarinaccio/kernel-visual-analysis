@@ -2,7 +2,7 @@
 
 {% block head %} 
     {{ super() }}
-    <script type="module" src="{{url_for('static', filename='js/src/main.js')}}" ></script>
+    <script type="module" src="{{url_for('static', filename='lib/main.js')}}" ></script>
 {% endblock %}
 {% block title %} {{symbol_name}} {% endblock %}	<!-- set page's title -->
 
@@ -17,7 +17,7 @@
                 <a type="button" href="/"  class="btn btn-outline-light mx-2" >Home</a>                
             </div>
             
-            <h1 class="text-white ">Kernel Visual Analysis</h1> 
+            <h1 class="text-white ">Kva</h1> 
             <h5 class="text-white mt-3"> {{symbol_name}}</h5>     
         </div>
 
@@ -60,19 +60,19 @@
                 <div class="col-6 d-flex justify-content-start ">
                     <button id="stop" type="button" class="btn btn-outline-danger mx-2" >Stop</button> 
                     <button id="play" type="button" class="btn btn-outline-success mx-2" >Play</button>                     
-                    <button id="start" type="button" class="btn btn-outline-primary mx-2" >Restart</button>  
-                    <button id="fit" type="button" class="btn btn-outline-dark mx-2" >fit to screen</button> 
+                    <button id="start" type="button" class="btn btn-outline-primary mx-2" >Redraw</button>  
+                    <button id="fit" type="button" class="btn btn-outline-dark mx-2" >Fit to screen</button> 
                 </div>
 
                 <div class="col-6 d-flex justify-content-evenly ">
                     <div class="col d-flex justify-content-center ">
-                        <button id="reset-filter" type="button" class="btn btn-outline-success" >reset </button>
+                        <button id="reset-filter" type="button" class="btn btn-outline-success" >Reset </button>
                     </div> 
                     <div class="col-10 d-flex justify-content-center ">                   
                         <div class="input-group  align-items-center justify-content-center">
                           <input id="search-field" type="text" class="form-control" placeholder="Highlight functions" aria-describedby="button-addon2">
                           <button id="search" class="btn btn-dark" type="button">
-                            search
+                            Search
                           </button>
                         </div>                         
                     </div>
@@ -109,10 +109,10 @@
         </div>
 
         <div class="card-footer mt-2 pt-5">
-            <div class="text-center text-white ">Alessandro Carminati - RedHat</div>   
-            <div class="text-center text-white ">Gianluca Farinaccio  - RomaTre University</div>        
-            <div class="text-center text-white ">Maurizio Papini      - RedHat</div> 
-            <div class="text-center text-white ">Maurizio Patrignani  - RomaTre University</div>          
+            <div class="text-center text-white ">Alessandro Carminati - Red Hat</div>   
+            <div class="text-center text-white ">Gianluca Farinaccio  - Roma Tre University</div>        
+            <div class="text-center text-white ">Maurizio Papini      - Red Hat</div> 
+            <div class="text-center text-white ">Maurizio Patrignani  - Roma Tre University</div>          
             <div class="text-center text-white ">Feb. 2023</div>     
             <div class="d-flex justify-content-center mt-3">
                 <a class="mx-2" href="https://www.github.com/isRoutine/kernel-visual-analysis" target="_blank">
