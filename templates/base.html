@@ -9,13 +9,16 @@
 <!-- Import static files -->
     <link href= "{{url_for('static', filename='dependencies/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type= "text/css" />
     <script src="{{url_for('static', filename='dependencies/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', filename='dependencies/vis/vis-network.min.js')}}"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="{{url_for('static', filename='dependencies/vis/standalone/umd/vis-network.min.js')}}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='media/icons/favicon.ico') }}">
 	{% endblock %}
 </head>
 
 
-{% block body %} {% endblock %}
+{% block body %} 
+
+
+{% endblock %}
 
 </html>
 
