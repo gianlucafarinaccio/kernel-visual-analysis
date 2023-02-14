@@ -2,24 +2,12 @@
 
 {% block head %} 
     {{ super() }}
-    <script type="module" src="{{url_for('static', filename='js/src/main.js')}}" ></script>
+    <script type="module" src="{{url_for('static', filename='src/main.js')}}" ></script>
 {% endblock %}
 {% block title %} {{symbol_name}} {% endblock %}	<!-- set page's title -->
 
 {% block body %}
 <body>
-    <script type="text/javascript">
-        let network = null;
-        let REPOSITORY = null;
-    </script>
-
-<!--     <div class="container card my-5 p-3">
-        <div class="col-1">
-        <a type="button" href="/"  class="btn btn-outline-dark" >Home</a>           
-        </div>
- 
-    </div> -->
-
 
     <div hidden id="symname">{{symbol_name}}</div>
 
@@ -29,11 +17,12 @@
                 <a type="button" href="/"  class="btn btn-outline-light mx-2" >Home</a>                
             </div>
             
-            <h1 class="text-white ">Kernel Visual Analysis</h1> 
+            <h1 class="text-white ">Kva</h1> 
             <h5 class="text-white mt-3"> {{symbol_name}}</h5>     
         </div>
 
-        <div class="card-body my-2 mx-1">
+<!--  -->
+<!--         <div class="card-body my-2 mx-1">
             <div class="row d-flex flex-row mb-0 py-3 bg-white border border-bottom rounded-top">
 
                 <div class="col-6 d-flex justify-content-start ">
@@ -58,10 +47,61 @@
                 </div>
 
             </div>
+            <div class="row border p-3 bg-white rounded-bottom">
+                <div id="status"> console </div>           
+            </div>
+             
+        </div> -->
+<!--  -->
 
-            <div class="row">
+        <div class="card-body my-2 mx-1">
+            <div class="row d-flex flex-row mb-0 py-3 bg-white border border-bottom rounded-top">
+
+                <div class="col-6 d-flex justify-content-start ">
+                    <button id="stop" type="button" class="btn btn-outline-danger mx-2" >Stop</button> 
+                    <button id="play" type="button" class="btn btn-outline-success mx-2" >Play</button>                     
+                    <button id="start" type="button" class="btn btn-outline-primary mx-2" >Redraw</button>  
+                    <button id="fit" type="button" class="btn btn-outline-dark mx-2" >Fit to screen</button> 
+                </div>
+
+                <div class="col-6 d-flex justify-content-evenly ">
+                    <div class="col d-flex justify-content-center ">
+                        <button id="reset-filter" type="button" class="btn btn-outline-success" >Reset </button>
+                    </div> 
+                    <div class="col-10 d-flex justify-content-center ">                   
+                        <div class="input-group  align-items-center justify-content-center">
+                          <input id="search-field" type="text" class="form-control" placeholder="Highlight functions" aria-describedby="button-addon2">
+                          <button id="search" class="btn btn-dark" type="button">
+                            Search
+                          </button>
+                        </div>                         
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- -------- SPINNER ------------ -->
+            <div class="row d-block" id="loading">
+                <div class="bg-white" style="height:256px;"></div>
+                <div class="d-flex justify-content-center bg-white px-5"> 
+                    <div class="spinner-grow mx-3" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                    <div class="spinner-grow mx-3" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </div>
+                <div id="loading-text" class="d-flex justify-content-center fw-semibold bg-white py-5 px-5"> 
+                    Loading...
+                </div>
+                <div class="bg-white" style="height:256px;"> </div>
+            </div>
+            <!--  -------------------------------- -->
+
+            <div class="row d-none" id="visualizer">
                 <div id="network" class="bg-white" style="height:600px;"> </div>
             </div>
+
             <div class="row border p-3 bg-white rounded-bottom">
                 <div id="status"> console </div>           
             </div>
@@ -69,9 +109,11 @@
         </div>
 
         <div class="card-footer mt-2 pt-5">
-            <div class="text-center text-white ">Gianluca Farinaccio - @isRoutine</div>                 
-            <div class="text-center text-white ">Università degli Studi "RomaTre"</div> 
-            <div class="text-center text-white ">Oct. 2022</div>    
+            <div class="text-center text-white ">Alessandro Carminati - Red Hat</div>   
+            <div class="text-center text-white ">Gianluca Farinaccio  - Roma Tre University</div>        
+            <div class="text-center text-white ">Maurizio Papini      - Red Hat</div> 
+            <div class="text-center text-white ">Maurizio Patrignani  - Roma Tre University</div>          
+            <div class="text-center text-white ">Feb. 2023</div>     
             <div class="d-flex justify-content-center mt-3">
                 <a class="mx-2" href="https://www.github.com/isRoutine/kernel-visual-analysis" target="_blank">
                     <img src="{{url_for('static', filename='media/icons/github.png')}}" style="width:40px; height:auto ;">

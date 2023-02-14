@@ -1,7 +1,7 @@
 /**
  * In this module are declared the options for vis network.
  *
- * @name 		options.js
+ * @name 		NetworkOptions.js
  * @author		Gianluca Farinaccio <gianluca.farinaccio@gmail.com>
  * @date		21.11.2022 
  * 
@@ -9,7 +9,7 @@
 
 export const options = {
 	interaction: {
-        zoomSpeed: 3,
+        zoomSpeed: 1,
         hideEdgesOnDrag: true,
         hideEdgesOnZoom: true,
     },
@@ -38,9 +38,11 @@ export const options = {
             avoidOverlap: 1,
             springLength: 400,
         },
-        timestep: 0.3,
+        timestep: 0.35,
         minVelocity: 30,
         stabilization: {
+            iterations: 1000,
+            updateInterval: 50,
             enabled: true,
             fit: true
       }

@@ -1,12 +1,14 @@
 /**
  * In this module are declared functions for switching between pages of the app.
  *
- * @name 		routing-module.js
+ * @name 		Routing.js
  * @author		Gianluca Farinaccio <gianluca.farinaccio@gmail.com>
  * @date		21.11.2022 
  * 
  */
-export const routing = function(){
+export function Routing(){
+
+};
 	
 
 /**
@@ -16,7 +18,7 @@ export const routing = function(){
  * @param {String} url -> a backend route url
  * @returns None
  */	
-	const route = function(url, method = 'GET'){
+Routing.prototype.route = function(url, method = 'GET'){
 		fetch(url, {method: method})
 		.then(function(response){
 			if(response.ok)
@@ -24,10 +26,5 @@ export const routing = function(){
 			else
 				throw new Error(`routing error on ${response.status}`);  			
 		})
-	};
+};
 
-	return{
-		route: route,
-	};
-
-}();
