@@ -1,8 +1,9 @@
 # Kva - An interactive tool for the analysis of Linux kernel functions dependencies
 
-**Kva**, acronym of *Kernel visual analysis*, represents the result of the collaboration between **Red Hat** and the **University of Roma Tre** for the development of *an interactive tool for the analysis of Linux kernel functions dependencies*.<br>
+**KVA**, which stands for *Kernel Visual Analysis*, is the result of a collaboration between **Red Hat** and the **University of Roma Tre** to develop an *interactive tool for analyzing dependencies among Linux kernel functions*.
 
-This tool was thinked and developed for work side-by-side with [**Nav**](https://github.com/alessandrocarminati/nav), a Red Hat's tool that uses a pre-constituted database to emit call trees graphs. Therefore, Kva consents to visualize and interact with these graphs.
+
+The tool was designed and developed to work alongside with the Red Hat's [**Nav**](https://github.com/alessandrocarminati/nav) tool, a tool from Red Hat that uses a pre-existing database to generate call tree graphs. As a result, Kva allows users to visualize and interact with these graphs.
 
 <img width="1268" alt="__arm64_sys_getpid" src="https://user-images.githubusercontent.com/81380857/216648420-39332912-140c-4fb2-8ae2-53b544d5e017.png">
 
@@ -18,25 +19,30 @@ This tool was thinked and developed for work side-by-side with [**Nav**](https:/
 
 
 ## Install 
-Kva is a web application with a Python backend, so you need to install some dependencies. 
+KVA is a python backend web application that uses Nav output. KVA has a few dependencies that can be installed as follows.
+`cd` into your project's directory and create a Python venv:
 
-First of all, cd into your project's directory and create a Python venv:<br>
-`$ python3 -m venv myvenv`<br>
+```
+$ python3 -m venv myvenv
+```
 
-After that, install dependencies:<br> 
-`$ . myvenv/bin/activate`<br>
-`$ pip install -r requirements.txt`<br>
+After that, install dependencies:
+
+```
+$ . myvenv/bin/activate
+$ pip install -r requirements.txt
+```
 
 ## Input data
-Kva is developed for support the Nav's output data as input data. The dialogue between this two tools is made with a UNIX-PIPE, placed in pipe.py file.
+KVA requires the Nav's output data as input data. Nav's output is directly  piped into KVA.
 
-If you should have more info about Nav, you can find it [here](https://github.com/alessandrocarminati/nav).  
+For more info on the Nav's output format, please refer to Nav [README](https://github.com/alessandrocarminati/nav).  
 ## How to run
-After you've installed all dependencies, you are ready to run Kva.
-
-`$ flask --app app run`<br> 
-`$ flask --app app --debug run` *If you want to run in debug mode*<br>
-
-
-
-
+For a simple KVA run, please use the followings:
+```
+$ flask --app app run
+```
+To run KVA in debug mode:
+```
+$ flask --app app --debug run
+```
